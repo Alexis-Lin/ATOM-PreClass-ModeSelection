@@ -4,8 +4,8 @@
 
 Design spec for the pre-workout **mode selection** flow — both the **in-app phone modal** and the **ATOM 466×466 round device screen**, in English and 中文.
 
-> 交互原型（可点）：`prototype.html`（同目录，浏览器打开即可）。
-> Interactive prototype: open `prototype.html` in a browser.
+> 交互原型（可点）：`prototype-课前模式选择.html`（同目录，浏览器打开即可）。
+> Interactive prototype: open `prototype-课前模式选择.html` in a browser.
 
 ---
 

@@ -7,13 +7,13 @@
 | 版本 Version | v1 (Draft) |
 | 状态 Status | 设计讨论中 · In review |
 | 负责 Owner | Alexis Lin |
-| 关联 | `prototype.html`（可点原型）· `README.md`（设计说明） |
+| 关联 | `prototype-课前模式选择.html`（可点原型）· `README.md`（设计说明） |
 
 ---
 
 ## 1. 背景 · Background
 
-用户在开始一节课程前，需要选择用**哪种模式**上课。产品同时是一个**智能硬件（ATOM）+ App 双端**的形态，不同用户、不同设备/会员状态下能用的能力不同。原有的课前选择（见「中间设计参考图」）存在几个问题：
+用户在开始一节课程前，需要选择用**哪种模式**上课。产品同时是一个**智能硬件（ATOM）+ App 双端**的形态，不同用户、不同设备/会员状态下能用的能力不同。原有的课前选择存在几个问题：
 
 - 模式之间的**价值差异**表达不清，用户不知道该选哪个；
 - 没有清楚说明哪些模式**依赖 ATOM 硬件 / Plus 会员**；
@@ -111,19 +111,9 @@
 
 ---
 
-## 6. 图片资料 · Visual references
+## 6. 最新设计 UI · Latest design
 
-### (a) 原始参考图 · Original reference
-最初提供的「Select Workout Mode」三方案。
-
-![原始参考图](images/a-original-reference.png)
-
-### (b) 中间设计参考图 · Middle reference
-课程预览页 + 现有课前弹窗（AI模式 / 录制模式 / 记录模式）。
-
-![中间设计参考图](images/b-middle-reference.png)
-
-### (c) 最新设计 UI 建议 · Latest design
+以下由交互原型 `prototype-课前模式选择.html` 截图生成。
 
 **手机端 · 已连接 + Plus（选中 Live Coach）**
 ![手机·已连接](images/c1-phone-connected.png)
@@ -176,5 +166,5 @@
 
 ---
 
-> 说明：图 (c) 由交互原型 `prototype.html` 截图生成；图 (a)(b) 为占位，请将对话中提供的原始截图替换到 `images/a-original-reference.png`、`images/b-middle-reference.png`。
-> Note: (c) rendered from the prototype; (a)(b) are placeholders — replace with the provided screenshots.
+> 说明：以上截图由交互原型 `prototype-课前模式选择.html` 渲染生成。
+> Note: screenshots rendered from the interactive prototype.
