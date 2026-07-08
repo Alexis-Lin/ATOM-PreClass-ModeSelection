@@ -1,0 +1,15 @@
+name: workout_mode_selection
+description: Pre-workout mode selection UI — phone modal + ATOM round screen.
+publish_to: "none"
+version: 0.1.0
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+  flutter: ">=3.10.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
