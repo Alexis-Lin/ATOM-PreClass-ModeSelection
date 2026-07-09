@@ -1,0 +1,134 @@
+<title>3选1+ vs 折中C</title>
+<style>
+  :root{--bg:#e9eae6;--ink:#16181a;--ink-2:#6a6f74;--ink-3:#9ba0a5;--line:#e6e8e2;--hair:#eef0eb;--brand:#7cc00c;--brand-ink:#4f7d05;--brand-tint:#eef7df;--plus:#a9812f;--plus-bg:#f6f1e6;--plus-line:#ece2cc;--card:#fff;--cta:#141414;--iconbg:#f2f3ef;
+    --font:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",system-ui,sans-serif;}
+  *{box-sizing:border-box} body{margin:0;background:var(--bg);font-family:var(--font);-webkit-font-smoothing:antialiased;color:var(--ink);}
+  .wrap{max-width:900px;margin:0 auto;padding:24px 16px 50px;}
+  h1{font-size:22px;font-weight:800;margin:0 0 4px;letter-spacing:-.02em;}
+  .lede{color:var(--ink-2);font-size:13px;margin:0 0 20px;}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:30px;align-items:start;}
+  @media (max-width:820px){.grid{grid-template-columns:1fr;max-width:400px;margin-inline:auto;}}
+  .col>.tag{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);font-weight:800;}
+  .col>.d{font-size:12px;color:var(--ink-2);line-height:1.5;margin:5px 0 12px;min-height:40px;}
+  .phone{background:#fff;border-radius:30px;box-shadow:0 22px 60px -30px rgba(20,26,20,.5);border:1px solid rgba(0,0,0,.06);overflow:hidden;}
+  .scr{padding:18px 16px;display:flex;flex-direction:column;gap:11px;}
+  .scr h2{font-size:18px;font-weight:800;margin:2px 2px 0;}
+  .dev{display:flex;align-items:center;gap:8px;padding:0 2px 10px;border-bottom:1px solid var(--hair);}
+  .dev .hw{width:24px;height:24px;border-radius:7px;background:var(--brand-tint);color:var(--brand-ink);display:grid;place-items:center;} .dev .hw svg{width:15px;height:15px;} .dev .dn{font-size:14px;font-weight:800;}
+  .dev .st{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:600;color:var(--brand-ink);} .dev .st svg{width:14px;height:14px;}
+  .flexnote{display:flex;gap:8px;align-items:flex-start;font-size:12px;color:var(--brand-ink);background:var(--brand-tint);border:1px solid #d6ecb3;border-radius:10px;padding:10px 11px;line-height:1.45;} .flexnote svg{width:16px;height:16px;flex:none;margin-top:1px;}
+
+  .card{border:1.5px solid var(--line);border-radius:12px;background:#fff;overflow:hidden;transition:.16s;}
+  .card.sel{border-color:var(--ink);}
+  .top{display:flex;align-items:center;gap:11px;padding:12px 13px;cursor:pointer;}
+  .ic{width:40px;height:40px;border-radius:10px;background:var(--iconbg);color:#2c2f31;display:grid;place-items:center;flex:none;transition:.16s;} .card.sel .ic{background:var(--brand-tint);color:var(--brand-ink);} .ic svg{width:22px;height:22px;}
+  .nm{flex:1;min-width:0;} .row1{display:flex;align-items:center;gap:7px;} .name{font-size:15px;font-weight:700;letter-spacing:-.01em;} .sub{font-size:12px;color:var(--ink-2);margin-top:2px;line-height:1.4;}
+  .plus{display:inline-flex;align-items:center;gap:3px;font-size:9px;font-weight:700;color:var(--plus);background:var(--plus-bg);border:1px solid var(--plus-line);border-radius:4px;padding:1px 5px 1px 4px;} .plus svg{width:9px;height:9px;}
+  .free{font-size:9px;font-weight:700;color:#0e7a3d;background:#e7f5ec;border:1px solid #cdebd6;border-radius:4px;padding:1px 6px;}
+  .cchip{font-size:9px;font-weight:700;color:var(--brand-ink);background:var(--brand-tint);border-radius:4px;padding:1px 5px;display:inline-flex;align-items:center;gap:3px;} .cchip svg{width:9px;height:9px;}
+  .rad{width:22px;height:22px;border-radius:50%;border:2px solid #d2d5ce;flex:none;display:grid;place-items:center;} .rad svg{width:12px;height:12px;color:#fff;opacity:0;} .card.sel .rad{background:var(--brand);border-color:var(--brand);} .card.sel .rad svg{opacity:1;}
+  .togrow{display:flex;align-items:center;gap:11px;padding:12px 13px;border-top:1px dashed var(--line);}
+  .togrow .tl{flex:1;} .tlname{font-size:13.5px;font-weight:700;} .tlsub{font-size:11.5px;color:var(--ink-2);margin-top:2px;line-height:1.35;}
+  .sw{position:relative;width:44px;height:26px;border-radius:999px;background:#cdd0ca;cursor:pointer;transition:.18s;flex:none;} .sw::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:.18s;box-shadow:0 1px 3px rgba(0,0,0,.25);} .sw.on{background:var(--brand);} .sw.on::after{transform:translateX(18px);}
+  .note{font-size:11px;color:var(--ink-3);padding:0 13px 12px;display:flex;gap:6px;align-items:flex-start;line-height:1.4;} .note svg{width:13px;height:13px;flex:none;margin-top:1px;}
+  .cta{background:var(--cta);color:#fff;border:0;border-radius:999px;padding:15px;font:inherit;font-size:15px;font-weight:700;cursor:pointer;margin-top:2px;}
+</style>
+<script>
+  var IC={
+    ai:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="6" width="16" height="12" rx="2.5"/><circle cx="12" cy="12" r="2.4"/><path d="M8 3v3M16 3v3"/></svg>',
+    live:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9v6h3l5 4V5L7 9H4Z"/><path d="M16.5 8.5a5 5 0 0 1 0 7"/><path d="M19 6a9 9 0 0 1 0 12"/></svg>',
+    rec:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="12" height="10" rx="2.4"/><path d="M15 10.2l5.5-2.7v9l-5.5-2.7"/></svg>',
+    hand:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 13V7.4a1.4 1.4 0 0 1 2.8 0V12"/><path d="M12.3 12V6.4a1.4 1.4 0 0 1 2.8 0V12"/><path d="M15.1 12.2V8.4a1.4 1.4 0 0 1 2.8 0V16a5.6 5.6 0 0 1-5.6 5.6h-1.3a5.6 5.6 0 0 1-4.5-2.3l-2.1-2.9a1.45 1.45 0 0 1 2.35-1.75l1.3 1.55"/><path d="M4.6 8.9l3.3-3.3 1.35 1.35-3.3 3.3-1.85.5.5-1.85Z"/></svg>',
+    plus:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 3l5 5-5 13L7 8l5-5Z"/><path d="M7 8h10"/></svg>',
+    wifi:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5a10 10 0 0 1 14 0"/><path d="M8.5 15.5a5 5 0 0 1 7 0"/><path d="M12 18.5h.01"/></svg>',
+    hw:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2.4"/></svg>',
+    chk:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>',
+    cloud:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18a4 4 0 0 1-.5-7.97 5 5 0 0 1 9.6-1.3A3.5 3.5 0 0 1 17.5 18H7Z"/></svg>',
+    swap:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h13l-3-3M20 16H7l3 3"/></svg>',
+    bulb:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.5.4.8.9.9 1.6l.1.5h5l.1-.5c.1-.7.4-1.2.9-1.6A6 6 0 0 0 12 3Z"/></svg>'
+  };
+</script>
+
+<div class="wrap">
+  <h1>两个都不牺牲：3选1+可切换 · vs · 折中 C</h1>
+  <p class="lede">左：保留具名 3 选 1，加一句「课中随时可切」。右：AI 一张卡，开关切换时标题在 Live Coach ↔ Record & Recap 之间变，手动独立。</p>
+  <div class="grid">
+
+    <!-- ===== F: 3选1 + flexibility ===== -->
+    <div class="col">
+      <div class="tag">方案 F · 3选1 + 可切换提示</div>
+      <div class="d">具名、直接、心智最轻。用一句话打消「选了改不了」的顾虑。</div>
+      <div class="phone"><div class="scr" id="F">
+        <h2>选择上课模式</h2>
+        <div class="dev"><span class="hw"></span><span class="dn">ATOM 449C</span><span class="st"></span></div>
+        <div class="flexnote"><span data-ic="bulb"></span><span>不确定选哪个？<b>三种模式课中随时能切换</b>，先随便选一个就好。</span></div>
+        <div class="card sel" data-m="coach">
+          <div class="top" data-selF><div class="ic" data-ic="live"></div><div class="nm"><div class="row1"><span class="name">Live Coach</span><span class="plus"><span data-ic="plus"></span>Plus</span></div><div class="sub">实时计数、动作提示 + 课后报告。</div></div><div class="rad" data-ic="chk"></div></div>
+        </div>
+        <div class="card" data-m="recap">
+          <div class="top" data-selF><div class="ic" data-ic="rec"></div><div class="nm"><div class="row1"><span class="name">Record &amp; Recap</span><span class="plus"><span data-ic="plus"></span>Plus</span><span class="cchip"><span data-ic="cloud"></span>云端</span></div><div class="sub">安静记录，云端出课后报告。</div></div><div class="rad" data-ic="chk"></div></div>
+        </div>
+        <div class="card" data-m="manual">
+          <div class="top" data-selF><div class="ic" data-ic="hand"></div><div class="nm"><div class="row1"><span class="name">手动</span><span class="free">Free</span></div><div class="sub">无需摄像头，自己记录。</div></div><div class="rad" data-ic="chk"></div></div>
+        </div>
+        <button class="cta" id="F-cta">开始指导</button>
+      </div></div>
+    </div>
+
+    <!-- ===== C: named + switch ===== -->
+    <div class="col">
+      <div class="tag">方案 C · 具名 + 开关</div>
+      <div class="d">AI 一张卡，开关切换时标题在 Live Coach / Record & Recap 之间变——既具名，又体现「可切」。</div>
+      <div class="phone"><div class="scr" id="C">
+        <h2>选择上课模式</h2>
+        <div class="dev"><span class="hw"></span><span class="dn">ATOM 449C</span><span class="st"></span></div>
+        <div class="card sel" data-role="ai">
+          <div class="top" data-selC="ai">
+            <div class="ic" id="C-ic"></div>
+            <div class="nm"><div class="row1"><span class="name" id="C-title"></span><span class="plus"><span data-ic="plus"></span>Plus</span><span class="cchip" id="C-cloud"><span data-ic="cloud"></span>云端</span></div><div class="sub" id="C-sub"></div></div>
+            <div class="rad" data-ic="chk"></div>
+          </div>
+          <div class="togrow"><div class="tl"><div class="tlname">实时指导</div><div class="tlsub" id="C-tsub"></div></div><div class="sw on" id="C-sw"></div></div>
+          <div class="note"><span data-ic="swap"></span><span>同一个 AI——实时指导随时可切，开课后也能改。</span></div>
+        </div>
+        <div class="card" data-role="manual">
+          <div class="top" data-selC="manual"><div class="ic" data-ic="hand"></div><div class="nm"><div class="row1"><span class="name">手动</span><span class="free">Free</span></div><div class="sub">无需摄像头，自己记录。</div></div><div class="rad" data-ic="chk"></div></div>
+        </div>
+        <button class="cta" id="C-cta">开始指导</button>
+      </div></div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+(function(){
+  document.querySelectorAll('[data-ic]').forEach(function(el){var k=el.getAttribute('data-ic'); if(IC[k]) el.innerHTML=IC[k];});
+  document.querySelectorAll('.dev .hw').forEach(function(el){el.innerHTML=IC.hw;});
+  document.querySelectorAll('.dev .st').forEach(function(el){el.innerHTML=IC.wifi+'<span>已连接</span>';});
+
+  // F
+  var Fcta=document.getElementById('F-cta');
+  document.querySelectorAll('#F .card').forEach(function(card){ card.querySelector('[data-selF]').addEventListener('click',function(){
+    document.querySelectorAll('#F .card').forEach(function(c){c.classList.remove('sel');}); card.classList.add('sel');
+    var m=card.getAttribute('data-m'); Fcta.textContent = m==='coach'?'开始指导':(m==='recap'?'开始录制':'开始记录');
+  }); });
+
+  // C
+  var Con=true, Csel='ai';
+  function Cr(){
+    document.getElementById('C-sw').classList.toggle('on',Con);
+    document.getElementById('C-ic').innerHTML = Con?IC.live:IC.rec;
+    document.getElementById('C-title').textContent = Con?'Live Coach':'Record & Recap';
+    document.getElementById('C-sub').textContent = Con?'实时计数、动作提示 + 课后报告。':'安静记录，云端出课后报告。';
+    document.getElementById('C-tsub').textContent = Con?'训练时给你即时提示。':'关闭——只记录，练后看报告。';
+    document.getElementById('C-cloud').style.display='';
+    document.querySelector('#C [data-role="ai"]').classList.toggle('sel',Csel==='ai');
+    document.querySelector('#C [data-role="manual"]').classList.toggle('sel',Csel==='manual');
+    document.getElementById('C-cta').textContent = Csel==='manual'?'开始记录':(Con?'开始指导':'开始录制');
+  }
+  document.getElementById('C-sw').addEventListener('click',function(e){ e.stopPropagation(); if(Csel!=='ai'){Csel='ai';} Con=!Con; Cr(); });
+  document.querySelectorAll('#C [data-selC]').forEach(function(h){ h.addEventListener('click',function(){ Csel=h.getAttribute('data-selC'); Cr(); }); });
+  Cr();
+})();
+</script>
