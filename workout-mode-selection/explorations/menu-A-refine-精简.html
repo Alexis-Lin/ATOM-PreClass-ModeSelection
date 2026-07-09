@@ -1,0 +1,203 @@
+<title>Mode menu — Variant A refined</title>
+<style>
+  :root{
+    --bg:#e9eae6; --ink:#16181a; --ink-2:#6a6f74; --ink-3:#9ba0a5;
+    --line:#e6e8e2; --hair:#f0f1ed; --brand:#7cc00c; --brand-ink:#4f7d05; --brand-tint:#eef7df;
+    --plus:#a9812f; --plus-bg:#f6f1e6; --plus-line:#ece2cc;
+    --card:#fff; --cta:#141414; --iconbg:#f2f3ef;
+    --studio-ink:#16181a; --studio-sub:#6a6f74; --studio-card:#fff; --studio-line:#e0e2dc;
+    --font:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+  }
+  @media (prefers-color-scheme:dark){:root{--bg:#0f1216;--studio-ink:#eceef0;--studio-sub:#98a0aa;--studio-card:#181c22;--studio-line:#252b33;}}
+  :root[data-theme="dark"]{--bg:#0f1216;--studio-ink:#eceef0;--studio-sub:#98a0aa;--studio-card:#181c22;--studio-line:#252b33;}
+  :root[data-theme="light"]{--bg:#e9eae6;--studio-ink:#16181a;--studio-sub:#6a6f74;--studio-card:#fff;--studio-line:#e0e2dc;}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--studio-ink);font-family:var(--font);-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:1000px;margin:0 auto;padding:34px 22px 70px;}
+  .eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--brand-ink);font-weight:700;}
+  h1{font-size:25px;font-weight:800;letter-spacing:-.02em;margin:6px 0 8px;}
+  .lede{color:var(--studio-sub);font-size:14px;max-width:68ch;line-height:1.55;margin:0;}
+  .ctl{display:inline-flex;background:var(--studio-card);border:1px solid var(--studio-line);border-radius:999px;padding:4px;margin-top:16px;}
+  .ctl button{border:0;background:transparent;color:var(--studio-sub);font:inherit;font-size:12.5px;font-weight:700;padding:7px 14px;border-radius:999px;cursor:pointer;}
+  .ctl button[aria-pressed="true"]{background:var(--cta);color:#fff;}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:34px;margin-top:28px;align-items:start;}
+  @media (max-width:860px){.grid{grid-template-columns:1fr;max-width:380px;margin-inline:auto;}}
+  .col>.tag{font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:var(--studio-sub);font-weight:700;}
+  .col>.desc{font-size:12.5px;color:var(--studio-sub);line-height:1.5;margin:5px 0 12px;}
+
+  .phone{background:#fff;border-radius:30px;box-shadow:0 22px 60px -30px rgba(20,26,20,.5);border:1px solid rgba(0,0,0,.06);overflow:hidden;}
+  .scr{padding:16px 15px 16px;display:flex;flex-direction:column;gap:12px;}
+  .scr h2{font-size:18px;font-weight:800;margin:2px 2px 0;}
+  .dev{display:flex;align-items:center;gap:8px;padding:0 2px 10px;border-bottom:1px solid var(--hair);}
+  .dev .hw{width:24px;height:24px;border-radius:7px;background:var(--brand-tint);color:var(--brand-ink);display:grid;place-items:center;}
+  .dev .hw svg{width:15px;height:15px;} .dev .dn{font-size:14px;font-weight:800;}
+  .dev .st{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:600;color:var(--brand-ink);} .dev .st svg{width:14px;height:14px;}
+
+  .card{border:1.5px solid var(--line);border-radius:12px;background:var(--card);overflow:hidden;transition:border-color .16s,background .16s;}
+  .card.sel{border-color:var(--ink);}
+  .card .top{display:flex;align-items:center;gap:11px;padding:13px;cursor:pointer;}
+  .card .ic{width:40px;height:40px;border-radius:10px;background:var(--iconbg);color:#2c2f31;display:grid;place-items:center;flex:none;}
+  .card.sel .ic{background:var(--brand-tint);color:var(--brand-ink);} .card .ic svg{width:22px;height:22px;}
+  .card .nm{flex:1;min-width:0;} .row1{display:flex;align-items:center;gap:7px;}
+  .name{font-size:15.5px;font-weight:700;letter-spacing:-.01em;} .sub{font-size:12px;color:var(--ink-2);line-height:1.4;margin-top:2px;}
+  .plus{display:inline-flex;align-items:center;gap:3px;font-size:9px;font-weight:700;color:var(--plus);background:var(--plus-bg);border:1px solid var(--plus-line);border-radius:4px;padding:1px 5px 1px 4px;} .plus svg{width:9px;height:9px;}
+  .free{font-size:9px;font-weight:700;color:#0e7a3d;background:#e7f5ec;border:1px solid #cdebd6;border-radius:4px;padding:1px 6px;}
+  .rad{width:22px;height:22px;border-radius:50%;border:2px solid #d2d5ce;flex:none;display:grid;place-items:center;} .rad svg{width:12px;height:12px;color:#fff;opacity:0;}
+  .card.sel .rad{background:var(--brand);border-color:var(--brand);} .card.sel .rad svg{opacity:1;}
+
+  .explain{font-size:11.5px;color:var(--ink-2);line-height:1.5;padding:0 13px 12px;}
+  .togrow{display:flex;align-items:center;gap:11px;padding:11px 13px;border-top:1px dashed var(--line);}
+  .togrow .tl{flex:1;} .tlname{font-size:13.5px;font-weight:700;} .tlsub{font-size:11.5px;color:var(--ink-2);margin-top:2px;line-height:1.35;}
+  .sw{position:relative;width:44px;height:26px;border-radius:999px;background:#cdd0ca;cursor:pointer;transition:.18s;flex:none;}
+  .sw::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:.18s;box-shadow:0 1px 3px rgba(0,0,0,.25);}
+  .sw.on{background:var(--brand);} .sw.on::after{transform:translateX(18px);}
+  .chips{display:flex;flex-wrap:wrap;gap:6px;padding:0 13px 13px;} .chip{font-size:10.5px;font-weight:600;padding:3px 8px;border-radius:6px;background:#f1f3ef;color:#5c636b;} .chip.on{background:var(--brand-tint);color:var(--brand-ink);}
+  .note{font-size:11px;color:var(--ink-3);padding:0 13px 12px;display:flex;gap:6px;align-items:flex-start;line-height:1.4;} .note svg{width:13px;height:13px;flex:none;margin-top:1px;}
+
+  .cta{background:var(--cta);color:#fff;border:0;border-radius:999px;padding:15px;font:inherit;font-size:15px;font-weight:700;cursor:pointer;margin-top:2px;} .cta:active{transform:scale(.99);}
+  .side{margin-top:34px;border-top:1px solid var(--studio-line);padding-top:20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;}
+  .nc h4{margin:0 0 5px;font-size:13.5px;font-weight:800;} .nc p{margin:0;font-size:12.5px;color:var(--studio-sub);line-height:1.55;} .nc .k{font-size:11px;background:var(--bg);border:1px solid var(--studio-line);border-radius:5px;padding:1px 6px;font-weight:600;}
+  footer{margin-top:30px;font-size:12px;color:var(--studio-sub);text-align:center;}
+</style>
+<script>
+  var ICON={
+    ai:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="6" width="16" height="12" rx="2.5"/><circle cx="12" cy="12" r="2.4"/><path d="M8 3v3M16 3v3"/></svg>',
+    hand:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 13V7.4a1.4 1.4 0 0 1 2.8 0V12"/><path d="M12.3 12V6.4a1.4 1.4 0 0 1 2.8 0V12"/><path d="M15.1 12.2V8.4a1.4 1.4 0 0 1 2.8 0V16a5.6 5.6 0 0 1-5.6 5.6h-1.3a5.6 5.6 0 0 1-4.5-2.3l-2.1-2.9a1.45 1.45 0 0 1 2.35-1.75l1.3 1.55"/><path d="M4.6 8.9l3.3-3.3 1.35 1.35-3.3 3.3-1.85.5.5-1.85Z"/></svg>',
+    plus:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 3l5 5-5 13L7 8l5-5Z"/><path d="M7 8h10"/></svg>',
+    wifi:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5a10 10 0 0 1 14 0"/><path d="M8.5 15.5a5 5 0 0 1 7 0"/><path d="M12 18.5h.01"/></svg>',
+    hw:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2.4"/></svg>',
+    chk:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>',
+    swap:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h13l-3-3M20 16H7l3 3"/></svg>'
+  };
+  var L={
+    en:{title:'Select mode', connected:'Connected', ai:'AI Mode', manual:'Manual', free:'Free',
+      aiSub:'The ATOM auto-tracks every rep and builds your report.',
+      manualSub:'No camera — log sets, reps & weight at your own pace.',
+      togName:'Real-time coaching',
+      covOn:'Live counting and form cues while you move.',
+      covOff:'Off — trains silently, review the report after.',
+      explain:'One AI mode. Turn coaching <b>on</b> for live cues, <b>off</b> to just record &amp; review — switch anytime, even mid-set.',
+      switchNote:'Change coaching anytime — even mid-workout.',
+      chipCount:'Auto rep count', chipCues:'Form cues', chipReport:'Full report',
+      ctaOn:'Start Coaching', ctaOff:'Start Recording', ctaManual:'Start Logging'},
+    zh:{title:'选择上课模式', connected:'已连接', ai:'AI 模式', manual:'手动', free:'免费',
+      aiSub:'ATOM 自动识别每一次动作，并生成课后报告。',
+      manualSub:'无需摄像头——自己按节奏记录组数/次数/重量。',
+      togName:'实时指导',
+      covOn:'训练时实时计数并给出动作提示。',
+      covOff:'关闭——安静训练，练后看报告即可。',
+      explain:'同一个 AI 模式。<b>开</b>实时指导获得即时提示，<b>关</b>则只记录、练后复盘——随时可切，开课后也能改。',
+      switchNote:'随时可切换实时指导，开课后也能改。',
+      chipCount:'自动计数', chipCues:'动作提示', chipReport:'完整报告',
+      ctaOn:'开始指导', ctaOff:'开始录制', ctaManual:'开始记录'}
+  };
+</script>
+
+<div class="wrap">
+  <div class="eyebrow">Atom · mode menu · Variant A refined</div>
+  <h1>Two cards, one switch — kept simple</h1>
+  <p class="lede">Collapse to <b>AI Mode</b> (with a real-time coaching switch) and <b>Manual</b>. No sub-mode pickers exposed pre-class. Left = minimal; right = same, plus one line of explanation for first-timers. The switch is interactive.</p>
+  <div class="ctl" id="lang"><button data-l="en" aria-pressed="true">EN</button><button data-l="zh" aria-pressed="false">中文</button></div>
+
+  <div class="grid">
+    <div class="col">
+      <div class="tag">A1 · Minimal</div>
+      <div class="desc">Least text. The dynamic line under the switch is the only thing that changes.</div>
+      <div class="phone"><div class="scr" data-v="min">
+        <h2 data-t="title"></h2>
+        <div class="dev"><span class="hw"></span><span class="dn">ATOM 449C</span><span class="st"></span></div>
+        <div class="card sel" data-role="ai">
+          <div class="top" data-sel>
+            <div class="ic" data-ic="ai"></div>
+            <div class="nm"><div class="row1"><span class="name" data-t="ai"></span><span class="plus"><span data-ic="plus"></span>Plus</span></div><div class="sub" data-t="aiSub"></div></div>
+            <div class="rad" data-ic="chk"></div>
+          </div>
+          <div class="togrow"><div class="tl"><div class="tlname" data-t="togName"></div><div class="tlsub" data-cov></div></div><div class="sw on" data-covswitch></div></div>
+        </div>
+        <div class="card" data-role="manual">
+          <div class="top" data-sel>
+            <div class="ic" data-ic="hand"></div>
+            <div class="nm"><div class="row1"><span class="name" data-t="manual"></span><span class="free" data-t="free"></span></div><div class="sub" data-t="manualSub"></div></div>
+            <div class="rad" data-ic="chk"></div>
+          </div>
+        </div>
+        <button class="cta" data-cta></button>
+      </div></div>
+    </div>
+
+    <div class="col">
+      <div class="tag">A2 · With one-line explainer</div>
+      <div class="desc">Same layout + a single sentence under the AI card teaching the whole model, and small benefit chips.</div>
+      <div class="phone"><div class="scr" data-v="exp">
+        <h2 data-t="title"></h2>
+        <div class="dev"><span class="hw"></span><span class="dn">ATOM 449C</span><span class="st"></span></div>
+        <div class="card sel" data-role="ai">
+          <div class="top" data-sel>
+            <div class="ic" data-ic="ai"></div>
+            <div class="nm"><div class="row1"><span class="name" data-t="ai"></span><span class="plus"><span data-ic="plus"></span>Plus</span></div><div class="sub" data-t="aiSub"></div></div>
+            <div class="rad" data-ic="chk"></div>
+          </div>
+          <div class="explain" data-explain></div>
+          <div class="togrow" style="border-top:1px dashed var(--line)"><div class="tl"><div class="tlname" data-t="togName"></div><div class="tlsub" data-cov></div></div><div class="sw on" data-covswitch></div></div>
+          <div class="chips"><span class="chip on" data-t="chipCount"></span><span class="chip on" data-covchip data-t="chipCues"></span><span class="chip" data-t="chipReport"></span></div>
+          <div class="note"><span data-ic="swap"></span><span data-t="switchNote"></span></div>
+        </div>
+        <div class="card" data-role="manual">
+          <div class="top" data-sel>
+            <div class="ic" data-ic="hand"></div>
+            <div class="nm"><div class="row1"><span class="name" data-t="manual"></span><span class="free" data-t="free"></span></div><div class="sub" data-t="manualSub"></div></div>
+            <div class="rad" data-ic="chk"></div>
+          </div>
+        </div>
+        <button class="cta" data-cta></button>
+      </div></div>
+    </div>
+  </div>
+
+  <div class="side">
+    <div class="nc"><h4>What we simplified</h4><p>Live Coach + Record &amp; Recap → one <span class="k">AI Mode</span> with a switch. Manual’s self-paced / timed-class sub-modes are <b>not</b> shown pre-class (timed class isn’t live; self-paced is the only current behavior).</p></div>
+    <div class="nc"><h4>Minimal vs Explainer</h4><p>Ship <b>A1</b> for the cleanest screen; use <b>A2</b>’s one-line explainer + chips if first-time users need help understanding the switch. You could even show A2 only on the first run, A1 after.</p></div>
+    <div class="nc"><h4>Reads in both states</h4><p>Toggle the switch: ON reads as Live Coach, OFF as Record &amp; Recap — same card, so it never feels like a locked, separate choice.</p></div>
+  </div>
+  <footer>Prototype for discussion · not final visual design.</footer>
+</div>
+
+<script>
+(function(){
+  var LANG='en';
+  function t(){ return L[LANG]; }
+  function render(){
+    var d=t();
+    document.querySelectorAll('[data-t]').forEach(function(el){ var k=el.getAttribute('data-t'); if(d[k]!=null) el.innerHTML=d[k]; });
+    document.querySelectorAll('[data-ic]').forEach(function(el){ var k=el.getAttribute('data-ic'); if(ICON[k]) el.innerHTML=ICON[k]; });
+    document.querySelectorAll('.dev .hw').forEach(function(el){ el.innerHTML=ICON.hw; });
+    document.querySelectorAll('.dev .st').forEach(function(el){ el.innerHTML=ICON.wifi+'<span>'+d.connected+'</span>'; });
+    document.querySelectorAll('[data-explain]').forEach(function(el){ el.innerHTML=d.explain; });
+    document.querySelectorAll('.scr').forEach(function(scr){ paint(scr); });
+  }
+  function paint(scr){
+    var d=t();
+    var covOn = scr.getAttribute('data-covon')!=='0';
+    var mode = scr.getAttribute('data-mode')||'ai';
+    var covText=scr.querySelector('[data-cov]'); if(covText) covText.textContent = covOn?d.covOn:d.covOff;
+    var sw=scr.querySelector('[data-covswitch]'); if(sw) sw.classList.toggle('on',covOn);
+    var chip=scr.querySelector('[data-covchip]'); if(chip){ chip.classList.toggle('on',covOn); chip.style.display=covOn?'':'none'; }
+    var cta=scr.querySelector('[data-cta]'); cta.textContent = mode==='manual'? d.ctaManual : (covOn?d.ctaOn:d.ctaOff);
+  }
+  document.querySelectorAll('.scr').forEach(function(scr){
+    scr.setAttribute('data-covon','1'); scr.setAttribute('data-mode','ai');
+    var sw=scr.querySelector('[data-covswitch]');
+    if(sw) sw.addEventListener('click',function(e){ e.stopPropagation(); scr.setAttribute('data-covon', scr.getAttribute('data-covon')==='1'?'0':'1'); paint(scr); });
+    scr.querySelectorAll('.card').forEach(function(card){
+      card.querySelector('[data-sel]').addEventListener('click',function(){
+        scr.querySelectorAll('.card').forEach(function(c){c.classList.remove('sel');}); card.classList.add('sel');
+        scr.setAttribute('data-mode', card.getAttribute('data-role')); paint(scr);
+      });
+    });
+  });
+  document.querySelectorAll('#lang button').forEach(function(b){ b.addEventListener('click',function(){
+    LANG=b.getAttribute('data-l'); document.querySelectorAll('#lang button').forEach(function(x){x.setAttribute('aria-pressed',String(x===b));}); render();
+  }); });
+  render();
+})();
+</script>
