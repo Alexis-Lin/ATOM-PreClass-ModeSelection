@@ -166,6 +166,33 @@
   .datanote.ok{color:var(--ink-2);background:#f4f5f2;border:1px solid var(--line);}
   .datanote.ok svg{color:var(--ink-3);}
   .datanote.warn{color:var(--warn);background:var(--warn-bg);border:1px solid var(--warn-line);}
+  /* bottom data entry on the notice + secondary sheet */
+  .datarow{display:flex;align-items:center;gap:11px;padding:12px;border:1.5px solid var(--line);border-radius:13px;cursor:pointer;margin-top:16px;}
+  .datarow .dricon{width:34px;height:34px;border-radius:9px;background:var(--iconBg);display:grid;place-items:center;color:#2c2f31;flex:none;}
+  .datarow .dricon svg{width:18px;height:18px;}
+  .datarow .drtext{flex:1;min-width:0;display:flex;flex-direction:column;}
+  .datarow .drtitle{font-size:13px;font-weight:700;color:var(--ink);}
+  .datarow .drsub{font-size:11px;color:var(--ink-2);margin-top:2px;line-height:1.35;}
+  .datarow .drchange{font-size:12px;font-weight:700;color:var(--brand-ink);flex:none;}
+  .datarow.warn{border-color:var(--warn-line);background:var(--warn-bg);}
+  .datarow.warn .drtitle{color:var(--warn);} .datarow.warn .dricon{background:#f6ddd0;color:var(--warn);}
+  .dontrow{display:flex;align-items:center;gap:9px;margin-top:14px;cursor:pointer;}
+  .dontrow .box{width:19px;height:19px;border-radius:5px;border:1.5px solid #cfd2ca;display:grid;place-items:center;flex:none;}
+  .dontrow .box svg{width:12px;height:12px;color:#fff;opacity:0;}
+  .dontrow.on .box{background:var(--brand);border-color:var(--brand);} .dontrow.on .box svg{opacity:1;}
+  .dontrow span:last-child{font-size:12.5px;color:var(--ink-2);}
+  #datasheet{z-index:30;}
+  .dcard{border:1.5px solid var(--line);border-radius:14px;padding:12px 13px;margin-bottom:9px;cursor:pointer;}
+  .dcard.sel{border-color:var(--ink);}
+  .dcard .dtop{display:flex;align-items:center;gap:8px;}
+  .dcard .dn2{font-size:14.5px;font-weight:800;color:var(--ink);}
+  .dcard .rec{font-size:9.5px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;color:#0e7a3d;background:#e7f5ec;border-radius:5px;padding:2px 6px;}
+  .dcard .dradio{margin-left:auto;width:22px;height:22px;border-radius:50%;border:2px solid #d2d5ce;display:grid;place-items:center;flex:none;}
+  .dcard.sel .dradio{background:var(--brand);border-color:var(--brand);}
+  .dcard .dradio svg{width:12px;height:12px;color:#fff;opacity:0;} .dcard.sel .dradio svg{opacity:1;}
+  .dcard ul{margin:9px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px;}
+  .dcard li{display:flex;gap:8px;align-items:flex-start;font-size:12px;color:var(--ink-2);line-height:1.4;}
+  .dcard li svg{width:14px;height:14px;flex:none;margin-top:1px;color:var(--brand-ink);}
 
   /* device picker list */
   .dlist{display:flex;flex-direction:column;gap:8px;}
@@ -347,6 +374,9 @@
           <div class="pagebody" id="ps-body"></div>
           <div class="pagecta"><button id="ps-ok"></button></div>
         </div>
+
+        <!-- secondary data-save sheet (opened from the small entry on the notice) -->
+        <div class="pop" id="datasheet"><div class="popcard" id="datasheet-card"></div></div>
       </div>
     </div>
 
@@ -425,10 +455,14 @@
       ctaBlocked:'Ensure ATOM is online', cancel:'Not now',
       popDevT:'{n} runs on ATOM', popDevS:'Pair a nearby ATOM device to unlock live coaching and recorded analysis.', popDevBtn:'Add device',
       popPlusT:'{n} needs Plus', popPlusS:'Unlock AI coaching and recorded analysis with a Plus membership.', popPlusBtn:'Get Plus',
-      dataH:'Your training data',
-      dataCloud:'Upload to cloud', dataLocal:'Keep on ATOM',
-      dataCloudNote:'Saved to the cloud — report available on any device.',
-      dataLocalNote:"Saved to your ATOM's SD card, not uploaded.",
+      dataSheetT:'Where to save your video?',
+      dCloudName:'Cloud', dLocalName:'Keep on ATOM', dRecommended:'Recommended', dDone:'Done',
+      dCloudBenefits:['No SD card needed','Re-analyzed automatically as our AI improves'],
+      dLocalBenefits:['Stored on the SD card — copy it off anytime','Not uploaded to the cloud'],
+      drCloudTitle:'Video saves to Cloud', drCloudSub:'No SD card · re-analyzed as AI improves',
+      drLocalTitle:'Saved on ATOM', drLocalSub:'On the SD card — copy it off yourself',
+      drNoSdTitle:"Video won't be saved", drNoSdSub:'No SD card — tap to choose',
+      drChange:'Change', dontShow:'Don’t show this again',
       dataNoSdWarn:"No SD card in your ATOM — this session won't be kept. Insert a card, or upload to cloud.",
       pageTitle:'Get set up', psOk:"I'm ready", reach:'Keep your ATOM within reach.',
       pickT:'Which ATOM?', pickHint:'Pick the device that’s next to you.',
@@ -458,10 +492,14 @@
       ctaBlocked:'请确保 ATOM 在线', cancel:'以后再说',
       popDevT:'{n} 需要 ATOM', popDevS:'请连接身边的 ATOM 设备，解锁实时指导与录制分析。', popDevBtn:'添加设备',
       popPlusT:'{n} 需要 Plus 会员', popPlusS:'开通 Plus 会员，解锁 AI 实时指导与录制分析。', popPlusBtn:'开通 Plus',
-      dataH:'训练数据保存',
-      dataCloud:'上传云端', dataLocal:'仅存 ATOM',
-      dataCloudNote:'上传到云端——任意设备都能看报告。',
-      dataLocalNote:'保存在 ATOM 的 SD 卡上，不上传云端。',
+      dataSheetT:'视频保存在哪里？',
+      dCloudName:'云端', dLocalName:'仅存 ATOM', dRecommended:'推荐', dDone:'完成',
+      dCloudBenefits:['无需 SD 卡','算法升级后自动重新分析'],
+      dLocalBenefits:['存在 SD 卡上，随时自己拷走','不上传云端'],
+      drCloudTitle:'视频将上传云端', drCloudSub:'无需 SD 卡 · 算法升级可重跑',
+      drLocalTitle:'存在 ATOM', drLocalSub:'存 SD 卡，可自行拷走',
+      drNoSdTitle:'视频不会保留', drNoSdSub:'无 SD 卡 — 点此选择',
+      drChange:'更改', dontShow:'下次不再提示',
       dataNoSdWarn:'ATOM 未检测到 SD 卡——本次训练不会被保留。请插入 SD 卡，或改为上传云端。',
       pageTitle:'课前须知', psOk:'准备好了', reach:'让 ATOM 就在你的手边。',
       pickT:'使用哪一台 ATOM？', pickHint:'请选择在你身边的设备。',
@@ -547,44 +585,66 @@
   var SDI='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h7l4 4v12a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"/><path d="M10 3v3M12.5 3v3M15 3v3"/></svg>';
   var INFOI='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.5h.01"/></svg>';
   var CHKM='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>';
-  var dataChoice='cloud';
+  var dataChoice='cloud', psSkip=false;
   function _sec(txt,warn){ return '<div class="ps-sec'+(warn?' warn':'')+'">'+txt+'</div>'; }
   function _do(items){ return '<div class="checklist">'+items.map(function(x){return '<div class="it">'+CHK+'<span>'+x+'</span></div>';}).join('')+'</div>'; }
   function _avoid(items){ return '<div class="avoidlist">'+items.map(function(x){return '<div class="av">'+AVX+'<span>'+x+'</span></div>';}).join('')+'</div>'; }
   function _reach(t){ return '<div class="reach">'+PINI+'<span>'+t.reach+'</span></div>'; }
   function _info(icon,h,txt){ return '<div class="infobox"><div class="ih">'+icon+'<span>'+h+'</span></div><span>'+txt+'</span></div>'; }
-  function _opt(key,icon,label){ var s=dataChoice===key; return '<div class="dataopt'+(s?' sel':'')+'" data-d="'+key+'">'+icon+'<span>'+label+'</span>'+(s?'<span class="odot">'+CHKM+'</span>':'')+'</div>'; }
-  function _data(t){
-    var note;
-    if(dataChoice==='cloud') note='<div class="datanote ok">'+INFOI+'<span>'+t.dataCloudNote+'</span></div>';
-    else if(SDCARD) note='<div class="datanote ok">'+INFOI+'<span>'+t.dataLocalNote+'</span></div>';
-    else note='<div class="datanote warn">'+WARNI+'<span>'+t.dataNoSdWarn+'</span></div>';
-    return _sec(t.dataH,false)+'<div class="dataopts">'+_opt('cloud',CLOUDI,t.dataCloud)+_opt('local',SDI,t.dataLocal)+'</div>'+note;
+  function _datarow(t){
+    var warn=dataChoice==='local'&&!SDCARD, icon,title,sub;
+    if(dataChoice==='cloud'){icon=CLOUDI;title=t.drCloudTitle;sub=t.drCloudSub;}
+    else if(SDCARD){icon=SDI;title=t.drLocalTitle;sub=t.drLocalSub;}
+    else{icon=SDI;title=t.drNoSdTitle;sub=t.drNoSdSub;}
+    return '<div class="datarow'+(warn?' warn':'')+'" id="ps-datarow"><span class="dricon">'+icon+'</span><span class="drtext"><span class="drtitle">'+title+'</span><span class="drsub">'+sub+'</span></span><span class="drchange">'+t.drChange+'</span></div>';
   }
+  function _dontrow(t){ return '<div class="dontrow'+(psSkip?' on':'')+'" id="ps-dont"><span class="box">'+CHKM+'</span><span>'+t.dontShow+'</span></div>'; }
   function openPrestart(keep){
     var t=T[LANG];
     var selEl=sheet.querySelector('.mode.sel'); if(!selEl)return;
     var mode=selEl.getAttribute('data-mode');
     psT.textContent=t.pageTitle; psOk.textContent=t.psOk;
-    var h=_data(t);
+    var h='';
     if(mode==='coach'){
-      h+='<div class="pagesub" style="margin-top:14px">'+t.coachSub+'</div>'+FRAME_LIGHT
+      h+='<div class="pagesub">'+t.coachSub+'</div>'+FRAME_LIGHT
         +_sec(t.coachDoH,false)+_do(t.coachDo)
         +_sec(t.coachAvoidH,true)+_avoid(t.coachAvoid)
         +_reach(t)
         +'<div class="caution" style="margin-top:12px">'+WARNI+'<span>'+t.beta+'</span></div>';
     } else {
-      h+='<div class="pagesub" style="margin-top:14px">'+t.recapSub+'</div>'+FRAME_LIGHT
+      h+='<div class="pagesub">'+t.recapSub+'</div>'+FRAME_LIGHT
         +_sec(t.recapDoH,false)+_do(t.recapDo)
         +_reach(t)
         +_info(REPORTI,t.reportH,t.report)
         +_info(ALGOI,t.algoH,t.algo);
     }
+    h+=_datarow(t)+_dontrow(t);
     psBody.innerHTML=h; prestart.classList.add('show'); if(!keep) psBody.scrollTop=0;
-    psBody.querySelectorAll('.dataopt').forEach(function(o){ o.addEventListener('click',function(){ dataChoice=o.getAttribute('data-d'); var st=psBody.scrollTop; openPrestart(true); psBody.scrollTop=st; }); });
+    document.getElementById('ps-datarow').onclick=openDataSheet;
+    document.getElementById('ps-dont').onclick=function(){ psSkip=!psSkip; var st=psBody.scrollTop; openPrestart(true); psBody.scrollTop=st; };
   }
   psBack.onclick=function(){ prestart.classList.remove('show'); };
   psOk.onclick=function(){ prestart.classList.remove('show'); };   // proceed (would start workout)
+
+  /* secondary data-save sheet (opened from the small entry on the notice) */
+  var datasheet=document.getElementById('datasheet'), dsCard=document.getElementById('datasheet-card');
+  function openDataSheet(){
+    var t=T[LANG]; var warn=dataChoice==='local'&&!SDCARD;
+    function card(key,name,rec,benefits){
+      var s=dataChoice===key;
+      var lis=benefits.map(function(x){return '<li>'+CHKM+'<span>'+x+'</span></li>';}).join('');
+      return '<div class="dcard'+(s?' sel':'')+'" data-d="'+key+'"><div class="dtop"><span class="dn2">'+name+'</span>'+(rec?'<span class="rec">'+t.dRecommended+'</span>':'')+'<span class="dradio">'+CHKM+'</span></div><ul>'+lis+'</ul></div>';
+    }
+    dsCard.innerHTML='<div class="pt">'+t.dataSheetT+'</div>'
+      +card('cloud',t.dCloudName,true,t.dCloudBenefits)
+      +card('local',t.dLocalName,false,t.dLocalBenefits)
+      +(warn?'<div class="datanote warn" style="margin-bottom:10px">'+WARNI+'<span>'+t.dataNoSdWarn+'</span></div>':'')
+      +'<div class="pbtns"><div class="pb primary" id="ds-done">'+t.dDone+'</div></div>';
+    dsCard.querySelectorAll('.dcard').forEach(function(c){ c.onclick=function(){ dataChoice=c.getAttribute('data-d'); openDataSheet(); }; });
+    document.getElementById('ds-done').onclick=function(){ datasheet.classList.remove('show'); var st=psBody.scrollTop; openPrestart(true); psBody.scrollTop=st; };
+    datasheet.classList.add('show');
+  }
+  datasheet.addEventListener('click',function(e){ if(e.target===datasheet) datasheet.classList.remove('show'); });
 
   modes.forEach(function(el){ el.querySelector('.head').addEventListener('click',function(){
     if(locked(el)){ nudge(el); openPop(el); return; } select(el);
@@ -593,7 +653,9 @@
   cta.addEventListener('click',function(){
     if(cta.classList.contains('off'))return;
     var sel=sheet.querySelector('.mode.sel'); if(!sel)return;
-    if(sel.getAttribute('data-mode')!=='log') openPrestart();  // Manual Log needs no camera check
+    if(sel.getAttribute('data-mode')==='log') return;   // Manual Log needs no camera check
+    if(psSkip) return;                                  // "don't show again" → start directly with remembered choice
+    openPrestart();
   });
 
   /* device picker list (secondary selection) */
@@ -679,7 +741,9 @@
   document.querySelectorAll('#paired button').forEach(function(b){ b.addEventListener('click',function(){ setDC(b.getAttribute('data-dc')); }); });
   document.querySelectorAll('#atomstat button').forEach(function(b){ b.addEventListener('click',function(){ setStat(b.getAttribute('data-st')); }); });
   document.getElementById('sw-plus').addEventListener('click',function(){ PLUS=!PLUS; this.setAttribute('aria-checked',String(PLUS)); render(); });
-  document.getElementById('sw-sd').addEventListener('click',function(){ SDCARD=!SDCARD; this.setAttribute('aria-checked',String(SDCARD)); if(prestart.classList.contains('show')){ var st=psBody.scrollTop; openPrestart(true); psBody.scrollTop=st; } });
+  document.getElementById('sw-sd').addEventListener('click',function(){ SDCARD=!SDCARD; this.setAttribute('aria-checked',String(SDCARD));
+    if(datasheet.classList.contains('show')) openDataSheet();
+    else if(prestart.classList.contains('show')){ var st=psBody.scrollTop; openPrestart(true); psBody.scrollTop=st; } });
   devAdd.addEventListener('click',function(){ setDC('one'); });
 
   var dmodes=[].slice.call(document.querySelectorAll('.dmode'));
