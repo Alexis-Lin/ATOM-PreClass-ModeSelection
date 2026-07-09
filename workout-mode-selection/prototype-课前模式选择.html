@@ -136,9 +136,13 @@
   .rframe{margin-bottom:10px;}
   .rfrm{width:132px;height:80px;display:block;}
   /* full-page course notice (replaces the pre-start popup on phone) */
-  .page{position:absolute;inset:0;background:#fff;border-radius:38px;display:none;flex-direction:column;z-index:10;overflow:hidden;}
+  .page{position:absolute;inset:0;background:#fff;border-radius:38px;display:none;flex-direction:column;z-index:20;overflow:hidden;}
   .page.show{display:flex;}
-  .pagebar{display:flex;align-items:center;gap:11px;padding:16px 16px 11px;border-bottom:1px solid var(--hair);flex:none;}
+  .pagestatus{display:flex;justify-content:space-between;align-items:center;padding:14px 24px 2px;font-size:13px;font-weight:700;color:var(--ink);flex:none;}
+  .pagestatus .sigbars{display:inline-flex;align-items:flex-end;gap:2px;height:11px;}
+  .pagestatus .sigbars i{width:3px;background:var(--ink);border-radius:1px;}
+  .pagestatus .sigbars i:nth-child(1){height:4px}.pagestatus .sigbars i:nth-child(2){height:6px}.pagestatus .sigbars i:nth-child(3){height:8px}.pagestatus .sigbars i:nth-child(4){height:11px}
+  .pagebar{display:flex;align-items:center;gap:11px;padding:8px 16px 11px;border-bottom:1px solid var(--hair);flex:none;}
   .pagebar .back{width:32px;height:32px;border-radius:9px;background:var(--iconBg);display:grid;place-items:center;cursor:pointer;color:var(--ink);flex:none;}
   .pagebar .back svg{width:18px;height:18px;}
   .pagebar .ptitle{font-size:17px;font-weight:800;color:var(--ink);}
@@ -322,16 +326,6 @@
             </div>
           </div>
 
-          <!-- full-page course notice (built per selected mode) -->
-          <div class="page" id="prestart">
-            <div class="pagebar">
-              <div class="back" id="ps-back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></div>
-              <div class="ptitle" id="ps-t"></div>
-            </div>
-            <div class="pagebody" id="ps-body"></div>
-            <div class="pagecta"><button id="ps-ok"></button></div>
-          </div>
-
           <!-- device picker list -->
           <div class="pop" id="dpick">
             <div class="popcard">
@@ -341,6 +335,17 @@
               <div class="pbtns"><div class="pb" id="dpick-cancel"></div></div>
             </div>
           </div>
+        </div>
+
+        <!-- full-screen course notice (covers the whole phone) -->
+        <div class="page" id="prestart">
+          <div class="pagestatus"><span>20:33</span><span class="sigbars"><i></i><i></i><i></i><i></i></span></div>
+          <div class="pagebar">
+            <div class="back" id="ps-back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></div>
+            <div class="ptitle" id="ps-t"></div>
+          </div>
+          <div class="pagebody" id="ps-body"></div>
+          <div class="pagecta"><button id="ps-ok"></button></div>
         </div>
       </div>
     </div>
