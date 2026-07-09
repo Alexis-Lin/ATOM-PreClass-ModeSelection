@@ -25,14 +25,22 @@ lib/
 ├── main.dart                      # 演示壳（预览开关 + 手机弹窗 + ATOM 圆屏）—— 非生产
 └── workout_mode/                  # ★ 可复用模块
     ├── models.dart                # 枚举与数据类（无 UI 依赖）
-    ├── strings.dart               # 中英文案（L）
+    ├── strings.dart               # ★ 全部中英文案（L）—— 改文案只动这里
     ├── tokens.dart                # 设计 token（颜色/圆角）
     ├── controller.dart            # ★ 全部业务逻辑（ChangeNotifier）
-    ├── phone_sheet.dart           # 手机端弹窗 + 模式卡 + 门槛/开始前/设备列表弹窗
+    ├── shared.dart                # 公用小组件（胶囊按钮 / Radio / Plus 标 / Beta 提示 / 弹窗壳）
+    ├── phone_sheet.dart           # 手机端弹窗 + 模式卡 + 门槛/设备列表弹窗
+    ├── course_notice.dart         # 整页「课前须知」+ 数据保存二次弹窗（云端 / 存 ATOM）
     └── atom_screens.dart          # ATOM 466×466 圆屏 + 整屏开始前确认
 ```
 
-**关注点分离**：`controller.dart` 是唯一的规则来源；UI 只读它的判定函数，不自己算逻辑。
+**关注点分离**：`controller.dart` 是唯一的规则来源；UI 只读它的判定函数，不自己算逻辑。**所有文案集中在 `strings.dart`（`L`）**，便于按「精确 + 精简 + 少折行 + 必要时才呈现」的原则统一打磨。
+
+### 方向 F（当前采用）
+保留**具名三选一**（Live Coach / Record & Recap / Manual Log）——决策与理解成本最低——并在卡片上方加一条心智提示（`flexNote`）：*「不确定？三种模式课中随时能切换，先随便选一个就好。」* 其它「开关式」结构（A/C/D/E）留在 `../explorations/` 备查。
+
+### 完整流程
+模式弹窗（具名三选一 + flexNote）→ **AI 模式** 点 CTA → 整页**课前须知**（Live Coach：严格取景 do/avoid + Beta 提示；Record & Recap：宽松取景 + 报告迭代/算法升级说明）→ 底部一行不显眼的**数据去向**（默认「同步到云端」· 更改）可展开二次弹窗（**云端【推荐】** vs **仅存 ATOM【需 SD 卡】**；无 SD → 告警「本次不会保留」；报告依赖云端；隐私说明 + 隐私协议）→ `I'm ready` → `onStart`。**Manual Log** 不走须知直接开始。
 
 ---
 
@@ -77,7 +85,9 @@ showModalBottomSheet(
 AtomRoundScreen(controller: controller, onStart: (mode) => startWorkout(mode));
 ```
 
-交互内建：锁定卡点击 → 门槛弹窗；AI 模式点 Start → 开始前确认弹窗；多设备 → 切换图标弹设备列表；ATOM 端 Start → 整屏确认（可「不再显示」）。
+交互内建：锁定卡点击 → 门槛弹窗；AI 模式点 CTA → 整页课前须知（内含数据去向二次弹窗、可「下次不再提示」）；多设备 → 切换图标弹设备列表；ATOM 端 Start → 整屏确认（可「不再显示」）。
+
+数据去向由 controller 记忆：`dataChoice`（cloud/local）、`hasSdCard`；`skipNotice` 控制是否跳过手机端课前须知。
 
 ---
 
@@ -86,7 +96,9 @@ AtomRoundScreen(controller: controller, onStart: (mode) => startWorkout(mode));
 | 项 | 现状（占位） | 需替换成 |
 |---|---|---|
 | **模式图标** | Material 内置（喇叭 / 摄像机 / 记事） | 设计稿线形图标：Live Coach 声波、Record & Recap 摄像机、Manual Log **手 + 笔** |
-| **取景示意图** | `_FramingBox` / `_DeviceFrame`（人物图标占位） | 「正确 vs 错误」摆位对照插画（详见 `../TIPS-识别准确度指南.md`）|
+| **取景示意图** | `_FramingIllustration` / `_DeviceFrame`（人物图标占位） | 「正确 vs 错误」摆位对照插画（详见 `../TIPS-识别准确度指南.md`）|
+| **隐私协议链接** | `l.privacyLink` 纯文本 | 接真实隐私协议页 |
+| **数据去向持久化** | `dataChoice` / `skipNotice` 为内存态 | 落本地存储（记住用户偏好）|
 | **品牌绿** | `Wm.brand = #7CC00C`（占位） | BodyPark 准确品牌色 + on-light 变体 `brandInk` |
 | **Plus / 设备图标** | `Icons.diamond_outlined` / `Icons.adjust` | 会员宝石、ATOM 设备标识 |
 | **配对 / 会员 / 开始流程** | demo 里是本地 mock | 接真实 `onAddDevice` / `onGetPlus` / `onStart` |

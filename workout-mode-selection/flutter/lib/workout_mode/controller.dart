@@ -1,16 +1,17 @@
 import 'package:flutter/foundation.dart';
 import 'models.dart';
 
-/// Holds all pre-workout selection state and the rules around it.
-///
-/// Pure logic — no widgets. UI listens via [ChangeNotifier]. Swap this for
-/// your own state solution and keep the same predicates ([isLocked],
-/// [canStart], [missing]) as the single source of truth.
+/// All pre-workout state and the rules around it. Pure logic (no widgets).
+/// The predicates [isLocked] / [missing] / [canStart] are the single source
+/// of truth; keep them if you swap in your own state solution.
 class WorkoutModeController extends ChangeNotifier {
   WorkoutModeController({
     List<AtomDevice> devices = const [],
     bool isPlus = false,
     AppLang lang = AppLang.en,
+    this.hasSdCard = true,
+    this.dataChoice = DataChoice.cloud,
+    this.skipNotice = false,
     this.skipAtomConfirm = false,
   })  : _devices = List.of(devices),
         _isPlus = isPlus,
@@ -25,27 +26,32 @@ class WorkoutModeController extends ChangeNotifier {
   AppLang _lang;
   late WorkoutMode _selected;
 
-  /// When true, the ATOM round-screen start confirmation is skipped
-  /// ("Don't show again"). Persist this per user in real code.
+  /// Where recorded video/report is kept (remembered preference).
+  DataChoice dataChoice;
+
+  /// Whether the active ATOM has an SD card (needed for "keep on ATOM").
+  bool hasSdCard;
+
+  /// "Don't show again" for the phone course-notice page.
+  bool skipNotice;
+
+  /// "Don't show again" for the ATOM round-screen confirm.
   bool skipAtomConfirm;
 
   // ---- reads ----
   List<AtomDevice> get devices => List.unmodifiable(_devices);
   bool get isPaired => _devices.isNotEmpty;
   bool get hasMultipleDevices => _devices.length > 1;
-  int get activeIndex => _activeIndex.clamp(0, _devices.isEmpty ? 0 : _devices.length - 1);
+  int get activeIndex => _devices.isEmpty ? 0 : _activeIndex.clamp(0, _devices.length - 1);
   AtomDevice? get activeDevice => isPaired ? _devices[activeIndex] : null;
   bool get isOnline => activeDevice?.isOnline ?? false;
   bool get isPlus => _isPlus;
   AppLang get lang => _lang;
   WorkoutMode get selected => _selected;
 
-  /// A mode is locked (greyed, tap → gate sheet) when a prerequisite is
-  /// missing entirely — no device paired, or no Plus membership.
   bool isLocked(WorkoutMode m) =>
       m.requiresDevice && (!isPaired || (m.requiresPlus && !_isPlus));
 
-  /// What's missing for a locked mode. Device is surfaced first.
   List<GateReason> missing(WorkoutMode m) {
     final out = <GateReason>[];
     if (m.requiresDevice && !isPaired) out.add(GateReason.needDevice);
@@ -53,22 +59,16 @@ class WorkoutModeController extends ChangeNotifier {
     return out;
   }
 
-  /// Whether the currently selected mode can actually start now.
-  /// AI modes additionally require the active ATOM to be ONLINE — it can't
-  /// provide vision offline, so we block the start (not just warn).
+  /// AI modes additionally need the active ATOM online (it can't provide
+  /// vision offline) — block the start, don't just warn.
   bool get canStartSelected => canStart(_selected);
-  bool canStart(WorkoutMode m) {
-    if (!m.isAi) return true; // Manual Log always works.
-    return !isLocked(m) && isOnline;
-  }
+  bool canStart(WorkoutMode m) => m.isAi ? (!isLocked(m) && isOnline) : true;
 
-  /// Show the blocking "ATOM offline" warning strip.
   bool get showOfflineWarning => isPaired && !isOnline;
 
   // ---- writes ----
   void selectMode(WorkoutMode m) {
-    if (isLocked(m)) return; // caller should open the gate sheet instead.
-    if (_selected == m) return;
+    if (isLocked(m) || _selected == m) return;
     _selected = m;
     notifyListeners();
   }
@@ -76,46 +76,33 @@ class WorkoutModeController extends ChangeNotifier {
   void setDevices(List<AtomDevice> devices, {int activeIndex = 0}) {
     _devices = List.of(devices);
     _activeIndex = devices.isEmpty ? 0 : activeIndex.clamp(0, devices.length - 1);
-    _reconcileSelection();
+    _reconcile();
     notifyListeners();
   }
 
   void setActiveIndex(int index) {
     if (_devices.isEmpty) return;
     _activeIndex = index.clamp(0, _devices.length - 1);
-    _reconcileSelection();
+    _reconcile();
     notifyListeners();
   }
 
-  void setPlus(bool value) {
-    if (_isPlus == value) return;
-    _isPlus = value;
-    _reconcileSelection();
-    notifyListeners();
-  }
-
-  void setLang(AppLang value) {
-    if (_lang == value) return;
-    _lang = value;
-    notifyListeners();
-  }
-
-  void setSkipAtomConfirm(bool value) {
-    skipAtomConfirm = value;
-    notifyListeners();
-  }
+  void setPlus(bool v) { if (_isPlus != v) { _isPlus = v; _reconcile(); notifyListeners(); } }
+  void setLang(AppLang v) { if (_lang != v) { _lang = v; notifyListeners(); } }
+  void setHasSdCard(bool v) { if (hasSdCard != v) { hasSdCard = v; notifyListeners(); } }
+  void setDataChoice(DataChoice v) { if (dataChoice != v) { dataChoice = v; notifyListeners(); } }
+  void setSkipNotice(bool v) { skipNotice = v; notifyListeners(); }
+  void setSkipAtomConfirm(bool v) { skipAtomConfirm = v; notifyListeners(); }
 
   // ---- helpers ----
   WorkoutMode _defaultSelection() {
     for (final m in WorkoutMode.values) {
-      if (!isLocked(m)) return m; // prefers Live Coach, then Record & Recap, then Manual Log
+      if (!isLocked(m)) return m;
     }
     return WorkoutMode.manualLog;
   }
 
-  /// Keep the selection valid: only re-pick if the current one became locked.
-  /// (An AI mode that's merely offline stays selected — the CTA blocks it.)
-  void _reconcileSelection() {
+  void _reconcile() {
     if (isLocked(_selected)) _selected = _defaultSelection();
   }
 }

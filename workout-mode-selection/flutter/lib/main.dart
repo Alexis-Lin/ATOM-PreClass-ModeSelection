@@ -130,6 +130,10 @@ class _DemoPageState extends State<DemoPage> {
               _chip('On', controller.isPlus, () => controller.setPlus(true)),
               _chip('Off', !controller.isPlus, () => controller.setPlus(false)),
             ]),
+            _group('SD card', [
+              _chip('In', controller.hasSdCard, () => controller.setHasSdCard(true)),
+              _chip('None', !controller.hasSdCard, () => controller.setHasSdCard(false)),
+            ]),
             _group('Lang', [
               _chip('EN', controller.lang == AppLang.en, () => controller.setLang(AppLang.en)),
               _chip('中文', controller.lang == AppLang.zh, () => controller.setLang(AppLang.zh)),
