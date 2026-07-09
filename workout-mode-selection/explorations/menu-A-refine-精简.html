@@ -67,7 +67,8 @@
     wifi:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5a10 10 0 0 1 14 0"/><path d="M8.5 15.5a5 5 0 0 1 7 0"/><path d="M12 18.5h.01"/></svg>',
     hw:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2.4"/></svg>',
     chk:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>',
-    swap:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h13l-3-3M20 16H7l3 3"/></svg>'
+    swap:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h13l-3-3M20 16H7l3 3"/></svg>',
+    cloud:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18a4 4 0 0 1-.5-7.97 5 5 0 0 1 9.6-1.3A3.5 3.5 0 0 1 17.5 18H7Z"/></svg>'
   };
   var L={
     en:{title:'Select mode', connected:'Connected', ai:'AI Mode', manual:'Manual', free:'Free',
@@ -75,20 +76,22 @@
       manualSub:'No camera — log sets, reps & weight at your own pace.',
       togName:'Real-time coaching',
       covOn:'Live counting and form cues while you move.',
-      covOff:'Off — trains silently, review the report after.',
-      explain:'One AI mode. Turn coaching <b>on</b> for live cues, <b>off</b> to just record &amp; review — switch anytime, even mid-set.',
+      covOff:'Off — still records every rep and builds your report, just no live cues.',
+      explain:'AI always tracks your reps and makes a report. The switch only adds <b>live cues</b> — flip it anytime, even mid-set.',
       switchNote:'Change coaching anytime — even mid-workout.',
-      chipCount:'Auto rep count', chipCues:'Form cues', chipReport:'Full report',
+      cloudReport:'Your post-workout report syncs to your cloud account (cloud required).',
+      chipCount:'Auto rep count', chipCues:'Live cues', chipReport:'Post-workout report',
       ctaOn:'Start Coaching', ctaOff:'Start Recording', ctaManual:'Start Logging'},
     zh:{title:'选择上课模式', connected:'已连接', ai:'AI 模式', manual:'手动', free:'免费',
       aiSub:'ATOM 自动识别每一次动作，并生成课后报告。',
       manualSub:'无需摄像头——自己按节奏记录组数/次数/重量。',
       togName:'实时指导',
       covOn:'训练时实时计数并给出动作提示。',
-      covOff:'关闭——安静训练，练后看报告即可。',
-      explain:'同一个 AI 模式。<b>开</b>实时指导获得即时提示，<b>关</b>则只记录、练后复盘——随时可切，开课后也能改。',
+      covOff:'关闭——仍全程录制并生成课后报告，只是没有实时提示。',
+      explain:'AI 全程自动识别动作并生成报告。这个开关只是加一层<b>实时提示</b>——随时可切，开课后也能改。',
       switchNote:'随时可切换实时指导，开课后也能改。',
-      chipCount:'自动计数', chipCues:'动作提示', chipReport:'完整报告',
+      cloudReport:'课后报告会同步到你的云端账户（需开启云端同步）。',
+      chipCount:'自动计数', chipCues:'实时提示', chipReport:'课后报告',
       ctaOn:'开始指导', ctaOff:'开始录制', ctaManual:'开始记录'}
   };
 </script>
@@ -139,8 +142,9 @@
           </div>
           <div class="explain" data-explain></div>
           <div class="togrow" style="border-top:1px dashed var(--line)"><div class="tl"><div class="tlname" data-t="togName"></div><div class="tlsub" data-cov></div></div><div class="sw on" data-covswitch></div></div>
-          <div class="chips"><span class="chip on" data-t="chipCount"></span><span class="chip on" data-covchip data-t="chipCues"></span><span class="chip" data-t="chipReport"></span></div>
-          <div class="note"><span data-ic="swap"></span><span data-t="switchNote"></span></div>
+          <div class="chips"><span class="chip on" data-t="chipCount"></span><span class="chip on" data-covchip data-t="chipCues"></span><span class="chip on" data-t="chipReport"></span></div>
+          <div class="note"><span data-ic="cloud"></span><span data-t="cloudReport"></span></div>
+          <div class="note" style="padding-top:0"><span data-ic="swap"></span><span data-t="switchNote"></span></div>
         </div>
         <div class="card" data-role="manual">
           <div class="top" data-sel>
