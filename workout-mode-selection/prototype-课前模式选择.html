@@ -151,6 +151,17 @@
   .infobox{display:flex;flex-direction:column;gap:4px;font-size:12px;line-height:1.5;color:var(--ink-2);background:#f4f5f2;border:1px solid var(--line);border-radius:11px;padding:11px;margin-top:10px;}
   .infobox .ih{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:800;color:var(--ink);}
   .infobox .ih svg{width:15px;height:15px;color:var(--ink-2);}
+  .dataopts{display:flex;gap:8px;margin-bottom:9px;}
+  .dataopt{flex:1;display:flex;align-items:center;gap:7px;padding:11px 11px;border:1.5px solid var(--line);border-radius:12px;background:#fff;cursor:pointer;font-size:12.5px;font-weight:600;color:var(--ink-2);}
+  .dataopt svg{width:16px;height:16px;flex:none;}
+  .dataopt .odot{margin-left:auto;color:var(--brand-ink);}
+  .dataopt .odot svg{width:15px;height:15px;}
+  .dataopt.sel{border-color:var(--ink);color:var(--ink);}
+  .datanote{display:flex;gap:8px;align-items:flex-start;font-size:11.5px;line-height:1.45;border-radius:11px;padding:9px 11px;}
+  .datanote svg{width:15px;height:15px;flex:none;margin-top:1px;}
+  .datanote.ok{color:var(--ink-2);background:#f4f5f2;border:1px solid var(--line);}
+  .datanote.ok svg{color:var(--ink-3);}
+  .datanote.warn{color:var(--warn);background:var(--warn-bg);border:1px solid var(--warn-line);}
 
   /* device picker list */
   .dlist{display:flex;flex-direction:column;gap:8px;}
@@ -224,6 +235,7 @@
     <div class="seg" id="paired"><span class="cap">Paired</span><button data-dc="nodev" aria-pressed="false">None</button><button data-dc="one" aria-pressed="true">One</button><button data-dc="two" aria-pressed="false">Two</button></div>
     <div class="seg" id="atomstat"><span class="cap">ATOM</span><button data-st="conn" aria-pressed="true">Online</button><button data-st="nonet" aria-pressed="false">No network</button></div>
     <div class="ctl"><button class="sw" id="sw-plus" role="switch" aria-checked="true"></button><span class="lab">Plus</span></div>
+    <div class="ctl"><button class="sw" id="sw-sd" role="switch" aria-checked="true"></button><span class="lab">SD card</span></div>
   </div>
 
   <div class="stage">
@@ -390,7 +402,7 @@
 
 <script>
 (function(){
-  var LANG='en', PLUS=true, DEVCOUNT='one', STAT='conn', ACTIVE=0;
+  var LANG='en', PLUS=true, DEVCOUNT='one', STAT='conn', ACTIVE=0, SDCARD=true;
 
   var MODES={
     coach:{ en:{name:'Live Coach',desc:'Real-time counting and form cues while you move.',best:'anyone who wants to be coached through every rep with instant feedback.',cta:'Start Coaching'},
@@ -408,6 +420,11 @@
       ctaBlocked:'Ensure ATOM is online', cancel:'Not now',
       popDevT:'{n} runs on ATOM', popDevS:'Pair a nearby ATOM device to unlock live coaching and recorded analysis.', popDevBtn:'Add device',
       popPlusT:'{n} needs Plus', popPlusS:'Unlock AI coaching and recorded analysis with a Plus membership.', popPlusBtn:'Get Plus',
+      dataH:'Your training data',
+      dataCloud:'Upload to cloud', dataLocal:'Keep on ATOM',
+      dataCloudNote:'Saved to the cloud — report available on any device.',
+      dataLocalNote:"Saved to your ATOM's SD card, not uploaded.",
+      dataNoSdWarn:"No SD card in your ATOM — this session won't be kept. Insert a card, or upload to cloud.",
       pageTitle:'Get set up', psOk:"I'm ready", reach:'Keep your ATOM within reach.',
       pickT:'Which ATOM?', pickHint:'Pick the device that’s next to you.',
       coachSub:'Good framing keeps tracking accurate.',
@@ -436,6 +453,11 @@
       ctaBlocked:'请确保 ATOM 在线', cancel:'以后再说',
       popDevT:'{n} 需要 ATOM', popDevS:'请连接身边的 ATOM 设备，解锁实时指导与录制分析。', popDevBtn:'添加设备',
       popPlusT:'{n} 需要 Plus 会员', popPlusS:'开通 Plus 会员，解锁 AI 实时指导与录制分析。', popPlusBtn:'开通 Plus',
+      dataH:'训练数据保存',
+      dataCloud:'上传云端', dataLocal:'仅存 ATOM',
+      dataCloudNote:'上传到云端——任意设备都能看报告。',
+      dataLocalNote:'保存在 ATOM 的 SD 卡上，不上传云端。',
+      dataNoSdWarn:'ATOM 未检测到 SD 卡——本次训练不会被保留。请插入 SD 卡，或改为上传云端。',
       pageTitle:'课前须知', psOk:'准备好了', reach:'让 ATOM 就在你的手边。',
       pickT:'使用哪一台 ATOM？', pickHint:'请选择在你身边的设备。',
       coachSub:'画面摆好，识别才准。',
@@ -516,31 +538,45 @@
   var REPORTI='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h4"/></svg>';
   var ALGOI='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v3M12 17v3M4 12h3M17 12h3M6.5 6.5l2 2M15.5 15.5l2 2M17.5 6.5l-2 2M8.5 15.5l-2 2"/></svg>';
   var FRAME_LIGHT='<div class="frmwrap"><svg class="frm" viewBox="0 0 200 130" preserveAspectRatio="xMidYMid meet"><rect x="5" y="5" width="190" height="120" rx="14" fill="#eef0ec" stroke="#c9ccc3" stroke-width="2"/><rect x="18" y="15" width="164" height="100" rx="9" fill="none" stroke="#b7bbb0" stroke-width="1.6" stroke-dasharray="5 5"/><line x1="36" y1="104" x2="164" y2="104" stroke="#b7bbb0" stroke-width="2"/><g stroke="#4f7d05" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="100" cy="34" r="10" fill="#c9ec8f"/><path d="M100 44 V75"/><path d="M100 53 L82 68"/><path d="M100 53 L118 68"/><path d="M100 75 L87 103"/><path d="M100 75 L113 103"/></g></svg></div>';
+  var CLOUDI='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18a4 4 0 0 1-.5-7.97 5 5 0 0 1 9.6-1.3A3.5 3.5 0 0 1 17.5 18H7Z"/></svg>';
+  var SDI='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h7l4 4v12a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"/><path d="M10 3v3M12.5 3v3M15 3v3"/></svg>';
+  var INFOI='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.5h.01"/></svg>';
+  var CHKM='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>';
+  var dataChoice='cloud';
   function _sec(txt,warn){ return '<div class="ps-sec'+(warn?' warn':'')+'">'+txt+'</div>'; }
   function _do(items){ return '<div class="checklist">'+items.map(function(x){return '<div class="it">'+CHK+'<span>'+x+'</span></div>';}).join('')+'</div>'; }
   function _avoid(items){ return '<div class="avoidlist">'+items.map(function(x){return '<div class="av">'+AVX+'<span>'+x+'</span></div>';}).join('')+'</div>'; }
   function _reach(t){ return '<div class="reach">'+PINI+'<span>'+t.reach+'</span></div>'; }
   function _info(icon,h,txt){ return '<div class="infobox"><div class="ih">'+icon+'<span>'+h+'</span></div><span>'+txt+'</span></div>'; }
-  function openPrestart(){
+  function _opt(key,icon,label){ var s=dataChoice===key; return '<div class="dataopt'+(s?' sel':'')+'" data-d="'+key+'">'+icon+'<span>'+label+'</span>'+(s?'<span class="odot">'+CHKM+'</span>':'')+'</div>'; }
+  function _data(t){
+    var note;
+    if(dataChoice==='cloud') note='<div class="datanote ok">'+INFOI+'<span>'+t.dataCloudNote+'</span></div>';
+    else if(SDCARD) note='<div class="datanote ok">'+INFOI+'<span>'+t.dataLocalNote+'</span></div>';
+    else note='<div class="datanote warn">'+WARNI+'<span>'+t.dataNoSdWarn+'</span></div>';
+    return _sec(t.dataH,false)+'<div class="dataopts">'+_opt('cloud',CLOUDI,t.dataCloud)+_opt('local',SDI,t.dataLocal)+'</div>'+note;
+  }
+  function openPrestart(keep){
     var t=T[LANG];
     var selEl=sheet.querySelector('.mode.sel'); if(!selEl)return;
     var mode=selEl.getAttribute('data-mode');
     psT.textContent=t.pageTitle; psOk.textContent=t.psOk;
-    var h='';
+    var h=_data(t);
     if(mode==='coach'){
-      h+='<div class="pagesub">'+t.coachSub+'</div>'+FRAME_LIGHT
+      h+='<div class="pagesub" style="margin-top:14px">'+t.coachSub+'</div>'+FRAME_LIGHT
         +_sec(t.coachDoH,false)+_do(t.coachDo)
         +_sec(t.coachAvoidH,true)+_avoid(t.coachAvoid)
         +_reach(t)
         +'<div class="caution" style="margin-top:12px">'+WARNI+'<span>'+t.beta+'</span></div>';
     } else {
-      h+='<div class="pagesub">'+t.recapSub+'</div>'+FRAME_LIGHT
+      h+='<div class="pagesub" style="margin-top:14px">'+t.recapSub+'</div>'+FRAME_LIGHT
         +_sec(t.recapDoH,false)+_do(t.recapDo)
         +_reach(t)
         +_info(REPORTI,t.reportH,t.report)
         +_info(ALGOI,t.algoH,t.algo);
     }
-    psBody.innerHTML=h; psBody.scrollTop=0; prestart.classList.add('show');
+    psBody.innerHTML=h; prestart.classList.add('show'); if(!keep) psBody.scrollTop=0;
+    psBody.querySelectorAll('.dataopt').forEach(function(o){ o.addEventListener('click',function(){ dataChoice=o.getAttribute('data-d'); var st=psBody.scrollTop; openPrestart(true); psBody.scrollTop=st; }); });
   }
   psBack.onclick=function(){ prestart.classList.remove('show'); };
   psOk.onclick=function(){ prestart.classList.remove('show'); };   // proceed (would start workout)
@@ -638,6 +674,7 @@
   document.querySelectorAll('#paired button').forEach(function(b){ b.addEventListener('click',function(){ setDC(b.getAttribute('data-dc')); }); });
   document.querySelectorAll('#atomstat button').forEach(function(b){ b.addEventListener('click',function(){ setStat(b.getAttribute('data-st')); }); });
   document.getElementById('sw-plus').addEventListener('click',function(){ PLUS=!PLUS; this.setAttribute('aria-checked',String(PLUS)); render(); });
+  document.getElementById('sw-sd').addEventListener('click',function(){ SDCARD=!SDCARD; this.setAttribute('aria-checked',String(SDCARD)); if(prestart.classList.contains('show')){ var st=psBody.scrollTop; openPrestart(true); psBody.scrollTop=st; } });
   devAdd.addEventListener('click',function(){ setDC('one'); });
 
   var dmodes=[].slice.call(document.querySelectorAll('.dmode'));
