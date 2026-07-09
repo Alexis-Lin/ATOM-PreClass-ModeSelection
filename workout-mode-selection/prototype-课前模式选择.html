@@ -135,6 +135,22 @@
   .avoidlist .av svg{width:15px;height:15px;flex:none;margin-top:1px;color:var(--warn);}
   .rframe{margin-bottom:10px;}
   .rfrm{width:132px;height:80px;display:block;}
+  /* full-page course notice (replaces the pre-start popup on phone) */
+  .page{position:absolute;inset:0;background:#fff;border-radius:38px;display:none;flex-direction:column;z-index:10;overflow:hidden;}
+  .page.show{display:flex;}
+  .pagebar{display:flex;align-items:center;gap:11px;padding:16px 16px 11px;border-bottom:1px solid var(--hair);flex:none;}
+  .pagebar .back{width:32px;height:32px;border-radius:9px;background:var(--iconBg);display:grid;place-items:center;cursor:pointer;color:var(--ink);flex:none;}
+  .pagebar .back svg{width:18px;height:18px;}
+  .pagebar .ptitle{font-size:17px;font-weight:800;color:var(--ink);}
+  .pagebody{flex:1;overflow-y:auto;padding:16px 18px 10px;}
+  .pagesub{font-size:13px;color:var(--ink-2);line-height:1.5;margin:0 0 12px;}
+  .pagecta{padding:12px 18px 18px;border-top:1px solid var(--hair);flex:none;}
+  .pagecta button{width:100%;background:var(--cta);color:#fff;border:0;border-radius:15px;padding:16px;font:inherit;font-size:15px;font-weight:700;cursor:pointer;}
+  .reach{display:flex;gap:8px;align-items:flex-start;font-size:12px;color:var(--ink-2);line-height:1.45;background:#f4f5f2;border:1px solid var(--line);border-radius:11px;padding:10px 11px;margin-top:12px;}
+  .reach svg{width:15px;height:15px;flex:none;margin-top:1px;color:var(--ink-3);}
+  .infobox{display:flex;flex-direction:column;gap:4px;font-size:12px;line-height:1.5;color:var(--ink-2);background:#f4f5f2;border:1px solid var(--line);border-radius:11px;padding:11px;margin-top:10px;}
+  .infobox .ih{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:800;color:var(--ink);}
+  .infobox .ih svg{width:15px;height:15px;color:var(--ink-2);}
 
   /* device picker list */
   .dlist{display:flex;flex-direction:column;gap:8px;}
@@ -294,37 +310,21 @@
             </div>
           </div>
 
-          <!-- pre-start setup / framing guidance -->
-          <div class="pop" id="prestart">
-            <div class="popcard tall">
-              <div class="pt" id="ps-t"></div>
-              <div class="ps-sub" id="ps-sub"></div>
-              <div class="frmwrap">
-              <svg class="frm" viewBox="0 0 200 130" preserveAspectRatio="xMidYMid meet">
-                <rect x="5" y="5" width="190" height="120" rx="14" fill="#eef0ec" stroke="#c9ccc3" stroke-width="2"/>
-                <rect x="18" y="15" width="164" height="100" rx="9" fill="none" stroke="#b7bbb0" stroke-width="1.6" stroke-dasharray="5 5"/>
-                <line x1="36" y1="104" x2="164" y2="104" stroke="#b7bbb0" stroke-width="2"/>
-                <g stroke="#4f7d05" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="100" cy="34" r="10" fill="#c9ec8f"/>
-                  <path d="M100 44 V75"/>
-                  <path d="M100 53 L82 68"/><path d="M100 53 L118 68"/>
-                  <path d="M100 75 L87 103"/><path d="M100 75 L113 103"/>
-                </g>
-              </svg>
-              </div>
-              <div class="ps-sec" id="ps-do-h"></div>
-              <div class="checklist" id="ps-do"></div>
-              <div class="ps-sec warn" id="ps-avoid-h"></div>
-              <div class="avoidlist" id="ps-avoid"></div>
-              <div class="caution" style="margin-top:12px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="M10.3 4l-7 12A2 2 0 0 0 5 19h14a2 2 0 0 0 1.7-3l-7-12a2 2 0 0 0-3.4 0Z"/></svg><span id="ps-beta"></span></div>
-              <div class="pbtns" style="margin-top:12px"><div class="pb" id="ps-cancel"></div><div class="pb primary" id="ps-ok"></div></div>
+          <!-- full-page course notice (built per selected mode) -->
+          <div class="page" id="prestart">
+            <div class="pagebar">
+              <div class="back" id="ps-back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></div>
+              <div class="ptitle" id="ps-t"></div>
             </div>
+            <div class="pagebody" id="ps-body"></div>
+            <div class="pagecta"><button id="ps-ok"></button></div>
           </div>
 
           <!-- device picker list -->
           <div class="pop" id="dpick">
             <div class="popcard">
               <div class="pt" id="dpick-t"></div>
+              <div class="pagesub" id="dpick-hint" style="margin:6px 0 2px"></div>
               <div class="dlist" id="dpick-list"></div>
               <div class="pbtns"><div class="pb" id="dpick-cancel"></div></div>
             </div>
@@ -408,17 +408,26 @@
       ctaBlocked:'Ensure ATOM is online', cancel:'Not now',
       popDevT:'{n} runs on ATOM', popDevS:'Pair a nearby ATOM device to unlock live coaching and recorded analysis.', popDevBtn:'Add device',
       popPlusT:'{n} needs Plus', popPlusS:'Unlock AI coaching and recorded analysis with a Plus membership.', popPlusBtn:'Get Plus',
-      psT:'Set up before you start', psSub:'Good framing means accurate tracking.', psOk:"I'm ready", psCancel:'Not now',
-      psDoH:'Set up',
-      psDo:['Keep your whole body in frame','Prop the phone stable — around chest height and level','Even lighting; avoid backlight','Clear space — just you in frame'],
-      psAvoidH:'These hurt accuracy',
-      psAvoid:['Body cut off, or blocked by equipment / loose clothing','Standing too close or too far','Camera tilted, too high or too low','Strong backlight, glare or too dark','Other people or clutter in the frame'],
-      psBeta:'AI is in beta and may still miss or miscount some reps — trust your own judgment.',
-      pickT:'Which ATOM?',
-      rcT:'Before you start', rc1:'AI is in beta and may miss or miscount reps.', rc2:'Keep your whole body in frame — no blocking, odd angles or backlight.', rcDont:'Don’t show again', rcGo:'Start',
+      pageTitle:'Get set up', psOk:"I'm ready", reach:'Keep your ATOM within reach.',
+      pickT:'Which ATOM?', pickHint:'Pick the device that’s next to you.',
+      coachSub:'Good framing keeps tracking accurate.',
+      coachDoH:'Set up',
+      coachDo:['Whole body in frame, even at full range','Phone stable, ~chest height, level','Even light, not backlit','Just you in a clear space'],
+      coachAvoidH:'These hurt accuracy',
+      coachAvoid:['Body cut off or blocked','Too close or too far','Tilted, too high or too low','Backlit, glare or too dark','Others or clutter in frame'],
+      recapSub:'Just stay in frame the whole time.',
+      recapDoH:'Keep in mind',
+      recapDo:['Stay fully in frame the whole workout','Angle is flexible — front or side is fine','Enough light; just you in frame'],
+      reportH:'Your report',
+      report:'Deep recap reports are still evolving — coming soon via OTA. Today’s report is basic for now.',
+      algoH:'Nothing is lost',
+      algo:'Your video is saved, so every future algorithm upgrade can re-analyze it.',
+      rcT:'Before you start', rcDont:'Don’t show again', rcGo:'Start',
+      rcCoach:['AI is in beta and may miss or miscount reps.','Keep your whole body in frame — no blocking or backlight.'],
+      rcRecap:['Just stay in frame the whole time — angle is flexible.','Deep recap reports are still improving (watch for OTA).'],
       head_phone:'iPhone · in-app modal', head_device:'ATOM device · 466×466 round',
       course:'Back & Legs', course_short:'Back & Legs', selectMode:'Select workout mode', workoutMode:'Workout mode',
-      rstart:'Start', coachSub:'Real-time counting and cues.', recapSub:'Silent recording, report after.',
+      rstart:'Start', atomCoachSub:'Real-time counting and cues.', atomRecapSub:'Silent recording, report after.',
       devcap:'Title is just “Workout mode”. Selected card shows its one-line explanation; the others show only their title. Manual Log stays on the phone.' },
     zh:{ bestLabel:'适合', beta:'Beta：ATOM 仍在迭代，个别动作可能漏计或误计，请以自身判断为准。',
       connected:'已连接', nonet:'无网络', add:'添加设备',
@@ -427,17 +436,26 @@
       ctaBlocked:'请确保 ATOM 在线', cancel:'以后再说',
       popDevT:'{n} 需要 ATOM', popDevS:'请连接身边的 ATOM 设备，解锁实时指导与录制分析。', popDevBtn:'添加设备',
       popPlusT:'{n} 需要 Plus 会员', popPlusS:'开通 Plus 会员，解锁 AI 实时指导与录制分析。', popPlusBtn:'开通 Plus',
-      psT:'开始前，摆好画面', psSub:'画面摆得好，识别才准。', psOk:'准备好了', psCancel:'取消',
-      psDoH:'这样摆',
-      psDo:['让全身完整入框','手机稳定平放，约与胸口同高、保持水平','光线充足、避免逆光','画面干净，只有你一人'],
-      psAvoidH:'这些会让识别变不准',
-      psAvoid:['肢体被裁切，或被器械 / 宽松衣物遮挡','距离太近或太远','镜头倾斜、过高或过低','强逆光、反光或过暗','画面里有其他人或杂物'],
-      psBeta:'AI 仍在 beta，个别动作可能漏记或误记，请以自身判断为准。',
-      pickT:'使用哪一台 ATOM？',
-      rcT:'开始前请确认', rc1:'AI 仍在 beta，动作可能漏记或误记。', rc2:'让全身完整入框——别遮挡、别奇怪角度、别逆光。', rcDont:'不再显示', rcGo:'开始',
+      pageTitle:'课前须知', psOk:'准备好了', reach:'让 ATOM 就在你的手边。',
+      pickT:'使用哪一台 ATOM？', pickHint:'请选择在你身边的设备。',
+      coachSub:'画面摆好，识别才准。',
+      coachDoH:'这样摆',
+      coachDo:['全身入框，动作最大幅度也不出框','手机稳定，约胸口高、镜头水平','光线均匀，别逆光','画面干净，只有你'],
+      coachAvoidH:'这些会让识别变不准',
+      coachAvoid:['肢体被裁切或遮挡','太近或太远','倾斜、过高或过低','逆光、反光或过暗','有他人或杂物入镜'],
+      recapSub:'运动时，你全程在画面里就好。',
+      recapDoH:'记住这几点',
+      recapDo:['运动全程待在画面里','角度不苛刻，正面或侧面都行','光线别太暗，画面里只有你'],
+      reportH:'关于报告',
+      report:'深度复盘报告持续迭代中（Coming soon，留意 OTA 更新），当前报告还比较简单。',
+      algoH:'不用担心',
+      algo:'视频会留存，之后每次算法升级都能重新分析这段录像。',
+      rcT:'开始前请确认', rcDont:'不再显示', rcGo:'开始',
+      rcCoach:['AI 仍在 beta，动作可能漏记或误记。','让全身完整入框——别遮挡、别逆光。'],
+      rcRecap:['运动全程待在画面里，角度不苛刻。','深度复盘报告持续迭代中（留意 OTA）。'],
       head_phone:'iPhone · 应用内弹窗', head_device:'ATOM 设备 · 466×466 圆屏',
       course:'背部与腿部力量', course_short:'背腿力量', selectMode:'选择上课模式', workoutMode:'上课模式',
-      rstart:'开始', coachSub:'实时计数与动作提示。', recapSub:'安静记录，练后出报告。',
+      rstart:'开始', atomCoachSub:'实时计数与动作提示。', atomRecapSub:'安静记录，练后出报告。',
       devcap:'标题就是「上课模式」。选中的卡片显示一行说明，其余只显示标题。手动记录留在手机端。' }
   };
 
@@ -489,24 +507,43 @@
   popCancel.onclick=closePop;
   pop.addEventListener('click',function(e){ if(e.target===pop) closePop(); });
 
-  /* pre-start confirm popup */
+  /* full-page course notice (built per selected mode) */
   var prestart=document.getElementById('prestart'), psT=document.getElementById('ps-t'),
-      psList=document.getElementById('ps-list'), psOk=document.getElementById('ps-ok'), psCancel=document.getElementById('ps-cancel');
+      psBody=document.getElementById('ps-body'), psOk=document.getElementById('ps-ok'), psBack=document.getElementById('ps-back');
   var AVX='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg>';
+  var WARNI='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="M10.3 4l-7 12A2 2 0 0 0 5 19h14a2 2 0 0 0 1.7-3l-7-12a2 2 0 0 0-3.4 0Z"/></svg>';
+  var PINI='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.2 7-11a7 7 0 0 0-14 0c0 4.8 7 11 7 11Z"/><circle cx="12" cy="10" r="2.3"/></svg>';
+  var REPORTI='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h4"/></svg>';
+  var ALGOI='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v3M12 17v3M4 12h3M17 12h3M6.5 6.5l2 2M15.5 15.5l2 2M17.5 6.5l-2 2M8.5 15.5l-2 2"/></svg>';
+  var FRAME_LIGHT='<div class="frmwrap"><svg class="frm" viewBox="0 0 200 130" preserveAspectRatio="xMidYMid meet"><rect x="5" y="5" width="190" height="120" rx="14" fill="#eef0ec" stroke="#c9ccc3" stroke-width="2"/><rect x="18" y="15" width="164" height="100" rx="9" fill="none" stroke="#b7bbb0" stroke-width="1.6" stroke-dasharray="5 5"/><line x1="36" y1="104" x2="164" y2="104" stroke="#b7bbb0" stroke-width="2"/><g stroke="#4f7d05" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="100" cy="34" r="10" fill="#c9ec8f"/><path d="M100 44 V75"/><path d="M100 53 L82 68"/><path d="M100 53 L118 68"/><path d="M100 75 L87 103"/><path d="M100 75 L113 103"/></g></svg></div>';
+  function _sec(txt,warn){ return '<div class="ps-sec'+(warn?' warn':'')+'">'+txt+'</div>'; }
+  function _do(items){ return '<div class="checklist">'+items.map(function(x){return '<div class="it">'+CHK+'<span>'+x+'</span></div>';}).join('')+'</div>'; }
+  function _avoid(items){ return '<div class="avoidlist">'+items.map(function(x){return '<div class="av">'+AVX+'<span>'+x+'</span></div>';}).join('')+'</div>'; }
+  function _reach(t){ return '<div class="reach">'+PINI+'<span>'+t.reach+'</span></div>'; }
+  function _info(icon,h,txt){ return '<div class="infobox"><div class="ih">'+icon+'<span>'+h+'</span></div><span>'+txt+'</span></div>'; }
   function openPrestart(){
     var t=T[LANG];
-    psT.textContent=t.psT;
-    document.getElementById('ps-sub').textContent=t.psSub;
-    document.getElementById('ps-do-h').textContent=t.psDoH;
-    document.getElementById('ps-avoid-h').textContent=t.psAvoidH;
-    document.getElementById('ps-do').innerHTML=t.psDo.map(function(x){ return '<div class="it">'+CHK+'<span>'+x+'</span></div>'; }).join('');
-    document.getElementById('ps-avoid').innerHTML=t.psAvoid.map(function(x){ return '<div class="av">'+AVX+'<span>'+x+'</span></div>'; }).join('');
-    document.getElementById('ps-beta').textContent=t.psBeta;
-    psOk.textContent=t.psOk; psCancel.textContent=t.psCancel; prestart.classList.add('show');
+    var selEl=sheet.querySelector('.mode.sel'); if(!selEl)return;
+    var mode=selEl.getAttribute('data-mode');
+    psT.textContent=t.pageTitle; psOk.textContent=t.psOk;
+    var h='';
+    if(mode==='coach'){
+      h+='<div class="pagesub">'+t.coachSub+'</div>'+FRAME_LIGHT
+        +_sec(t.coachDoH,false)+_do(t.coachDo)
+        +_sec(t.coachAvoidH,true)+_avoid(t.coachAvoid)
+        +_reach(t)
+        +'<div class="caution" style="margin-top:12px">'+WARNI+'<span>'+t.beta+'</span></div>';
+    } else {
+      h+='<div class="pagesub">'+t.recapSub+'</div>'+FRAME_LIGHT
+        +_sec(t.recapDoH,false)+_do(t.recapDo)
+        +_reach(t)
+        +_info(REPORTI,t.reportH,t.report)
+        +_info(ALGOI,t.algoH,t.algo);
+    }
+    psBody.innerHTML=h; psBody.scrollTop=0; prestart.classList.add('show');
   }
-  psCancel.onclick=function(){ prestart.classList.remove('show'); };
-  psOk.onclick=function(){ prestart.classList.remove('show'); };
-  prestart.addEventListener('click',function(e){ if(e.target===prestart) prestart.classList.remove('show'); });
+  psBack.onclick=function(){ prestart.classList.remove('show'); };
+  psOk.onclick=function(){ prestart.classList.remove('show'); };   // proceed (would start workout)
 
   modes.forEach(function(el){ el.querySelector('.head').addEventListener('click',function(){
     if(locked(el)){ nudge(el); openPop(el); return; } select(el);
@@ -522,7 +559,7 @@
   var dpick=document.getElementById('dpick'), dpickT=document.getElementById('dpick-t'),
       dpickList=document.getElementById('dpick-list'), dpickCancel=document.getElementById('dpick-cancel');
   function openPicker(){
-    var t=T[LANG], l=deviceList(); dpickT.textContent=t.pickT; dpickList.innerHTML='';
+    var t=T[LANG], l=deviceList(); dpickT.textContent=t.pickT; document.getElementById('dpick-hint').textContent=t.pickHint; dpickList.innerHTML='';
     l.forEach(function(d,i){
       var st=d.status==='conn'?t.connected:t.nonet, stc=d.status==='conn'?'ok':'warn';
       var row=document.createElement('div'); row.className='devrow'+(i===ACTIVE?' active':'');
@@ -543,8 +580,10 @@
       rcGo=document.getElementById('rc-go'), rcX=document.getElementById('rc-x');
   var rSkip=false;
   function openRoundConfirm(){
-    var t=T[LANG]; document.getElementById('rc-t').textContent=t.rcT;
-    document.getElementById('rc-1').textContent=t.rc1; document.getElementById('rc-2').textContent=t.rc2;
+    var t=T[LANG]; var dm=document.querySelector('.dmode.sel'); var m=dm?dm.getAttribute('data-dmode'):'coach';
+    var arr=(m==='recap')?t.rcRecap:t.rcCoach;
+    document.getElementById('rc-t').textContent=t.rcT;
+    document.getElementById('rc-1').textContent=arr[0]; document.getElementById('rc-2').textContent=arr[1];
     document.getElementById('rc-dont').textContent=t.rcDont; rcGo.textContent=t.rcGo;
     rcCheck.classList.toggle('on', rSkip); roverlay.classList.add('show');
   }
@@ -583,9 +622,9 @@
     document.getElementById('r-c').textContent=t.workoutMode;
     document.getElementById('r-start').textContent=t.rstart;
     document.getElementById('d-coach-n').textContent=MODES.coach[LANG].name;
-    document.getElementById('d-coach-s').textContent=t.coachSub;
+    document.getElementById('d-coach-s').textContent=t.atomCoachSub;
     document.getElementById('d-recap-n').textContent=MODES.recap[LANG].name;
-    document.getElementById('d-recap-s').textContent=t.recapSub;
+    document.getElementById('d-recap-s').textContent=t.atomRecapSub;
   }
 
   function setDC(v){ DEVCOUNT=v; ACTIVE=0; document.querySelectorAll('#paired button').forEach(function(b){ b.setAttribute('aria-pressed',String(b.getAttribute('data-dc')===v)); }); render(); }
@@ -593,8 +632,9 @@
 
   document.querySelectorAll('#lang button').forEach(function(b){ b.addEventListener('click',function(){ LANG=b.getAttribute('data-lang');
     document.querySelectorAll('#lang button').forEach(function(x){ x.setAttribute('aria-pressed',String(x===b)); });
-    if(pop.classList.contains('show'))closePop(); if(prestart.classList.contains('show'))prestart.classList.remove('show');
-    dpick.classList.remove('show'); roverlay.classList.remove('show'); render(); }); });
+    if(pop.classList.contains('show'))closePop();
+    dpick.classList.remove('show'); roverlay.classList.remove('show'); render();
+    if(prestart.classList.contains('show')) openPrestart(); }); });
   document.querySelectorAll('#paired button').forEach(function(b){ b.addEventListener('click',function(){ setDC(b.getAttribute('data-dc')); }); });
   document.querySelectorAll('#atomstat button').forEach(function(b){ b.addEventListener('click',function(){ setStat(b.getAttribute('data-st')); }); });
   document.getElementById('sw-plus').addEventListener('click',function(){ PLUS=!PLUS; this.setAttribute('aria-checked',String(PLUS)); render(); });

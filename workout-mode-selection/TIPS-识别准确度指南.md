@@ -91,6 +91,8 @@ How to place and set up so ATOM's AI counting & tracking is **as accurate as pos
 - Live Coach / Record & Recap 目前处于 **Beta**，仍在迭代。
 - 即使摆位标准，个别动作仍**可能漏计或误计**，请以自身判断为准，尤其是大重量组。
 - 你的正确摆位能显著提升准确率——**大部分识别问题都来自摆位**。
+- **Record & Recap 的报告**：深度复盘报告持续迭代中（Coming soon，留意 OTA 更新），当前报告较简单，先管理好预期。
+- **不用担心留存**：只要视频留存，后续每次算法升级都可对这段录像**重新分析**，历史训练也能受益。
 
 ---
 
