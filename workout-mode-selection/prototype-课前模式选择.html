@@ -66,7 +66,10 @@
   .warnstrip.show{display:flex;}
   .warnstrip svg{width:15px;height:15px;flex:none;margin-top:1px;}
 
-  .modes{display:flex;flex-direction:column;gap:10px;margin-top:8px;}
+  .flexnote{display:flex;gap:8px;align-items:flex-start;font-size:12px;line-height:1.45;color:var(--brand-ink);background:var(--brand-tint,#eef7df);border:1px solid #d6ecb3;border-radius:10px;padding:10px 11px;margin-top:10px;}
+  .flexnote svg{width:16px;height:16px;flex:none;margin-top:1px;}
+  .flexnote b{font-weight:800;}
+  .modes{display:flex;flex-direction:column;gap:10px;margin-top:10px;}
   .mode{border:1.5px solid var(--line);border-radius:9px;overflow:hidden;transition:border-color .16s,background .16s;background:var(--card);}
   .mode .head{display:flex;align-items:center;gap:13px;padding:13px;cursor:pointer;}
   .mode .ic{width:42px;height:42px;border-radius:9px;background:#f2f3ef;color:#2c2f31;flex:none;display:grid;place-items:center;transition:.16s;}
@@ -302,6 +305,11 @@
             <span id="warn-txt"></span>
           </div>
 
+          <div class="flexnote">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.5.4.8.9.9 1.6l.1.5h5l.1-.5c.1-.7.4-1.2.9-1.6A6 6 0 0 0 12 3Z"/></svg>
+            <span data-i18n="flexNote"></span>
+          </div>
+
           <div class="modes">
             <div class="mode" data-mode="coach" data-req="device+plus">
               <div class="head">
@@ -489,6 +497,7 @@
       rcRecap:['Just stay in frame the whole time — angle is flexible.','Deep recap reports are still improving (watch for OTA).'],
       head_phone:'iPhone · in-app modal', head_device:'ATOM device · 466×466 round',
       course:'Back & Legs', course_short:'Back & Legs', selectMode:'Select workout mode', workoutMode:'Workout mode',
+      flexNote:'Not sure? You can switch modes anytime — even mid-workout. Just pick one.',
       rstart:'Start', atomCoachSub:'Real-time counting and cues.', atomRecapSub:'Silent recording, report after.',
       devcap:'Title is just “Workout mode”. Selected card shows its one-line explanation; the others show only their title. Manual Log stays on the phone.' },
     zh:{ bestLabel:'适合', beta:'Beta：ATOM 仍在迭代，个别动作可能漏计或误计，请以自身判断为准。',
@@ -527,6 +536,7 @@
       rcRecap:['运动全程待在画面里，角度不苛刻。','深度复盘报告持续迭代中（留意 OTA）。'],
       head_phone:'iPhone · 应用内弹窗', head_device:'ATOM 设备 · 466×466 圆屏',
       course:'背部与腿部力量', course_short:'背腿力量', selectMode:'选择上课模式', workoutMode:'上课模式',
+      flexNote:'不确定？三种模式课中随时能切换，先随便选一个就好。',
       rstart:'开始', atomCoachSub:'实时计数与动作提示。', atomRecapSub:'安静记录，练后出报告。',
       devcap:'标题就是「上课模式」。选中的卡片显示一行说明，其余只显示标题。手动记录留在手机端。' }
   };
