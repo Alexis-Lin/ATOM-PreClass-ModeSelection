@@ -43,15 +43,34 @@ class L {
       r == GateReason.needDevice ? addDevice : _t('Get Plus', '开通 Plus');
   String get notNow => _t('Not now', '以后再说');
 
-  // Pre-start confirmation (phone).
-  String get prestartTitle => _t('Before you start', '开始前请确认');
-  String get prestart1 =>
-      _t('AI is in beta — it may miss or miscount some reps.', 'AI 模式仍在 beta 迭代中，动作可能漏记或误记。');
-  String get prestart2 =>
-      _t('Keep your ATOM online and within reach.', '确保 ATOM 在线并放在手边。');
-  String get prestart3 => _t(
-      'Stay fully in frame — no obstructions or odd angles.', '保持人物完整入框，不要遮挡或奇怪角度。');
-  String get prestartStart => _t('Start', '开始');
+  // Pre-start setup / framing guidance (phone).
+  String get prestartTitle => _t('Set up before you start', '开始前，摆好画面');
+  String get prestartSub =>
+      _t('Good framing means accurate tracking.', '画面摆得好，识别才准。');
+  String get prestartDoHeader => _t('Set up', '这样摆');
+  List<String> get prestartDo => zh
+      ? const ['让全身完整入框', '手机稳定平放，约与胸口同高、保持水平', '光线充足、避免逆光', '画面干净，只有你一人']
+      : const [
+          'Keep your whole body in frame',
+          'Prop the phone stable — around chest height and level',
+          'Even lighting; avoid backlight',
+          'Clear space — just you in frame',
+        ];
+  String get prestartAvoidHeader => _t('These hurt accuracy', '这些会让识别变不准');
+  List<String> get prestartAvoid => zh
+      ? const ['肢体被裁切，或被器械 / 宽松衣物遮挡', '距离太近或太远', '镜头倾斜、过高或过低', '强逆光、反光或过暗', '画面里有其他人或杂物']
+      : const [
+          'Body cut off, or blocked by equipment / loose clothing',
+          'Standing too close or too far',
+          'Camera tilted, too high or too low',
+          'Strong backlight, glare or too dark',
+          'Other people or clutter in the frame',
+        ];
+  String get prestartBeta => _t(
+      'AI is in beta and may still miss or miscount some reps — trust your own judgment.',
+      'AI 仍在 beta，个别动作可能漏记或误记，请以自身判断为准。');
+  String get prestartCancel => _t('Not now', '取消');
+  String get prestartStart => _t("I'm ready", '准备好了');
 
   // Device picker.
   String get pickTitle => _t('Which ATOM?', '使用哪一台 ATOM？');
@@ -68,8 +87,9 @@ class L {
   String get atomConfirmTitle => _t('Before you start', '开始前请确认');
   String get atomConfirm1 =>
       _t('AI is in beta and may miss or miscount reps.', 'AI 仍在 beta，动作可能漏记或误记。');
-  String get atomConfirm2 =>
-      _t('Stay fully in frame — no obstructions.', '请完整入框，不要遮挡。');
+  String get atomConfirm2 => _t(
+      'Keep your whole body in frame — no blocking, odd angles or backlight.',
+      '让全身完整入框——别遮挡、别奇怪角度、别逆光。');
   String get dontShowAgain => _t("Don't show again", '不再显示');
 
   // Per-mode copy.

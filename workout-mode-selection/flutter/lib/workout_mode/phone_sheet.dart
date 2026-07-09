@@ -546,53 +546,136 @@ Future<void> showGateSheet(
   );
 }
 
-/// Pre-start confirmation for AI modes (camera framing + beta).
+/// Pre-start setup / framing guidance for AI modes.
+/// Scrollable: framing diagram + do-list + accuracy-hurting conditions + beta.
 Future<void> showPreStartSheet(
   BuildContext context,
   WorkoutModeController controller, {
   required VoidCallback onConfirm,
 }) {
   final l = L(controller.lang);
-  Widget item(String s) => Padding(
-        padding: const EdgeInsets.only(bottom: 9),
-        child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          const Icon(Icons.check_circle_outline, size: 16, color: Wm.brandInk),
-          const SizedBox(width: 9),
-          Expanded(child: Text(s, style: const TextStyle(fontSize: 12.5, height: 1.45, color: Wm.ink2))),
-        ]),
-      );
-  return _showSheet(
-    context,
-    child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-      Container(
-        width: 44, height: 44,
-        decoration: BoxDecoration(color: Wm.iconBg, borderRadius: BorderRadius.circular(13)),
-        child: const Icon(Icons.videocam_outlined, size: 23, color: Wm.ink),
-      ),
-      const SizedBox(height: 9),
-      Text(l.prestartTitle,
-          style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w800, color: Wm.ink)),
-      const SizedBox(height: 10),
-      item(l.prestart1),
-      item(l.prestart2),
-      item(l.prestart3),
-      const SizedBox(height: 6),
-      Row(children: [
-        Expanded(child: _SheetButton(label: l.notNow, onTap: () => Navigator.pop(context))),
-        const SizedBox(width: 9),
-        Expanded(
-          child: _SheetButton(
-            label: l.prestartStart,
-            primary: true,
-            onTap: () {
-              Navigator.pop(context);
-              onConfirm();
-            },
+  return showModalBottomSheet(
+    context: context,
+    isScrollControlled: true,
+    backgroundColor: Colors.white,
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(22)),
+    ),
+    builder: (context) {
+      final maxH = MediaQuery.of(context).size.height * 0.85;
+      return ConstrainedBox(
+        constraints: BoxConstraints(maxHeight: maxH),
+        child: SafeArea(
+          top: false,
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.fromLTRB(20, 18, 20, 20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Text(l.prestartTitle,
+                    style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w800, color: Wm.ink)),
+                const SizedBox(height: 5),
+                Text(l.prestartSub,
+                    style: const TextStyle(fontSize: 12.5, height: 1.45, color: Wm.ink2)),
+                const SizedBox(height: 12),
+                const _FramingBox(),
+                const SizedBox(height: 14),
+                _SectionLabel(text: l.prestartDoHeader),
+                for (final s in l.prestartDo) _GuideItem(text: s),
+                const SizedBox(height: 6),
+                _SectionLabel(text: l.prestartAvoidHeader, warn: true),
+                for (final s in l.prestartAvoid) _GuideItem(text: s, avoid: true),
+                const SizedBox(height: 12),
+                _BetaCaution(text: l.prestartBeta),
+                const SizedBox(height: 14),
+                Row(children: [
+                  Expanded(child: _SheetButton(label: l.prestartCancel, onTap: () => Navigator.pop(context))),
+                  const SizedBox(width: 9),
+                  Expanded(
+                    child: _SheetButton(
+                      label: l.prestartStart,
+                      primary: true,
+                      onTap: () {
+                        Navigator.pop(context);
+                        onConfirm();
+                      },
+                    ),
+                  ),
+                ]),
+              ],
+            ),
           ),
         ),
-      ]),
-    ]),
+      );
+    },
   );
+}
+
+class _SectionLabel extends StatelessWidget {
+  const _SectionLabel({required this.text, this.warn = false});
+  final String text;
+  final bool warn;
+  @override
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.fromLTRB(0, 6, 0, 8),
+        child: Text(text.toUpperCase(),
+            style: TextStyle(
+                fontSize: 11,
+                fontWeight: FontWeight.w800,
+                letterSpacing: 0.6,
+                color: warn ? Wm.warn : Wm.ink3)),
+      );
+}
+
+class _GuideItem extends StatelessWidget {
+  const _GuideItem({required this.text, this.avoid = false});
+  final String text;
+  final bool avoid;
+  @override
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.only(bottom: 8),
+        child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Icon(avoid ? Icons.close : Icons.check,
+              size: 16, color: avoid ? Wm.warn : Wm.brandInk),
+          const SizedBox(width: 9),
+          Expanded(
+            child: Text(text, style: const TextStyle(fontSize: 12, height: 1.4, color: Wm.ink2)),
+          ),
+        ]),
+      );
+}
+
+/// Framing illustration — a figure fully inside the camera frame.
+/// ⚠️ DESIGNER: placeholder. Replace with a proper "correct vs wrong"
+/// framing illustration (or a short demo clip).
+class _FramingBox extends StatelessWidget {
+  const _FramingBox();
+  @override
+  Widget build(BuildContext context) => Container(
+        height: 132,
+        decoration: BoxDecoration(
+          color: const Color(0xFFEEF0EC),
+          border: Border.all(color: const Color(0xFFC9CCC3), width: 1.5),
+          borderRadius: BorderRadius.circular(14),
+        ),
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(14),
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  border: Border.all(color: const Color(0xFFB7BBB0)),
+                  borderRadius: BorderRadius.circular(9),
+                ),
+                child: const SizedBox.expand(),
+              ),
+            ),
+            const Icon(Icons.accessibility_new, size: 56, color: Wm.brandInk),
+          ],
+        ),
+      );
 }
 
 /// Multi-device secondary selection.

@@ -116,11 +116,13 @@ class _AtomRoundScreenState extends State<AtomRoundScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           _RoundClose(onTap: () => setState(() => _showConfirm = false)),
-          const SizedBox(height: 14),
+          const SizedBox(height: 12),
+          const _DeviceFrame(),
+          const SizedBox(height: 12),
           Text(l.atomConfirmTitle,
               style: const TextStyle(
                   fontSize: 16, fontWeight: FontWeight.w800, color: Wm.deviceText)),
-          const SizedBox(height: 13),
+          const SizedBox(height: 12),
           _bullet(l.atomConfirm1),
           const SizedBox(height: 10),
           _bullet(l.atomConfirm2),
@@ -217,6 +219,23 @@ class _AtomTile extends StatelessWidget {
       ),
     );
   }
+}
+
+/// Compact framing hint for the round confirm.
+/// ⚠️ DESIGNER: placeholder — replace with the framing illustration.
+class _DeviceFrame extends StatelessWidget {
+  const _DeviceFrame();
+  @override
+  Widget build(BuildContext context) => Container(
+        width: 122,
+        height: 58,
+        decoration: BoxDecoration(
+          color: Wm.deviceCard,
+          border: Border.all(color: Wm.deviceCardLine, width: 1.5),
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: const Icon(Icons.accessibility_new, size: 30, color: Wm.brand),
+      );
 }
 
 class _DeviceRadio extends StatelessWidget {

@@ -86,6 +86,7 @@ AtomRoundScreen(controller: controller, onStart: (mode) => startWorkout(mode));
 | 项 | 现状（占位） | 需替换成 |
 |---|---|---|
 | **模式图标** | Material 内置（喇叭 / 摄像机 / 记事） | 设计稿线形图标：Live Coach 声波、Record & Recap 摄像机、Manual Log **手 + 笔** |
+| **取景示意图** | `_FramingBox` / `_DeviceFrame`（人物图标占位） | 「正确 vs 错误」摆位对照插画（详见 `../TIPS-识别准确度指南.md`）|
 | **品牌绿** | `Wm.brand = #7CC00C`（占位） | BodyPark 准确品牌色 + on-light 变体 `brandInk` |
 | **Plus / 设备图标** | `Icons.diamond_outlined` / `Icons.adjust` | 会员宝石、ATOM 设备标识 |
 | **配对 / 会员 / 开始流程** | demo 里是本地 mock | 接真实 `onAddDevice` / `onGetPlus` / `onStart` |

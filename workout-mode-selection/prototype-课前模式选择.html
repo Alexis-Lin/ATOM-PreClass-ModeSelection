@@ -123,6 +123,18 @@
   .checklist .it{display:flex;gap:9px;align-items:flex-start;font-size:12.5px;line-height:1.45;color:var(--ink-2);}
   .checklist .it b{color:var(--ink);font-weight:700;}
   .checklist .it svg{width:16px;height:16px;flex:none;margin-top:1px;color:var(--brand-ink);}
+  /* enriched pre-start (setup guidance) */
+  .popcard.tall{max-height:84%;overflow-y:auto;}
+  .ps-sub{font-size:12.5px;color:var(--ink-2);margin:-2px 0 12px;line-height:1.45;}
+  .frmwrap{width:100%;margin:0 0 12px;}
+  .frm{width:100%;height:150px;display:block;}
+  .ps-sec{font-size:11px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-3);margin:12px 0 8px;}
+  .ps-sec.warn{color:var(--warn);}
+  .avoidlist{display:flex;flex-direction:column;gap:8px;}
+  .avoidlist .av{display:flex;gap:9px;align-items:flex-start;font-size:12px;color:var(--ink-2);line-height:1.4;}
+  .avoidlist .av svg{width:15px;height:15px;flex:none;margin-top:1px;color:var(--warn);}
+  .rframe{margin-bottom:10px;}
+  .rfrm{width:132px;height:80px;display:block;}
 
   /* device picker list */
   .dlist{display:flex;flex-direction:column;gap:8px;}
@@ -140,7 +152,7 @@
   /* round-screen confirm — a full, opaque screen (no scrim) */
   .roverlay{position:absolute;inset:0;border-radius:50%;background:#000;display:none;flex-direction:column;align-items:center;justify-content:center;padding:40px 42px 34px;z-index:6;text-align:center;}
   .roverlay.show{display:flex;}
-  .rx{position:absolute;top:40px;left:50%;transform:translateX(-50%);width:30px;height:30px;border-radius:50%;background:#1c1f1a;border:1px solid #33362f;color:#c9cdc4;display:grid;place-items:center;cursor:pointer;}
+  .rx{position:absolute;top:48px;right:54px;width:28px;height:28px;border-radius:50%;background:#1c1f1a;border:1px solid #33362f;color:#c9cdc4;display:grid;place-items:center;cursor:pointer;z-index:2;}
   .rx svg{width:15px;height:15px;}
   .rct{font-size:16px;font-weight:800;color:#f2f4ef;margin-bottom:13px;}
   .rlist{display:flex;flex-direction:column;gap:10px;margin-bottom:15px;}
@@ -282,13 +294,30 @@
             </div>
           </div>
 
-          <!-- pre-start confirmation popup -->
+          <!-- pre-start setup / framing guidance -->
           <div class="pop" id="prestart">
-            <div class="popcard">
-              <div class="pic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="14" height="12" rx="2.5"/><path d="M17 10l4-2v8l-4-2"/></svg></div>
+            <div class="popcard tall">
               <div class="pt" id="ps-t"></div>
-              <div class="checklist" id="ps-list"></div>
-              <div class="pbtns"><div class="pb" id="ps-cancel"></div><div class="pb primary" id="ps-ok"></div></div>
+              <div class="ps-sub" id="ps-sub"></div>
+              <div class="frmwrap">
+              <svg class="frm" viewBox="0 0 200 130" preserveAspectRatio="xMidYMid meet">
+                <rect x="5" y="5" width="190" height="120" rx="14" fill="#eef0ec" stroke="#c9ccc3" stroke-width="2"/>
+                <rect x="18" y="15" width="164" height="100" rx="9" fill="none" stroke="#b7bbb0" stroke-width="1.6" stroke-dasharray="5 5"/>
+                <line x1="36" y1="104" x2="164" y2="104" stroke="#b7bbb0" stroke-width="2"/>
+                <g stroke="#4f7d05" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="100" cy="34" r="10" fill="#c9ec8f"/>
+                  <path d="M100 44 V75"/>
+                  <path d="M100 53 L82 68"/><path d="M100 53 L118 68"/>
+                  <path d="M100 75 L87 103"/><path d="M100 75 L113 103"/>
+                </g>
+              </svg>
+              </div>
+              <div class="ps-sec" id="ps-do-h"></div>
+              <div class="checklist" id="ps-do"></div>
+              <div class="ps-sec warn" id="ps-avoid-h"></div>
+              <div class="avoidlist" id="ps-avoid"></div>
+              <div class="caution" style="margin-top:12px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="M10.3 4l-7 12A2 2 0 0 0 5 19h14a2 2 0 0 0 1.7-3l-7-12a2 2 0 0 0-3.4 0Z"/></svg><span id="ps-beta"></span></div>
+              <div class="pbtns" style="margin-top:12px"><div class="pb" id="ps-cancel"></div><div class="pb primary" id="ps-ok"></div></div>
             </div>
           </div>
 
@@ -324,6 +353,15 @@
         </div>
         <div class="roverlay" id="roverlay">
           <span class="rx" id="rc-x"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg></span>
+          <div class="rframe"><svg class="rfrm" viewBox="0 0 200 130" preserveAspectRatio="xMidYMid meet">
+            <rect x="5" y="5" width="190" height="120" rx="14" fill="#151614" stroke="#3a3d38" stroke-width="2"/>
+            <rect x="18" y="15" width="164" height="100" rx="9" fill="none" stroke="#3a3d38" stroke-width="1.6" stroke-dasharray="5 5"/>
+            <line x1="36" y1="104" x2="164" y2="104" stroke="#3a3d38" stroke-width="2"/>
+            <g stroke="#7cc00c" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="100" cy="34" r="10" fill="#243a10"/>
+              <path d="M100 44 V75"/><path d="M100 53 L82 68"/><path d="M100 53 L118 68"/><path d="M100 75 L87 103"/><path d="M100 75 L113 103"/>
+            </g>
+          </svg></div>
           <div class="rct" id="rc-t"></div>
           <div class="rlist">
             <div class="rli"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="3.4"/></svg><span id="rc-1"></span></div>
@@ -370,12 +408,14 @@
       ctaBlocked:'Ensure ATOM is online', cancel:'Not now',
       popDevT:'{n} runs on ATOM', popDevS:'Pair a nearby ATOM device to unlock live coaching and recorded analysis.', popDevBtn:'Add device',
       popPlusT:'{n} needs Plus', popPlusS:'Unlock AI coaching and recorded analysis with a Plus membership.', popPlusBtn:'Get Plus',
-      psT:'Before you start', psOk:'Start', psCancel:'Not now',
-      ps1:'<b>AI is in beta</b> — it may miss or miscount some reps.',
-      ps2:'Keep your <b>ATOM online and within reach</b>.',
-      ps3:'Stay <b>fully in frame</b> — no obstructions or odd angles.',
+      psT:'Set up before you start', psSub:'Good framing means accurate tracking.', psOk:"I'm ready", psCancel:'Not now',
+      psDoH:'Set up',
+      psDo:['Keep your whole body in frame','Prop the phone stable — around chest height and level','Even lighting; avoid backlight','Clear space — just you in frame'],
+      psAvoidH:'These hurt accuracy',
+      psAvoid:['Body cut off, or blocked by equipment / loose clothing','Standing too close or too far','Camera tilted, too high or too low','Strong backlight, glare or too dark','Other people or clutter in the frame'],
+      psBeta:'AI is in beta and may still miss or miscount some reps — trust your own judgment.',
       pickT:'Which ATOM?',
-      rcT:'Before you start', rc1:'AI is in beta and may miss or miscount reps.', rc2:'Stay fully in frame — no obstructions.', rcDont:'Don’t show again', rcGo:'Start',
+      rcT:'Before you start', rc1:'AI is in beta and may miss or miscount reps.', rc2:'Keep your whole body in frame — no blocking, odd angles or backlight.', rcDont:'Don’t show again', rcGo:'Start',
       head_phone:'iPhone · in-app modal', head_device:'ATOM device · 466×466 round',
       course:'Back & Legs', course_short:'Back & Legs', selectMode:'Select workout mode', workoutMode:'Workout mode',
       rstart:'Start', coachSub:'Real-time counting and cues.', recapSub:'Silent recording, report after.',
@@ -387,12 +427,14 @@
       ctaBlocked:'请确保 ATOM 在线', cancel:'以后再说',
       popDevT:'{n} 需要 ATOM', popDevS:'请连接身边的 ATOM 设备，解锁实时指导与录制分析。', popDevBtn:'添加设备',
       popPlusT:'{n} 需要 Plus 会员', popPlusS:'开通 Plus 会员，解锁 AI 实时指导与录制分析。', popPlusBtn:'开通 Plus',
-      psT:'开始前请确认', psOk:'开始', psCancel:'取消',
-      ps1:'<b>AI 模式仍在 beta 迭代中</b>，动作可能漏记或误记。',
-      ps2:'确保 <b>ATOM 在线并放在手边</b>。',
-      ps3:'保持<b>人物完整入框</b>，不要遮挡或奇怪角度。',
+      psT:'开始前，摆好画面', psSub:'画面摆得好，识别才准。', psOk:'准备好了', psCancel:'取消',
+      psDoH:'这样摆',
+      psDo:['让全身完整入框','手机稳定平放，约与胸口同高、保持水平','光线充足、避免逆光','画面干净，只有你一人'],
+      psAvoidH:'这些会让识别变不准',
+      psAvoid:['肢体被裁切，或被器械 / 宽松衣物遮挡','距离太近或太远','镜头倾斜、过高或过低','强逆光、反光或过暗','画面里有其他人或杂物'],
+      psBeta:'AI 仍在 beta，个别动作可能漏记或误记，请以自身判断为准。',
       pickT:'使用哪一台 ATOM？',
-      rcT:'开始前请确认', rc1:'AI 仍在 beta，动作可能漏记或误记。', rc2:'请完整入框，不要遮挡。', rcDont:'不再显示', rcGo:'开始',
+      rcT:'开始前请确认', rc1:'AI 仍在 beta，动作可能漏记或误记。', rc2:'让全身完整入框——别遮挡、别奇怪角度、别逆光。', rcDont:'不再显示', rcGo:'开始',
       head_phone:'iPhone · 应用内弹窗', head_device:'ATOM 设备 · 466×466 圆屏',
       course:'背部与腿部力量', course_short:'背腿力量', selectMode:'选择上课模式', workoutMode:'上课模式',
       rstart:'开始', coachSub:'实时计数与动作提示。', recapSub:'安静记录，练后出报告。',
@@ -450,9 +492,16 @@
   /* pre-start confirm popup */
   var prestart=document.getElementById('prestart'), psT=document.getElementById('ps-t'),
       psList=document.getElementById('ps-list'), psOk=document.getElementById('ps-ok'), psCancel=document.getElementById('ps-cancel');
+  var AVX='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg>';
   function openPrestart(){
-    var t=T[LANG]; psT.textContent=t.psT;
-    psList.innerHTML=[t.ps1,t.ps2,t.ps3].map(function(x){ return '<div class="it">'+CHK+'<span>'+x+'</span></div>'; }).join('');
+    var t=T[LANG];
+    psT.textContent=t.psT;
+    document.getElementById('ps-sub').textContent=t.psSub;
+    document.getElementById('ps-do-h').textContent=t.psDoH;
+    document.getElementById('ps-avoid-h').textContent=t.psAvoidH;
+    document.getElementById('ps-do').innerHTML=t.psDo.map(function(x){ return '<div class="it">'+CHK+'<span>'+x+'</span></div>'; }).join('');
+    document.getElementById('ps-avoid').innerHTML=t.psAvoid.map(function(x){ return '<div class="av">'+AVX+'<span>'+x+'</span></div>'; }).join('');
+    document.getElementById('ps-beta').textContent=t.psBeta;
     psOk.textContent=t.psOk; psCancel.textContent=t.psCancel; prestart.classList.add('show');
   }
   psCancel.onclick=function(){ prestart.classList.remove('show'); };
