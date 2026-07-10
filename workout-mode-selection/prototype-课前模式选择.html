@@ -44,7 +44,7 @@
   .backdrop .ttl{position:absolute;left:20px;bottom:14px;color:#fff;font-size:17px;font-weight:800;letter-spacing:-.01em;text-shadow:0 1px 8px rgba(0,0,0,.4);}
   .sheet{background:var(--sheet);border-radius:26px 26px 38px 38px;margin-top:-20px;position:relative;padding:8px 18px 18px;display:flex;flex-direction:column;gap:6px;}
   .grab{width:38px;height:5px;border-radius:99px;background:#d7dad3;margin:2px auto 6px;}
-  .stitle{font-size:19px;font-weight:800;letter-spacing:-.01em;color:var(--ink);padding:2px 2px 6px;}
+  .stitle{font-size:20px;font-weight:800;letter-spacing:-.015em;color:var(--ink);padding:2px 2px 8px;}
 
   .dev{display:flex;align-items:center;gap:9px;padding:4px 2px 10px;border-bottom:1px solid var(--hair);}
   .switch{display:none;width:28px;height:28px;border-radius:8px;background:#f2f3ef;color:var(--ink-2);border:0;cursor:pointer;place-items:center;flex:none;}
@@ -75,9 +75,8 @@
   .mode .ic{width:42px;height:42px;border-radius:9px;background:#f2f3ef;color:#2c2f31;flex:none;display:grid;place-items:center;transition:.16s;}
   .mode .ic svg{width:23px;height:23px;}
   .mode .body{flex:1;min-width:0;}
-  .mode .row1{display:flex;align-items:center;gap:7px;}
-  .mode .name{font-size:16px;font-weight:700;letter-spacing:-.01em;color:var(--ink);}
-  .mode .desc{font-size:12.5px;color:var(--ink-2);line-height:1.45;margin-top:3px;}
+  .mode .row1{display:flex;align-items:center;gap:7px;flex-wrap:wrap;}
+  .mode .name{font-size:16px;font-weight:700;letter-spacing:-.01em;color:var(--ink);white-space:nowrap;}
   .plus-tag{display:inline-flex;align-items:center;gap:3px;font-size:9.5px;font-weight:700;letter-spacing:.02em;color:var(--plus);background:#f6f1e6;border:1px solid #ece2cc;border-radius:5px;padding:1px 5px 1px 4px;flex:none;}
   .plus-tag svg{width:10px;height:10px;}
 
@@ -90,7 +89,7 @@
   .lockp{width:24px;height:24px;flex:none;display:none;place-items:center;color:var(--ink-3);align-self:center;}
   .lockp svg{width:17px;height:17px;}
   .mode.locked{cursor:pointer;background:#fafbf8;}
-  .mode.locked .ic,.mode.locked .name,.mode.locked .desc{opacity:.5;}
+  .mode.locked .ic,.mode.locked .name{opacity:.5;}
   .mode.locked .pick{display:none;}
   .mode.locked .lockp{display:grid;}
   .mode.nudge{animation:nudge .4s;}
@@ -99,9 +98,8 @@
   .expand{display:grid;grid-template-rows:0fr;opacity:0;transition:grid-template-rows .24s ease,opacity .18s;}
   .mode.sel .expand{grid-template-rows:1fr;opacity:1;}
   .expand>.inner{overflow:hidden;min-height:0;}
-  .expand .pad{padding:2px 14px 14px;display:flex;flex-direction:column;gap:8px;}
-  .best{font-size:12px;color:var(--ink);line-height:1.45;}
-  .best b{font-weight:700;} .best span{color:var(--ink-2);font-weight:500;}
+  .expand .pad{padding:0 14px 14px;display:flex;flex-direction:column;gap:9px;}
+  .exdesc{font-size:13.5px;color:var(--ink-2);line-height:1.5;margin:-2px 0 0 55px;}
   .caution{display:flex;gap:8px;align-items:flex-start;font-size:11.5px;line-height:1.45;color:var(--caution);background:#faf6ea;border:1px solid #efe6cd;border-radius:8px;padding:9px 11px;}
   .caution svg{width:15px;height:15px;flex:none;margin-top:1px;}
 
@@ -122,8 +120,8 @@
   .popcard .pbtns{display:flex;gap:9px;margin-top:6px;}
   .popcard .pb{flex:1;text-align:center;font-size:14px;font-weight:700;padding:13px;border-radius:999px;cursor:pointer;border:1.5px solid var(--line);color:var(--ink);background:#fff;}
   .popcard .pb.primary{background:var(--cta);color:#fff;border-color:var(--cta);}
-  .checklist{display:flex;flex-direction:column;gap:9px;margin:2px 0 2px;}
-  .checklist .it{display:flex;gap:9px;align-items:flex-start;font-size:12.5px;line-height:1.45;color:var(--ink-2);}
+  .checklist{display:flex;flex-direction:column;gap:10px;margin:2px 0 2px;}
+  .checklist .it{display:flex;gap:9px;align-items:center;font-size:13.5px;line-height:1.4;color:var(--ink);}
   .checklist .it b{color:var(--ink);font-weight:700;}
   .checklist .it svg{width:16px;height:16px;flex:none;margin-top:1px;color:var(--brand-ink);}
   /* enriched pre-start (setup guidance) */
@@ -133,8 +131,8 @@
   .frm{width:100%;height:150px;display:block;}
   .ps-sec{font-size:11px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-3);margin:12px 0 8px;}
   .ps-sec.warn{color:var(--warn);}
-  .avoidlist{display:flex;flex-direction:column;gap:8px;}
-  .avoidlist .av{display:flex;gap:9px;align-items:flex-start;font-size:12px;color:var(--ink-2);line-height:1.4;}
+  .avoidlist{display:flex;flex-direction:column;gap:10px;}
+  .avoidlist .av{display:flex;gap:9px;align-items:center;font-size:13.5px;color:var(--ink-2);line-height:1.4;}
   .avoidlist .av svg{width:15px;height:15px;flex:none;margin-top:1px;color:var(--warn);}
   .rframe{margin-bottom:10px;}
   .rfrm{width:132px;height:80px;display:block;}
@@ -150,13 +148,13 @@
   .pagebar .back svg{width:18px;height:18px;}
   .pagebar .ptitle{font-size:17px;font-weight:800;color:var(--ink);}
   .pagebody{flex:1;overflow-y:auto;padding:16px 18px 10px;}
-  .pagesub{font-size:13px;color:var(--ink-2);line-height:1.5;margin:0 0 12px;}
+  .pagesub{font-size:13px;color:var(--ink-2);line-height:1.5;margin:0 0 14px;}
   .pagecta{padding:12px 18px 18px;border-top:1px solid var(--hair);flex:none;}
   .pagecta button{width:100%;background:var(--cta);color:#fff;border:0;border-radius:999px;padding:16px;font:inherit;font-size:15px;font-weight:700;cursor:pointer;}
   .reach{display:flex;gap:8px;align-items:flex-start;font-size:12px;color:var(--ink-2);line-height:1.45;background:#f4f5f2;border:1px solid var(--line);border-radius:8px;padding:10px 11px;margin-top:12px;}
   .reach svg{width:15px;height:15px;flex:none;margin-top:1px;color:var(--ink-3);}
-  .infobox{display:flex;flex-direction:column;gap:4px;font-size:12px;line-height:1.5;color:var(--ink-2);background:#f4f5f2;border:1px solid var(--line);border-radius:8px;padding:11px;margin-top:10px;}
-  .infobox .ih{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:800;color:var(--ink);}
+  .infobox{display:flex;flex-direction:column;gap:4px;font-size:12.5px;line-height:1.5;color:var(--ink-2);background:#f4f5f2;border:1px solid var(--line);border-radius:8px;padding:12px;margin-top:10px;}
+  .infobox .ih{display:flex;align-items:center;gap:7px;font-size:13px;font-weight:800;color:var(--ink);}
   .infobox .ih svg{width:15px;height:15px;color:var(--ink-2);}
   .dataopts{display:flex;gap:8px;margin-bottom:9px;}
   .dataopt{flex:1;display:flex;align-items:center;gap:7px;padding:11px 11px;border:1.5px solid var(--line);border-radius:12px;background:#fff;cursor:pointer;font-size:12.5px;font-weight:600;color:var(--ink-2);}
@@ -316,13 +314,12 @@
                 <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9v6h3l5 4V5L7 9H4Z"/><path d="M16.5 8.5a5 5 0 0 1 0 7"/><path d="M19 6a9 9 0 0 1 0 12"/></svg></div>
                 <div class="body">
                   <div class="row1"><span class="name"></span><span class="plus-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 3l5 5-5 13L7 8l5-5Z"/><path d="M7 8h10"/></svg>Plus</span></div>
-                  <div class="desc"></div>
                 </div>
                 <div class="pick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></div>
                 <div class="lockp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></div>
               </div>
               <div class="expand"><div class="inner"><div class="pad">
-                <div class="best"></div>
+                <div class="exdesc"></div>
                 <div class="caution"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="M10.3 4l-7 12A2 2 0 0 0 5 19h14a2 2 0 0 0 1.7-3l-7-12a2 2 0 0 0-3.4 0Z"/></svg><span class="beta-txt"></span></div>
               </div></div></div>
             </div>
@@ -332,12 +329,11 @@
                 <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="12" height="10" rx="2.4"/><path d="M15 10.2l5.5-2.7v9l-5.5-2.7"/></svg></div>
                 <div class="body">
                   <div class="row1"><span class="name"></span><span class="plus-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M12 3l5 5-5 13L7 8l5-5Z"/><path d="M7 8h10"/></svg>Plus</span></div>
-                  <div class="desc"></div>
                 </div>
                 <div class="pick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></div>
                 <div class="lockp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></div>
               </div>
-              <div class="expand"><div class="inner"><div class="pad"><div class="best"></div></div></div></div>
+              <div class="expand"><div class="inner"><div class="pad"><div class="exdesc"></div></div></div></div>
             </div>
 
             <div class="mode" data-mode="log" data-req="none">
@@ -345,12 +341,11 @@
                 <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 13V7.4a1.4 1.4 0 0 1 2.8 0V12"/><path d="M12.3 12V6.4a1.4 1.4 0 0 1 2.8 0V12"/><path d="M15.1 12.2V8.4a1.4 1.4 0 0 1 2.8 0V16a5.6 5.6 0 0 1-5.6 5.6h-1.3a5.6 5.6 0 0 1-4.5-2.3l-2.1-2.9a1.45 1.45 0 0 1 2.35-1.75l1.3 1.55"/><path d="M4.6 8.9l3.3-3.3 1.35 1.35-3.3 3.3-1.85.5.5-1.85Z"/></svg></div>
                 <div class="body">
                   <div class="row1"><span class="name"></span></div>
-                  <div class="desc"></div>
                 </div>
                 <div class="pick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></div>
                 <div class="lockp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></div>
               </div>
-              <div class="expand"><div class="inner"><div class="pad"><div class="best"></div></div></div></div>
+              <div class="expand"><div class="inner"><div class="pad"><div class="exdesc"></div></div></div></div>
             </div>
           </div>
 
@@ -453,15 +448,15 @@
   var LANG='en', PLUS=true, DEVCOUNT='one', STAT='conn', ACTIVE=0, SDCARD=true;
 
   var MODES={
-    coach:{ en:{name:'Live Coach',desc:'Real-time counting and form cues while you move.',best:'anyone who wants to be coached through every rep with instant feedback.',cta:'Start Coaching'},
-            zh:{name:'实时教练',desc:'训练时实时计数并给出动作提示。',best:'想在每一下都被带着练、需要即时反馈的人。',cta:'开始指导'} },
-    recap:{ en:{name:'Record & Recap',desc:'Records your session quietly, then reports back after.',best:'experienced users who want the video, the data and a report — without the chatter.',cta:'Start Recording'},
-            zh:{name:'录制复盘',desc:'全程安静记录，练完给你一份详细报告。',best:'想要影像、数据与报告，又不想被打扰的进阶用户。',cta:'开始录制'} },
-    log:{   en:{name:'Manual Log',desc:'Enter your sets, reps and weight yourself.',best:'quick manual tracking when you don’t need the camera.',cta:'Start Logging'},
-            zh:{name:'手动记录',desc:'自己手动记录组数、次数与重量。',best:'不需要摄像头、想快速手动记录的时候。',cta:'开始记录'} }
+    coach:{ en:{name:'Live Coach',desc:'Counts your reps and cues your form, live.',cta:'Start Coaching'},
+            zh:{name:'实时教练',desc:'实时计数，边练边提示动作。',cta:'开始指导'} },
+    recap:{ en:{name:'Record & Recap',desc:'Records quietly, then reports back after.',cta:'Start Recording'},
+            zh:{name:'录制复盘',desc:'安静录制，练完出报告。',cta:'开始录制'} },
+    log:{   en:{name:'Manual Log',desc:'Log your sets and reps yourself. No camera.',cta:'Start Logging'},
+            zh:{name:'手动记录',desc:'自己记录组数次数，不用摄像头。',cta:'开始记录'} }
   };
   var T={
-    en:{ bestLabel:'Best for', beta:'Beta: ATOM is still improving and may miss or miscount some reps — trust your own judgment.',
+    en:{ bestLabel:'Best for', beta:'Beta — AI may miss or miscount reps. Trust your own judgment.',
       connected:'Connected', nonet:'No network', add:'Add device',
       warnNonet:'Can’t start AI modes — ATOM is offline. Make sure it’s connected to the internet.',
       switchHint:' Or switch to an online device.',
@@ -480,18 +475,18 @@
       dataNoSdWarn:"No SD card in your ATOM — this session won't be kept. Insert a card, or upload to cloud.",
       pageTitle:'Get set up', psOk:"I'm ready", reach:'Keep your ATOM within reach.',
       pickT:'Which ATOM?', pickHint:'Pick the device that’s next to you.',
-      coachSub:'Good framing keeps tracking accurate.',
+      coachSub:'Good framing keeps the AI accurate.',
       coachDoH:'Set up',
-      coachDo:['Whole body in frame, even at full range','Phone stable, ~chest height and level','Even light; just you in a clear space'],
-      coachAvoidH:'These hurt accuracy',
-      coachAvoid:['Body cut off or blocked','Too close, too far or bad angle','Backlit, too dark or others in frame'],
-      recapSub:'Just stay in frame the whole time.',
+      coachDo:['Full body in frame','Phone steady, ~chest height','Even light, just you'],
+      coachAvoidH:'Avoid',
+      coachAvoid:['Body cropped or blocked','Too close, far or angled','Backlit, dark, or others in view'],
+      recapSub:'Stay in frame at any angle — good light, just you.',
       recapDoH:'Keep in mind',
       recapDo:['Stay fully in frame the whole workout','Angle is flexible — front or side is fine','Enough light; just you in frame'],
       reportH:'Your report',
-      report:'Deep recap reports are still evolving — coming soon via OTA. Today’s report is basic for now.',
+      report:'Deeper recaps are coming via OTA — today’s report is basic.',
       algoH:'Nothing is lost',
-      algo:'Your video is saved, so every future algorithm upgrade can re-analyze it.',
+      algo:'Your video is saved — future upgrades can re-analyze it.',
       rcT:'Before you start', rcDont:'Don’t show again', rcGo:'Start',
       rcCoach:['AI is in beta and may miss or miscount reps.','Keep your whole body in frame — no blocking or backlight.'],
       rcRecap:['Just stay in frame the whole time — angle is flexible.','Deep recap reports are still improving (watch for OTA).'],
@@ -500,7 +495,7 @@
       flexNote:'Not sure? You can switch modes anytime — even mid-workout. Just pick one.',
       rstart:'Start', atomCoachSub:'Real-time counting and cues.', atomRecapSub:'Silent recording, report after.',
       devcap:'Title is just “Workout mode”. Selected card shows its one-line explanation; the others show only their title. Manual Log stays on the phone.' },
-    zh:{ bestLabel:'适合', beta:'Beta：ATOM 仍在迭代，个别动作可能漏计或误计，请以自身判断为准。',
+    zh:{ bestLabel:'适合', beta:'Beta——AI 可能漏计或误计，请以自身判断为准。',
       connected:'已连接', nonet:'无网络', add:'添加设备',
       warnNonet:'无法启动 AI 模式——ATOM 未联网，请确保它已连接网络。',
       switchHint:' 也可切换到在线的设备。',
@@ -521,16 +516,16 @@
       pickT:'使用哪一台 ATOM？', pickHint:'请选择在你身边的设备。',
       coachSub:'画面摆好，识别才准。',
       coachDoH:'这样摆',
-      coachDo:['全身入框，动作最大幅度也不出框','手机稳定，约胸口高、镜头水平','光线均匀，画面里只有你'],
-      coachAvoidH:'这些会让识别变不准',
-      coachAvoid:['肢体被裁切或遮挡','太近、太远或角度不正','逆光/过暗，或有他人入镜'],
-      recapSub:'运动时，你全程在画面里就好。',
+      coachDo:['全身完整入框','手机放稳，约胸口高','光线均匀，只有你'],
+      coachAvoidH:'避免',
+      coachAvoid:['肢体被裁切、遮挡','太近、太远或角度歪','逆光、过暗或他人入镜'],
+      recapSub:'全程待在画面里，角度不苛刻——光线充足、只有你。',
       recapDoH:'记住这几点',
       recapDo:['运动全程待在画面里','角度不苛刻，正面或侧面都行','光线别太暗，画面里只有你'],
       reportH:'关于报告',
-      report:'深度复盘报告持续迭代中（Coming soon，留意 OTA 更新），当前报告还比较简单。',
+      report:'更深度的复盘将通过 OTA 上线，当前报告较简单。',
       algoH:'不用担心',
-      algo:'视频会留存，之后每次算法升级都能重新分析这段录像。',
+      algo:'视频会留存，日后算法升级可重新分析。',
       rcT:'开始前请确认', rcDont:'不再显示', rcGo:'开始',
       rcCoach:['AI 仍在 beta，动作可能漏记或误记。','让全身完整入框——别遮挡、别逆光。'],
       rcRecap:['运动全程待在画面里，角度不苛刻。','深度复盘报告持续迭代中（留意 OTA）。'],
@@ -622,12 +617,11 @@
     var h='';
     if(mode==='coach'){
       h+='<div class="pagesub">'+t.coachSub+'</div>'+FRAME_LIGHT
-        +_sec(t.coachDoH,false)+_do(t.coachDo)
+        +_do(t.coachDo)
         +_sec(t.coachAvoidH,true)+_avoid(t.coachAvoid)
-        +'<div class="caution" style="margin-top:12px">'+WARNI+'<span>'+t.beta+'</span></div>';
+        +'<div class="caution" style="margin-top:14px">'+WARNI+'<span>'+t.beta+'</span></div>';
     } else {
       h+='<div class="pagesub">'+t.recapSub+'</div>'+FRAME_LIGHT
-        +_sec(t.recapDoH,false)+_do(t.recapDo)
         +_info(REPORTI,t.reportH,t.report)
         +_info(ALGOI,t.algoH,t.algo);
     }
@@ -713,8 +707,8 @@
     var t=T[LANG];
     document.querySelectorAll('[data-i18n]').forEach(function(n){ var k=n.getAttribute('data-i18n'); if(t[k]!=null) n.textContent=t[k]; });
     modes.forEach(function(el){ var d=MODES[el.getAttribute('data-mode')][LANG];
-      el.querySelector('.name').textContent=d.name; el.querySelector('.desc').textContent=d.desc;
-      el.querySelector('.best').innerHTML='<b>'+t.bestLabel+'</b> <span>'+d.best+'</span>'; });
+      el.querySelector('.name').textContent=d.name;
+      el.querySelector('.exdesc').textContent=d.desc; });
     var betaEl=sheet.querySelector('.beta-txt'); if(betaEl) betaEl.textContent=t.beta;
 
     var first=null, sel=sheet.querySelector('.mode.sel');
