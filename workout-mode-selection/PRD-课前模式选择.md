@@ -4,10 +4,11 @@
 
 | 项 | 内容 |
 |---|---|
-| 版本 Version | v1 (Draft) |
+| 版本 Version | v2 (Draft) |
 | 状态 Status | 设计讨论中 · In review |
 | 负责 Owner | Alexis Lin |
-| 关联 | `prototype-课前模式选择.html`（可点原型）· `README.md`（设计说明） |
+| 关联 | `prototype-demo.html`（左右双端 · 预览优先 · 主 demo）· `prototype-mobile.html`（手机满屏版）· `prototype-课前模式选择.html`（标注版）· `flutter/`（代码实现）· `images/UI-spec-en.png`·`images/UI-spec-zh.png`（全界面素材图）· `README.md` |
+| 规格 Spec | iPhone 17 逻辑尺寸 **402×874pt**；App 字号统一 **20 / 16 / 14 / 12**（标题 / 名称·区块·按钮 / 正文 / 标注）；灰阶 + 单一品牌绿点缀（`#7CC00C` 占位）。 |
 
 ---
 
@@ -55,11 +56,22 @@
 
 ## 4. 设计方案 · Design
 
+### 4.0 入口：预览优先 · Preview-first
+
+模式弹窗**不是一进来就弹**——两端都先落在一个「课程预览」：
+
+- **手机端**：先展示**课程预览页**（课程封面 + 标题 + 时长/动作数/预估消耗 + 动作清单），底部「**开始训练**」按钮点击后**才**上滑弹出模式弹窗。
+- **ATOM 端**：先展示**待机课程卡**（课程名 + 时长/类型 + 「开始训练」），点击后**才**进入模式列表。逻辑与手机端一致。
+
+（预览页的课程数据为占位示例，接真实课程数据即可。）
+
 ### 4.1 三种模式（方向：具名 3 选 1 + 可切换心智）
 
 **结构决策**：保留**具名 3 选 1**（而非"AI + 能力开关"的排列组合式）。理由——课前是"营销/第一印象"时刻，具名卡片**决策与理解成本最低**，Record & Recap 也能独立曝光；开关式更灵活但偏"高阶用户配置"，理解成本更高。3 选 1 唯一的短板"像选了改不了"，用**一句心智提示**补齐：
 
-> 「**不确定？三种模式课中随时能切换，先随便选一个就好。**」（放在设备行下、卡片上方）
+> 「**不确定？课中随时能切换，先选一个。**」
+
+**位置与样式**：放在**三张卡片下方、主按钮上方**；为**纯灰色小字**（不加色块/描边/图标），弱化存在感。**ATOM 离线时不展示**这句（此时 AI 模式本就无法启动，提示会自相矛盾）。
 
 > 备选结构（已探索、暂不采用）见 `explorations/`：D 能力开关、E 两开关+独立手动、C 具名+开关、A 单开关。若未来能力增多或跟练课上线，可再评估切换到开关式。
 
@@ -71,7 +83,7 @@
 | **Record & Recap** 录制复盘 | 全程安静记录，练完给一份详细报告（云端） | ATOM + Plus | 线形·摄像机 |
 | **Manual Log** 手动记录 | 手动记录组数、次数与重量 | 免费 | 线形·手+笔 |
 
-**交互**：折叠时每项 = 图标 + 标题 + 一句说明；**选中后展开** `Best for`（适合谁），Live Coach 另在底部展示 `Beta` 提示。
+**交互（降低认知负载）**：未选中的卡片**只显示标题**（图标 + 名称 + `Plus` 标签），不带说明；**选中后才展开**一行说明，Live Coach 另在其下展示 `Beta` 提示。（原「Best for 适合谁」已删除，避免与说明重复。）
 
 ### 4.2 硬件与会员门槛（对应 G2 / G3）
 
@@ -107,17 +119,20 @@
 - **「下次不再提示」**：整页级勾选；勾了以后点开始直接进入训练（用记住的数据偏好）。
 - **视觉（仅 App）**：Action button 与选项卡片用**较小圆角**（锐利风格）；ATOM 设备端维持自身风格。
 
+> 精简原则：去掉与页面标题重复的小标题；bullet 尽量不折行；只在必要时呈现信息。
+
 **Live Coach（对角度较敏感）**
-- **这样摆**（3 条）：全身入框（动作最大幅度也不出框）/ 手机稳定约胸口高、镜头水平 / 光线均匀、画面里只有你。
-- **这些会让识别变不准**（3 条）：肢体被裁切或遮挡 / 太近、太远或角度不正 / 逆光·过暗或有他人入镜。
-- **Beta 提示**：可能漏/误计，以自身判断为准。
+- 副标题：**画面摆好，识别才准。**
+- 取景图 + **√ 做到**（3 条极简）：全身完整入框 / 手机放稳，约胸口高 / 光线均匀，只有你。
+- **✗ 避免**（3 条）：肢体被裁切、遮挡 / 太近、太远或角度歪 / 逆光、过暗或他人入镜。
+- **Beta 提示**：可能漏/误计，请自行判断。
 
 **Record & Recap（对角度较宽松）**
-- **记住这几点**：运动全程待在画面里 / 角度不苛刻，正面或侧面都行 / 光线别太暗、只有你。
-- **关于报告**：深度复盘报告持续迭代中（Coming soon，留意 OTA），当前报告较简单——管理预期。
-- **不用担心**：视频会留存，之后每次算法升级都能重新分析这段录像。
+- 副标题把取景要求**一句带过**：**全程在画面里，角度随意。光线充足、只有你。**（不再单列清单——图 + 这句已足够。）
+- **关于报告**：更深复盘将随 OTA 上线，当前报告较简单——管理预期。
+- **不用担心**：视频留存，日后每次算法升级都能重新分析这段录像。
 
-**ATOM 端**：**独立整屏**（不透明、无蒙层），带取景图 + 按模式的精简两句（Coach：Beta + 完整入框；Recap：全程在画面里 + 报告迭代）。**无 × 按钮，右滑退出**，可勾选 **不再显示**。
+**ATOM 端**：**独立整屏**（不透明、无蒙层），带取景图 + 按模式的精简两句（Coach：Beta + 完整入框；Recap：全程在画面里 + 报告迭代）。**已去掉 × 关闭按钮**，通过底部 Start 进入、可勾选 **不再显示**。
 
 > 详细版见 [`TIPS-识别准确度指南.md`](TIPS-识别准确度指南.md)，可用于帮助中心 / 首课引导 / 「查看详细 Tips」入口。
 
@@ -129,49 +144,46 @@
 
 ## 5. 关键文案 · Copy（EN / 中文）
 
+> 已做一轮中英双语精简（只删冗余、不改语义）。以 `strings.dart` / 原型 `T` 为唯一改文案入口。
+
 | 位置 | EN | 中文 |
 |---|---|---|
 | 标题 | Select workout mode | 选择上课模式 |
-| Live Coach 说明 | Real-time counting and form cues while you move. | 训练时实时计数并给出动作提示。 |
-| Record & Recap 说明 | Records your session quietly, then reports back after. | 全程安静记录，练完给你一份详细报告。 |
-| Manual Log 说明 | Enter your sets, reps and weight yourself. | 自己手动记录组数、次数与重量。 |
-| Beta 提示 | Beta: ATOM is still improving and may miss or miscount some reps — trust your own judgment. | Beta：ATOM 仍在迭代，个别动作可能漏计或误计，请以自身判断为准。 |
-| 无网拦截 | Can't start AI modes — ATOM is offline. Make sure it's connected to the internet. | 无法启动 AI 模式——ATOM 未联网，请确保它已连接网络。 |
-| 开始前确认 | Before you start · AI is in beta… · Keep ATOM online and within reach · Stay fully in frame | 开始前请确认 · AI 仍在 beta… · 确保 ATOM 在线并放在手边 · 保持人物完整入框 |
+| 切换心智提示 | Not sure? Switch modes anytime, even mid-workout. | 不确定？课中随时能切换，先选一个。 |
+| Live Coach 说明 | Live rep counting and form cues. | 实时计数、动作提示。 |
+| Record & Recap 说明 | Records quietly, reports after. | 安静录制，练后出报告。 |
+| Manual Log 说明 | Log sets & reps yourself. No camera. | 自己记录，不开摄像头。 |
+| Beta 提示 | Beta — AI may miss or miscount reps. Use your judgment. | Beta——AI 可能漏计或误计，请自行判断。 |
+| 无网拦截 | ATOM is offline — connect it to start AI modes. | ATOM 未联网，连网后才能启动 AI 模式。 |
+| 无网 CTA | ATOM must be online | ATOM 需在线 |
+| 门槛·缺设备 | Live Coach runs on ATOM · Pair a nearby ATOM to unlock AI modes. | Live Coach 需要 ATOM · 连接身边的 ATOM，解锁 AI 模式。 |
+| 门槛·缺会员 | Live Coach needs Plus · Get Plus to unlock AI modes. | Live Coach 需要 Plus · 开通 Plus，解锁 AI 模式。 |
+| 课前须知·标题 | Get set up | 课前须知 |
+| Coach 副标 | Good framing keeps AI accurate. | 画面摆好，识别才准。 |
+| Recap 副标 | Stay in frame, any angle. Good light, just you. | 全程在画面里，角度随意。光线充足、只有你。 |
+| 报告预期 | Deeper recaps coming via OTA. Today's is basic. | 更深复盘将随 OTA 上线，当前报告较简单。 |
+| 算法留存 | Video is saved — future upgrades re-analyze it. | 视频留存，日后升级可重新分析。 |
+| 数据·底部行 | Saved to your cloud · Change | 视频同步到云端 · 更改 |
+| 数据·隐私 | We don't view your videos or use your data to train our AI. | 我们不会查看你的视频，也不用于训练 AI。 |
+| 无 SD 告警 | No SD card — this session won't be kept. Insert one, or use cloud. | 未检测到 SD 卡，本次不会保留。请插卡或改用云端。 |
+| ATOM 确认·Coach | AI is beta — may miss or miscount reps. · Whole body in frame — no blocking or backlight. | AI 仍是 beta，可能漏记或误记。· 全身入框，别遮挡、别逆光。 |
+| ATOM 确认·Recap | Stay in frame — angle is flexible. · Deeper recaps coming via OTA. | 全程在画面里，角度随意。· 更深复盘随 OTA 上线。 |
 
 ---
 
 ## 6. 最新设计 UI · Latest design
 
-以下由交互原型 `prototype-课前模式选择.html` 截图生成。
+**全界面素材图（16 个界面/状态 × 中英）**——供设计师核对文案与素材：
 
-**手机端 · 已连接 + Plus（选中 Live Coach）**
-![手机·已连接](images/c1-phone-connected.png)
+**English**
+![UI spec · EN](images/UI-spec-en.png)
 
-**手机端 · 无设备（AI 模式锁定）**
-![手机·无设备](images/c2-phone-no-device.png)
+**中文**
+![UI 素材 · 中文](images/UI-spec-zh.png)
 
-**手机端 · 未开通 Plus（点击后弹说明）**
-![手机·需要Plus](images/c3-phone-need-plus.png)
-
-**手机端 · ATOM 无网络（拦截启动）**
-![手机·无网络](images/c4-phone-no-network.png)
-
-**手机端 · 开始前确认弹窗**
-![手机·开始前确认](images/c5-phone-prestart.png)
-
-**手机端 · 多设备切换列表**
-![手机·设备列表](images/c6-phone-device-list.png)
-
-**ATOM 圆屏 · 模式选择**
-![ATOM·选择](images/c7-atom-round.png)
-
-**ATOM 圆屏 · 开始前确认（独立整屏）**
-![ATOM·确认](images/c8-atom-confirm.png)
-
-**中文版 · 手机端 / ATOM 圆屏**
-![手机·中文](images/c9-phone-zh.png)
-![ATOM·中文](images/c10-atom-round-zh.png)
+> 覆盖：课程预览 / 模式选择（在线·离线·无设备·无 Plus）/ 门槛弹窗（缺设备·缺会员）/ 设备列表 / 课前须知（Coach·Recap）/ 数据保存（云端·无 SD）/ ATOM（待机·模式列表·确认 Coach·确认 Recap）。
+> 火柴人取景图、柠檬绿、课程数据（32 分钟 / 12 动作 / 280 千卡 / 动作名）均为**占位**，待设计师替换。
+> 交互版见 `prototype-demo.html`（左右双端）与 `prototype-mobile.html`（手机满屏）。
 
 ---
 
@@ -190,9 +202,14 @@
 
 ## 8. 待定 · Open questions
 
-- 手机端标题行 `Plus` 标签是否保留。
-- 品牌绿的确切色值（原型内 `#7cc00c` 为占位近似值，待替换为 BodyPark 品牌色）。
+- **品牌绿**确切色值（原型内 `#7CC00C` 为占位近似值，待替换为 BodyPark 品牌色 + on-light 变体）。
+- **取景插画**：需设计师出「正确 vs 错误」摆位对照图，替换现火柴人占位。
+- **隐私协议**真实链接。
+- **课程预览页**接真实课程数据（封面图、时长、动作清单、预估消耗）。
 - 是否需要「连接中 / 配对中」过渡态。
+- Record & Recap 英文名较长，窄屏下 `Plus` 标签会掉到标题下一行——是否可接受，或强制同行（会压小字号）。
+
+**本轮已确认**：切换心智提示移到卡片下方、纯灰小字、离线不展示；未选中卡片只留标题；字号统一 20/16/14/12；iPhone 17 尺寸；预览优先入口。
 
 ---
 
