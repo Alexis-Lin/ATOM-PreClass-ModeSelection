@@ -1,5 +1,3 @@
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Workout Mode — Phone + ATOM (EN / 中文)</title>
 <style>
   :root{
@@ -265,30 +263,45 @@
   .k{display:inline-block;font-size:11px;background:var(--bg);border:1px solid var(--studio-line);border-radius:5px;padding:1px 6px;font-weight:600;color:var(--studio-ink);}
   footer{margin-top:34px;font-size:12px;color:var(--studio-sub);text-align:center;}
 
-  /* ============ MOBILE PROTOTYPE OVERRIDES ============ */
-  html,body{background:#e6e7e3;}
-  .wrap{max-width:520px;margin:0 auto;padding:0 0 40px;}
-  .eyebrow,h1,.lede,.side,footer,.colhead{display:none!important;}
-  .controls{position:sticky;top:0;z-index:60;margin:0;padding:8px 10px;background:rgba(247,248,245,.94);
-    -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid var(--studio-line);
-    gap:6px;justify-content:center;row-gap:6px;}
-  .controls .seg{font-size:11px;padding:2px;}
-  .controls .seg button{padding:5px 8px;font-size:11px;}
-  .controls .seg .cap{font-size:9.5px;padding:5px 4px 5px 7px;}
-  .controls .ctl{padding:5px 9px;}
-  .controls .ctl .lab{font-size:11px;}
-  .stage{gap:20px;margin:14px 0 0;padding:0 12px;align-items:center;}
-  .stage>div{width:100%;display:flex;flex-direction:column;align-items:center;}
-  .phone{width:100%;max-width:402px;}
-  .round{width:min(82vw,340px);height:min(82vw,340px);flex:none;margin-top:20px;}
+  /* ============ DEMO (left-right, preview-first) ============ */
+  .eyebrow,.lede,.side,footer,h1{display:none!important;}
+  .wrap{max-width:1000px;margin:0 auto;padding:22px 20px 60px;}
+  .controls{justify-content:center;margin-top:4px;}
+  .stage{gap:44px;margin-top:24px;align-items:flex-start;justify-content:center;}
+  .reset{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--studio-line);background:var(--studio-card);
+    color:var(--studio-sub);font:inherit;font-size:12px;font-weight:700;padding:7px 12px;border-radius:10px;cursor:pointer;}
+  .reset svg{width:14px;height:14px;}
+
+  /* phone course preview */
+  .pvhero{height:212px;flex:none;position:relative;display:flex;align-items:flex-end;padding:18px;
+    background:linear-gradient(150deg,#2b302e 0%,#4a5247 55%,#727a68 100%);}
+  .pvstatus{position:absolute;top:14px;left:0;right:0;display:flex;justify-content:space-between;padding:0 20px;color:#f4f5f2;font-size:13px;font-weight:600;opacity:.92;}
+  .pvhero-in{color:#fff;position:relative;}
+  .pvkicker{font-size:12px;font-weight:700;letter-spacing:.13em;opacity:.82;margin-bottom:7px;}
+  .pvtitle{font-size:20px;font-weight:800;letter-spacing:-.01em;}
+  .pvmeta{font-size:12px;opacity:.9;margin-top:7px;}
+  .pvbody{flex:1;padding:18px;display:flex;flex-direction:column;gap:16px;}
+  .pvdesc{font-size:14px;line-height:1.6;color:var(--ink-2);}
+  .pvstats{display:flex;gap:10px;}
+  .pvstat{flex:1;background:#f4f5f2;border:1px solid var(--line);border-radius:12px;padding:12px 8px;text-align:center;}
+  .pvs-n{font-size:20px;font-weight:800;color:var(--ink);letter-spacing:-.01em;}
+  .pvs-l{font-size:12px;color:var(--ink-3);margin-top:2px;}
+  .pvcta{padding:14px 18px 18px;flex:none;}
+  .pvcta button{width:100%;background:var(--cta);color:#fff;border:0;border-radius:999px;padding:16px;font:inherit;font-size:16px;font-weight:700;cursor:pointer;letter-spacing:-.01em;}
+  .pvsec-h{font-size:12px;font-weight:800;color:var(--ink);text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px;}
+  .pvli{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--hair);font-size:14px;font-weight:500;color:var(--ink);}
+  .pvli:last-child{border-bottom:0;}
+  .pvli-n{width:22px;height:22px;border-radius:7px;background:#f2f3ef;color:var(--ink-2);font-size:12px;font-weight:700;display:grid;place-items:center;flex:none;}
+  .preview{transition:opacity .28s ease;}
+  .preview.hiding{opacity:0;pointer-events:none;}
   .rcap{display:none!important;}
-  .viewseg{display:flex;justify-content:center;gap:6px;margin:12px 12px 0;}
-  .viewseg button{flex:1;max-width:180px;border:1px solid var(--studio-line);background:var(--studio-card);
-    color:var(--studio-sub);font:inherit;font-size:12.5px;font-weight:700;padding:9px;border-radius:11px;cursor:pointer;}
-  .viewseg button[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink);}
-  .stage.show-atom .pane-phone{display:none;}
-  .stage:not(.show-atom) .pane-atom{display:none;}
-  @media(min-width:760px){ .viewseg{display:none;} .stage.show-atom .pane-phone,.stage:not(.show-atom) .pane-atom{display:flex!important;} }
+
+  /* ATOM idle */
+  .aidle-k{font-size:11px;font-weight:700;letter-spacing:.14em;color:#8b918a;margin-bottom:8px;}
+  .aidle-t{font-size:20px;font-weight:800;color:#f2f4ef;letter-spacing:-.01em;text-align:center;line-height:1.15;}
+  .aidle-m{font-size:12px;color:#8b918a;margin-top:9px;margin-bottom:22px;}
+  #atomidle{transition:opacity .28s ease;}
+  #atomidle.hiding{opacity:0;pointer-events:none;}
 </style>
 
 <div class="wrap">
@@ -301,16 +314,12 @@
     <div class="seg" id="atomstat"><span class="cap">ATOM</span><button data-st="conn" aria-pressed="true">Online</button><button data-st="nonet" aria-pressed="false">No network</button></div>
     <div class="ctl"><button class="sw" id="sw-plus" role="switch" aria-checked="true"></button><span class="lab">Plus</span></div>
     <div class="ctl"><button class="sw" id="sw-sd" role="switch" aria-checked="true"></button><span class="lab">SD card</span></div>
+    <button class="reset" id="reset"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 4v4h4"/></svg>Reset</button>
   </div>
 
-  <div class="viewseg" id="viewseg">
-    <button data-view="phone" aria-pressed="true">📱 Phone</button>
-    <button data-view="atom" aria-pressed="false">⌚ ATOM</button>
-  </div>
-
-  <div class="stage" id="stage">
+  <div class="stage">
     <!-- PHONE -->
-    <div class="pane-phone">
+    <div>
       <div class="colhead" data-i18n="head_phone">iPhone · in-app modal</div>
       <div class="phone">
         <div class="backdrop">
@@ -418,11 +427,39 @@
 
         <!-- secondary data-save sheet (opened from the small entry on the notice) -->
         <div class="pop" id="datasheet"><div class="popcard" id="datasheet-card"></div></div>
+
+        <!-- course preview (shown first; the bottom button opens the modal) -->
+        <div class="page preview show" id="preview">
+          <div class="pvhero">
+            <div class="pvstatus"><span>20:33</span><span class="sigbars"><i></i><i></i><i></i><i></i></span></div>
+            <div class="pvhero-in">
+              <div class="pvkicker" data-i18n="pvKicker">TODAY’S WORKOUT</div>
+              <div class="pvtitle" data-i18n="course">Back &amp; Legs</div>
+              <div class="pvmeta" data-i18n="pvMeta">32 min · Strength · Intermediate</div>
+            </div>
+          </div>
+          <div class="pvbody">
+            <div class="pvdesc" data-i18n="pvDesc"></div>
+            <div class="pvstats">
+              <div class="pvstat"><div class="pvs-n">32</div><div class="pvs-l" data-i18n="pvStatMin">min</div></div>
+              <div class="pvstat"><div class="pvs-n">12</div><div class="pvs-l" data-i18n="pvStatEx">exercises</div></div>
+              <div class="pvstat"><div class="pvs-n">~280</div><div class="pvs-l" data-i18n="pvStatKcal">kcal</div></div>
+            </div>
+            <div class="pvsec">
+              <div class="pvsec-h" data-i18n="pvInc">In this session</div>
+              <div class="pvli"><span class="pvli-n">1</span><span data-i18n="pvEx1"></span></div>
+              <div class="pvli"><span class="pvli-n">2</span><span data-i18n="pvEx2"></span></div>
+              <div class="pvli"><span class="pvli-n">3</span><span data-i18n="pvEx3"></span></div>
+              <div class="pvli"><span class="pvli-n">4</span><span data-i18n="pvEx4"></span></div>
+            </div>
+          </div>
+          <div class="pvcta"><button id="preview-start" data-i18n="pvStart">Start workout</button></div>
+        </div>
       </div>
     </div>
 
     <!-- ATOM ROUND DEVICE -->
-    <div class="pane-atom">
+    <div>
       <div class="colhead" data-i18n="head_device">ATOM device · 466×466 round</div>
       <div class="round">
         <div class="rface">
@@ -439,6 +476,15 @@
           </div>
           <div class="rstart"><button id="r-start-btn"><span id="r-start"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button></div>
         </div>
+
+        <!-- ATOM idle (shown first; tap Start to reveal the mode list) -->
+        <div class="roverlay show" id="atomidle">
+          <div class="aidle-k" data-i18n="pvKicker">TODAY’S WORKOUT</div>
+          <div class="aidle-t" data-i18n="course">Back &amp; Legs</div>
+          <div class="aidle-m" data-i18n="pvMetaShort">32 min · Strength</div>
+          <button class="rgo" id="atomidle-start" data-i18n="pvStart">Start workout</button>
+        </div>
+
         <div class="roverlay" id="roverlay">
           <div class="rframe"><svg class="rfrm" viewBox="0 0 200 130" preserveAspectRatio="xMidYMid meet">
             <rect x="5" y="5" width="190" height="120" rx="14" fill="#151614" stroke="#3a3d38" stroke-width="2"/>
@@ -524,6 +570,10 @@
       rcRecap:['Stay in frame — angle is flexible.','Deeper recaps coming via OTA.'],
       head_phone:'iPhone · in-app modal', head_device:'ATOM device · 466×466 round',
       course:'Back & Legs', course_short:'Back & Legs', selectMode:'Select workout mode', workoutMode:'Workout mode',
+      pvKicker:'TODAY’S WORKOUT', pvMeta:'32 min · Strength · Intermediate', pvMetaShort:'32 min · Strength',
+      pvDesc:'A lower-body strength session — squats, hinges and lunges for stronger legs and back.',
+      pvStart:'Start workout', pvStatMin:'min', pvStatEx:'exercises', pvStatKcal:'kcal',
+      pvInc:'In this session', pvEx1:'Goblet squat', pvEx2:'Romanian deadlift', pvEx3:'Walking lunge', pvEx4:'Back extension',
       flexNote:'Not sure? Switch modes anytime, even mid-workout.',
       rstart:'Start', atomCoachSub:'Live counting and cues.', atomRecapSub:'Records quietly, reports after.',
       devcap:'Title is just “Workout mode”. Selected card shows its one-line explanation; the others show only their title. Manual Log stays on the phone.' },
@@ -563,6 +613,10 @@
       rcRecap:['全程在画面里，角度随意。','更深复盘随 OTA 上线。'],
       head_phone:'iPhone · 应用内弹窗', head_device:'ATOM 设备 · 466×466 圆屏',
       course:'背部与腿部力量', course_short:'背腿力量', selectMode:'选择上课模式', workoutMode:'上课模式',
+      pvKicker:'今日训练', pvMeta:'32 分钟 · 力量 · 进阶', pvMetaShort:'32 分钟 · 力量',
+      pvDesc:'下肢力量训练——深蹲、髋铰链与弓步，练强腿部和背部。',
+      pvStart:'开始训练', pvStatMin:'分钟', pvStatEx:'个动作', pvStatKcal:'千卡',
+      pvInc:'本节包含', pvEx1:'高脚杯深蹲', pvEx2:'罗马尼亚硬拉', pvEx3:'行走弓步', pvEx4:'背部伸展',
       flexNote:'不确定？课中随时能切换，先选一个。',
       rstart:'开始', atomCoachSub:'实时计数、动作提示。', atomRecapSub:'安静录制，练后出报告。',
       devcap:'标题就是「上课模式」。选中的卡片显示一行说明，其余只显示标题。手动记录留在手机端。' }
@@ -786,17 +840,22 @@
     else if(prestart.classList.contains('show')){ var st=psBody.scrollTop; openPrestart(true); psBody.scrollTop=st; } });
   devAdd.addEventListener('click',function(){ setDC('one'); });
 
-  /* mobile view switch: Phone <-> ATOM */
-  var stageEl=document.getElementById('stage');
-  document.querySelectorAll('#viewseg button').forEach(function(b){ b.addEventListener('click',function(){
-    var v=b.getAttribute('data-view');
-    document.querySelectorAll('#viewseg button').forEach(function(x){ x.setAttribute('aria-pressed',String(x===b)); });
-    stageEl.classList.toggle('show-atom', v==='atom');
-    window.scrollTo({top:0,behavior:'smooth'});
-  }); });
-
   var dmodes=[].slice.call(document.querySelectorAll('.dmode'));
   dmodes.forEach(function(el){ el.addEventListener('click',function(){ dmodes.forEach(function(m){m.classList.remove('sel');}); el.classList.add('sel'); }); });
+
+  /* preview-first: dismiss the preview / idle screens to reveal the flow */
+  var preview=document.getElementById('preview'), atomidle=document.getElementById('atomidle');
+  function hideOverlay(el){ el.classList.add('hiding'); setTimeout(function(){ el.classList.remove('show','hiding'); }, 280); }
+  document.getElementById('preview-start').addEventListener('click',function(){ hideOverlay(preview); });
+  document.getElementById('atomidle-start').addEventListener('click',function(){ hideOverlay(atomidle); });
+
+  /* reset the whole demo back to the preview screens */
+  document.getElementById('reset').addEventListener('click',function(){
+    closePop(); dpick.classList.remove('show'); roverlay.classList.remove('show');
+    prestart.classList.remove('show'); datasheet.classList.remove('show');
+    preview.classList.remove('hiding'); preview.classList.add('show');
+    atomidle.classList.remove('hiding'); atomidle.classList.add('show');
+  });
 
   render();
 })();
