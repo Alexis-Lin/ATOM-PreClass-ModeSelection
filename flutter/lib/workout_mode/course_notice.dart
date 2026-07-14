@@ -130,17 +130,16 @@ class FramingTipsPage extends StatelessWidget {
             const SizedBox(height: 8),
             const FramingIllustration(),
             const SizedBox(height: 14),
-            _InfoBox(icon: Icons.groups_outlined, header: l.crowdHeader, body: l.crowd),
-            const SizedBox(height: 10),
-            _InfoBox(icon: Icons.camera_outdoor_outlined, header: l.tripodHeader, body: l.tripod),
+            _InfoStack(rows: [
+              _InfoRow(icon: Icons.groups_outlined, header: l.crowdHeader, body: l.crowd),
+              _InfoRow(icon: Icons.camera_outdoor_outlined, header: l.tripodHeader, body: l.tripod),
+            ]),
             const SizedBox(height: 16),
             Text(l.avoidHeader.toUpperCase(),
                 style: const TextStyle(
                     fontSize: 12, fontWeight: FontWeight.w800, color: Wm.warn, letterSpacing: 0.5)),
             const SizedBox(height: 8),
             CheckList(items: l.coachAvoid, tone: CheckTone.bad),
-            const SizedBox(height: 16),
-            _InfoBox(icon: Icons.info_outline, header: l.perExHeader, body: l.perEx),
           ],
         ),
       ),
@@ -224,15 +223,14 @@ class CheckList extends StatelessWidget {
   }
 }
 
-class _InfoBox extends StatelessWidget {
-  const _InfoBox({required this.icon, required this.header, required this.body});
+class _InfoRow extends StatelessWidget {
+  const _InfoRow({required this.icon, required this.header, required this.body});
   final IconData icon;
   final String header;
   final String body;
   @override
-  Widget build(BuildContext context) => Container(
+  Widget build(BuildContext context) => Padding(
         padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 12),
-        decoration: BoxDecoration(color: Wm.iconBg, borderRadius: BorderRadius.circular(12)),
         child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Icon(icon, size: 18, color: Wm.ink2),
           const SizedBox(width: 10),
@@ -246,6 +244,37 @@ class _InfoBox extends StatelessWidget {
           ),
         ]),
       );
+}
+
+class _InfoBox extends StatelessWidget {
+  const _InfoBox({required this.icon, required this.header, required this.body});
+  final IconData icon;
+  final String header;
+  final String body;
+  @override
+  Widget build(BuildContext context) => Container(
+        decoration: BoxDecoration(color: Wm.iconBg, borderRadius: BorderRadius.circular(12)),
+        child: _InfoRow(icon: icon, header: header, body: body),
+      );
+}
+
+/// One box holding several info rows, separated by hairlines — keeps the
+/// framing-tips page from turning into a stack of tiny boxes.
+class _InfoStack extends StatelessWidget {
+  const _InfoStack({required this.rows});
+  final List<_InfoRow> rows;
+  @override
+  Widget build(BuildContext context) {
+    final children = <Widget>[];
+    for (var i = 0; i < rows.length; i++) {
+      if (i > 0) children.add(const Divider(height: 1, thickness: 1, color: Wm.line));
+      children.add(rows[i]);
+    }
+    return Container(
+      decoration: BoxDecoration(color: Wm.iconBg, borderRadius: BorderRadius.circular(12)),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: children),
+    );
+  }
 }
 
 /// Placeholder framing diagram.
@@ -288,10 +317,10 @@ class _Footer extends StatelessWidget {
       ),
       child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.stretch, children: [
         _DataSaveLine(controller: controller),
+        const SizedBox(height: 10),
+        _DontShowRow(controller: controller),
         const SizedBox(height: 12),
         PillButton(label: l.ready, onTap: () => onStart(mode)),
-        const SizedBox(height: 6),
-        _DontShowRow(controller: controller),
       ]),
     );
   }

@@ -147,6 +147,8 @@
   .pagebar .back svg{width:18px;height:18px;}
   .pagebar .ptitle{font-size:20px;font-weight:800;color:var(--ink);}
   .pagebody{flex:1;overflow-y:auto;padding:16px 18px 10px;}
+  #ps-body{display:flex;flex-direction:column;}
+  .ps-foot{margin-top:auto;}  /* save-line + don't-show stay with the bottom button, not the content */
   .pagesub{font-size:14px;color:var(--ink-2);line-height:1.5;margin:0 0 14px;}
   .pagecta{padding:12px 18px 18px;border-top:1px solid var(--hair);flex:none;}
   .pagecta button{width:100%;background:var(--cta);color:#fff;border:0;border-radius:999px;padding:16px;font:inherit;font-size:16px;font-weight:700;cursor:pointer;}
@@ -155,6 +157,9 @@
   .infobox{display:flex;flex-direction:column;gap:4px;font-size:12px;line-height:1.5;color:var(--ink-2);background:#f4f5f2;border:1px solid var(--line);border-radius:8px;padding:12px;margin-top:10px;}
   .infobox .ih{display:flex;align-items:center;gap:7px;font-size:14px;font-weight:800;color:var(--ink);}
   .infobox .ih svg{width:15px;height:15px;color:var(--ink-2);}
+  .infobox.stack{gap:0;padding:0;}
+  .infobox.stack .ir{display:flex;flex-direction:column;gap:4px;padding:12px;}
+  .infobox.stack .ir+.ir{border-top:1px solid var(--line);}
   .dataopts{display:flex;gap:8px;margin-bottom:9px;}
   .dataopt{flex:1;display:flex;align-items:center;gap:7px;padding:11px 11px;border:1.5px solid var(--line);border-radius:12px;background:#fff;cursor:pointer;font-size:12px;font-weight:600;color:var(--ink-2);}
   .dataopt svg{width:16px;height:16px;flex:none;}
@@ -614,7 +619,6 @@
       tipsLink:'See framing tips', tipsTitle:'Framing tips',
       tripodH:'Steady placement', tripod:'A compatible ATOM tripod or stand keeps it level at about knee height.',
       crowdH:'Crowd is fine', crowd:'ATOM tracks the largest person in view, so people in the background won’t throw it off — just be centred and close enough that you’re the biggest.',
-      perExH:'Per exercise', perEx:'Some moves (floor work, wide stances) need more room — just follow the on-screen guide for each.',
       recapSub:'Stay in frame at any angle — just keep the light good.',
       recapDoH:'Keep in mind',
       recapDo:['Stay fully in frame the whole workout','Angle is flexible — front or side is fine','Enough light; just you in frame'],
@@ -668,7 +672,6 @@
       tipsLink:'查看拍摄技巧', tipsTitle:'拍摄技巧',
       tripodH:'稳定摆放', tripod:'用配套的 ATOM 三脚架/支架，把它平稳架在约膝盖高度。',
       crowdH:'背景有人没关系', crowd:'ATOM 只认画面里最大的那个人，背景有人也不影响——你居中、离得够近，是画面里最大的主体就行。',
-      perExH:'不同动作', perEx:'部分动作（地面动作、大跨步）需要更大画面，按每个动作的屏幕提示调整即可。',
       recapSub:'全程在画面里，角度随意，光线充足就好。',
       recapDoH:'记住这几点',
       recapDo:['运动全程待在画面里','角度不苛刻，正面或侧面都行','光线别太暗，画面里只有你'],
@@ -759,6 +762,7 @@
   function _avoid(items){ return '<div class="avoidlist">'+items.map(function(x){return '<div class="av">'+AVX+'<span>'+x+'</span></div>';}).join('')+'</div>'; }
   function _reach(t){ return '<div class="reach">'+PINI+'<span>'+t.reach+'</span></div>'; }
   function _info(icon,h,txt){ return '<div class="infobox"><div class="ih">'+icon+'<span>'+h+'</span></div><span>'+txt+'</span></div>'; }
+  function _info2(rows){ return '<div class="infobox stack">'+rows.map(function(r){return '<div class="ir"><div class="ih">'+r[0]+'<span>'+r[1]+'</span></div><span>'+r[2]+'</span></div>';}).join('')+'</div>'; }
   function _datarow(t){
     if(!saving()){
       return '<div class="dataline off" id="ps-datarow"><span>'+t.drSaveOff+'</span><span class="drchange allow">'+t.drTurnOn+'</span></div>';
@@ -788,7 +792,7 @@
       if(!saving()) h+=_info(REPORTI,t.reportH,t.recapNoSave);
       else h+=_info(REPORTI,t.reportH,t.report)+_info(ALGOI,t.algoH,t.algo);
     }
-    h+=_datarow(t)+_dontrow(t);
+    h+='<div class="ps-foot">'+_datarow(t)+_dontrow(t)+'</div>';
     psBody.innerHTML=h; prestart.classList.add('show'); if(!keep) psBody.scrollTop=0;
     document.getElementById('ps-datarow').onclick=openDataSheet;
     document.getElementById('ps-dont').onclick=function(){ psSkip=!psSkip; var st=psBody.scrollTop; openPrestart(true); psBody.scrollTop=st; };
@@ -801,10 +805,8 @@
     tipsT.textContent=t.tipsTitle;
     tipsBody.innerHTML='<div class="coachcallout">'+EYEI+'<span>'+t.coachLine+'</span></div>'
       +'<div class="okcap">'+CHK+'<span>'+t.coachDoH+'</span></div>'+FRAME_LIGHT
-      +_info(PEOPLEI,t.crowdH,t.crowd)
-      +_info(TRIPODI,t.tripodH,t.tripod)
-      +_sec(t.coachAvoidH,true)+_avoid(t.coachAvoid)
-      +_info(INFOI,t.perExH,t.perEx);
+      +_info2([[PEOPLEI,t.crowdH,t.crowd],[TRIPODI,t.tripodH,t.tripod]])
+      +_sec(t.coachAvoidH,true)+_avoid(t.coachAvoid);
     tips.classList.add('show'); tipsBody.scrollTop=0;
   }
   document.getElementById('tips-back').onclick=function(){ tips.classList.remove('show'); };

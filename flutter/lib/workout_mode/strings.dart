@@ -124,10 +124,6 @@ class L {
           'Blocked by a bench, rack or barbell',
           'Backlit, too dark, or heavy shadows',
         ];
-  String get perExHeader => _t('Per exercise', '不同动作');
-  String get perEx => _t(
-      'Some moves (floor work, wide stances) need more room — just follow the on-screen guide for each.',
-      '部分动作（地面动作、大跨步）需要更大画面，按每个动作的屏幕提示调整即可。');
 
   // ---- data-save (bottom line) ----
   String get drCloud => _t('Saved to your cloud', '视频同步到云端');
