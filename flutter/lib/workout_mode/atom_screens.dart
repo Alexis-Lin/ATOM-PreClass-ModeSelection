@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'controller.dart';
 import 'models.dart';
-import 'phone_sheet.dart' show iconFor, kPlusIcon, ModeCallback;
+import 'shared.dart' show iconFor, kPlusIcon, ModeCallback;
 import 'strings.dart';
 import 'tokens.dart';
 
@@ -111,20 +111,21 @@ class _AtomRoundScreenState extends State<AtomRoundScreen> {
     final skip = widget.controller.skipAtomConfirm;
     return Container(
       color: Wm.deviceBg, // fully opaque — a complete screen, not a scrim
-      padding: const EdgeInsets.fromLTRB(42, 40, 42, 34),
+      padding: const EdgeInsets.fromLTRB(42, 38, 42, 34),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          _RoundClose(onTap: () => setState(() => _showConfirm = false)),
-          const SizedBox(height: 14),
+          const _DeviceFrame(),
+          const SizedBox(height: 12),
           Text(l.atomConfirmTitle,
               style: const TextStyle(
                   fontSize: 16, fontWeight: FontWeight.w800, color: Wm.deviceText)),
-          const SizedBox(height: 13),
-          _bullet(l.atomConfirm1),
-          const SizedBox(height: 10),
-          _bullet(l.atomConfirm2),
-          const SizedBox(height: 15),
+          const SizedBox(height: 12),
+          for (final b in l.atomBullets(_sel)) ...[
+            _bullet(b),
+            const SizedBox(height: 10),
+          ],
+          const SizedBox(height: 5),
           _DontShowAgain(
             label: l.dontShowAgain,
             value: skip,
@@ -219,6 +220,23 @@ class _AtomTile extends StatelessWidget {
   }
 }
 
+/// Compact framing hint for the round confirm.
+/// ⚠️ DESIGNER: placeholder — replace with the framing illustration.
+class _DeviceFrame extends StatelessWidget {
+  const _DeviceFrame();
+  @override
+  Widget build(BuildContext context) => Container(
+        width: 122,
+        height: 58,
+        decoration: BoxDecoration(
+          color: Wm.deviceCard,
+          border: Border.all(color: Wm.deviceCardLine, width: 1.5),
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: const Icon(Icons.accessibility_new, size: 30, color: Wm.brand),
+      );
+}
+
 class _DeviceRadio extends StatelessWidget {
   const _DeviceRadio({required this.selected});
   final bool selected;
@@ -252,25 +270,6 @@ class _StartPill extends StatelessWidget {
             const SizedBox(width: 4),
             const Icon(Icons.chevron_right, size: 16, color: Color(0xFF0F1408)),
           ]),
-        ),
-      );
-}
-
-class _RoundClose extends StatelessWidget {
-  const _RoundClose({required this.onTap});
-  final VoidCallback onTap;
-  @override
-  Widget build(BuildContext context) => GestureDetector(
-        onTap: onTap,
-        child: Container(
-          width: 30,
-          height: 30,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: const Color(0xFF1C1F1A),
-            border: Border.all(color: const Color(0xFF33362F)),
-          ),
-          child: const Icon(Icons.close, size: 15, color: Color(0xFFC9CDC4)),
         ),
       );
 }

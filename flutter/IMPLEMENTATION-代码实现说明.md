@@ -9,7 +9,7 @@
 ## 1. 如何运行 · Run
 
 ```bash
-cd workout-mode-selection/flutter
+cd flutter
 flutter pub get
 flutter run          # 或 flutter run -d chrome 跑 Web
 ```
@@ -22,17 +22,29 @@ flutter run          # 或 flutter run -d chrome 跑 Web
 
 ```
 lib/
-├── main.dart                      # 演示壳（预览开关 + 手机弹窗 + ATOM 圆屏）—— 非生产
+├── main.dart                      # 演示壳（预览开关 + 手机预览 + ATOM 圆屏）—— 非生产
 └── workout_mode/                  # ★ 可复用模块
     ├── models.dart                # 枚举与数据类（无 UI 依赖）
-    ├── strings.dart               # 中英文案（L）
+    ├── strings.dart               # ★ 全部中英文案（L）—— 改文案只动这里
     ├── tokens.dart                # 设计 token（颜色/圆角）
     ├── controller.dart            # ★ 全部业务逻辑（ChangeNotifier）
-    ├── phone_sheet.dart           # 手机端弹窗 + 模式卡 + 门槛/开始前/设备列表弹窗
+    ├── shared.dart                # 公用小组件（胶囊按钮 / Radio / Plus 标 / Beta 提示 / 弹窗壳）
+    ├── preview_settings.dart      # 课程预览页（预览优先入口）+ 设置页（保存视频全局开关）
+    ├── phone_sheet.dart           # 模式弹窗 + 模式卡（未选中只标题）+ 门槛/设备列表弹窗
+    ├── course_notice.dart         # 整页「课前须知」+ 拍摄技巧页 + 数据保存/引导弹窗
     └── atom_screens.dart          # ATOM 466×466 圆屏 + 整屏开始前确认
 ```
 
-**关注点分离**：`controller.dart` 是唯一的规则来源；UI 只读它的判定函数，不自己算逻辑。
+**关注点分离**：`controller.dart` 是唯一的规则来源；UI 只读它的判定函数，不自己算逻辑。**所有文案集中在 `strings.dart`（`L`）**（与原型 `T` 一一对应）。
+
+### 结构（方向 F）
+具名三选一（Live Coach / Record & Recap / Manual Log）；未选中卡片**只显示标题**，选中才展开一行说明。心智提示 `flexNote`（*「不确定？课中随时能切换，先选一个。」*）为**卡片下方、按钮上方的绿色小字**，**离线时不显示**。
+
+### 完整流程（预览优先）
+**课程预览页**（`CoursePreviewPage`，右上角齿轮进 `SettingsPage`）→ 点「开始训练」弹出**模式弹窗** → **AI 模式** 点 CTA → 整页**课前须知**（Live Coach：教练心智副标 + OK 取景图 + 5 条做到 + 「查看拍摄技巧」入口 + Beta；Record & Recap：宽松取景 + 报告/留存）。「拍摄技巧」二级页（`FramingTipsPage`）放教练心智 + OK 图 + 稳定摆放(三脚架) + 反例 + 每个动作差异 → `I'm ready` → `onStart`。**Manual Log** 不走须知直接开始。
+
+### 数据保存（反向逻辑）
+默认**不引导用户不存**：课前只有 **云端 / 仅存 ATOM**。「不保存」= **Settings 全局开关 `saveVideosOn`**（默认开）。关掉后课前须知数据行变绿色引导条「已关闭·开启」，点开是**「保存这次的视频？」**正向弹窗（云端/仅存 ATOM + 底部「这次不用」），选云端/仅存即 `sessionSave = true`。`saving = saveVideosOn || sessionSave`；Record & Recap 不保存则提示无复盘报告。
 
 ---
 
@@ -77,7 +89,9 @@ showModalBottomSheet(
 AtomRoundScreen(controller: controller, onStart: (mode) => startWorkout(mode));
 ```
 
-交互内建：锁定卡点击 → 门槛弹窗；AI 模式点 Start → 开始前确认弹窗；多设备 → 切换图标弹设备列表；ATOM 端 Start → 整屏确认（可「不再显示」）。
+交互内建：锁定卡点击 → 门槛弹窗；AI 模式点 CTA → 整页课前须知（内含数据去向二次弹窗、可「下次不再提示」）；多设备 → 切换图标弹设备列表；ATOM 端 Start → 整屏确认（可「不再显示」）。
+
+数据去向由 controller 记忆：`dataChoice`（cloud/local）、`hasSdCard`；`skipNotice` 控制是否跳过手机端课前须知。
 
 ---
 
@@ -86,6 +100,9 @@ AtomRoundScreen(controller: controller, onStart: (mode) => startWorkout(mode));
 | 项 | 现状（占位） | 需替换成 |
 |---|---|---|
 | **模式图标** | Material 内置（喇叭 / 摄像机 / 记事） | 设计稿线形图标：Live Coach 声波、Record & Recap 摄像机、Manual Log **手 + 笔** |
+| **取景示意图** | `_FramingIllustration` / `_DeviceFrame`（人物图标占位） | 「正确 vs 错误」摆位对照插画（详见 `../TIPS-识别准确度指南.md`）|
+| **隐私协议链接** | `l.privacyLink` 纯文本 | 接真实隐私协议页 |
+| **数据去向持久化** | `dataChoice` / `skipNotice` 为内存态 | 落本地存储（记住用户偏好）|
 | **品牌绿** | `Wm.brand = #7CC00C`（占位） | BodyPark 准确品牌色 + on-light 变体 `brandInk` |
 | **Plus / 设备图标** | `Icons.diamond_outlined` / `Icons.adjust` | 会员宝石、ATOM 设备标识 |
 | **配对 / 会员 / 开始流程** | demo 里是本地 mock | 接真实 `onAddDevice` / `onGetPlus` / `onStart` |
