@@ -129,9 +129,15 @@
 > 精简原则：去掉与页面标题重复的小标题；bullet 尽量不折行；只在必要时呈现信息。
 
 **Live Coach（对角度较敏感）**
-- 副标题：**画面摆好，识别才准。**
-- 取景图 + **√ 做到**（3 条极简）：全身完整入框 / 手机放稳，约胸口高 / 光线均匀，只有你。
-- **✗ 避免**（3 条）：肢体被裁切、遮挡 / 太近、太远或角度歪 / 逆光、过暗或他人入镜。
+- **心智**：把 ATOM 说成**教练的眼睛**——「教练站那儿能看清你的动作，ATOM 就能看清」。副标题用短版「ATOM 就像教练的眼睛，摆好位置让它看清你」。
+- 课前须知只放**正向**：一张「✓ 正确」取景图 + **做到清单**（约 5 条）：
+  - 全身入框、**居中**；
+  - **ATOM 放到约膝盖高度**（贴地设备，不可能到胸高——原「chest height」为错误，已改）；
+  - 离约 **0.7 米**（0.5–1 m）；
+  - 正对或侧对，**别过度仰角**；
+  - 周围留空，**别被器械（卧推凳 / 深蹲架 / 杠铃）挡住**。
+- **反例（✗ 会影响识别）+ 每个动作差异**放到单独的**「拍摄技巧」二级页**（须知上有「查看拍摄技巧」入口），避免课前堆负面信息。**图片策略**：须知放 1 张 OK；Tips 页放 OK vs 若干 Not-OK 对照 + 说明。
+- 课前要求可**按动作模板化**（地面动作 / 大跨步需要更大画面）。
 - **Beta 提示**：可能漏/误计，请自行判断。
 
 **Record & Recap（对角度较宽松）**
@@ -166,7 +172,10 @@
 | 门槛·缺设备 | Live Coach runs on ATOM · Pair a nearby ATOM to unlock AI modes. | Live Coach 需要 ATOM · 连接身边的 ATOM，解锁 AI 模式。 |
 | 门槛·缺会员 | Live Coach needs Plus · Get Plus to unlock AI modes. | Live Coach 需要 Plus · 开通 Plus，解锁 AI 模式。 |
 | 课前须知·标题 | Get set up | 课前须知 |
-| Coach 副标 | Good framing keeps AI accurate. | 画面摆好，识别才准。 |
+| Coach 副标 | ATOM watches like a coach — set it up so it can see you clearly. | ATOM 就像教练的眼睛——摆好位置，让它看清你。 |
+| Coach 做到（5） | Whole body in frame, centered · Set ATOM about knee height · Stand about 0.7 m back · Face it front-on or side-on · Clear space — nothing blocking you | 全身入框，站在画面中央 · ATOM 放到约膝盖高度 · 离 ATOM 约 0.7 米 · 正对或侧对镜头 · 周围留空，别被器械挡住 |
+| Coach 反例（Tips 页） | Body cut off or off to one side · Too close or too far (~0.7 m) · ATOM tilted steeply up · Blocked by a bench, rack or barbell · Backlit, dark, or others in frame | 身体被裁切或偏到一边 · 太近或太远（约 0.7 米） · ATOM 过度仰角 · 被卧推凳/深蹲架/杠铃挡住 · 逆光、过暗或他人入镜 |
+| 教练心智 | Think of ATOM as your coach's eyes: if a coach standing there could see your form, so can ATOM. | 把 ATOM 想成教练的眼睛：教练站那儿能看清你，ATOM 就能看清。 |
 | Recap 副标 | Stay in frame, any angle. Good light, just you. | 全程在画面里，角度随意。光线充足、只有你。 |
 | 报告预期 | Deeper recaps coming via OTA. Today's is basic. | 更深复盘将随 OTA 上线，当前报告较简单。 |
 | 算法留存 | Video is saved — future upgrades re-analyze it. | 视频留存，日后升级可重新分析。 |

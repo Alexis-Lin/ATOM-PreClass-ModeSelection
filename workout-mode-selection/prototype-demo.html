@@ -313,6 +313,16 @@
   .settext{flex:1;min-width:0;}
   .sett{font-size:16px;font-weight:700;color:var(--ink);}
   .setb{font-size:12px;color:var(--ink-2);line-height:1.55;margin-top:5px;}
+  /* framing-tips link on the notice */
+  .tipslink{display:flex;align-items:center;gap:10px;margin-top:14px;padding:12px 13px;border:1px solid var(--line);border-radius:12px;cursor:pointer;background:#fff;}
+  .tipslink .ti,.tipslink .ti svg{width:20px;height:20px;color:var(--ink-2);flex:none;}
+  .tipslink .tt{flex:1;font-size:14px;font-weight:700;color:var(--ink);}
+  .tipslink .tc,.tipslink .tc svg{width:18px;height:18px;color:var(--ink-3);flex:none;}
+  /* tips page */
+  .coachcallout{display:flex;gap:10px;align-items:flex-start;background:var(--brand-tint,#eef7df);border:1px solid #d6ecb3;border-radius:12px;padding:12px 13px;color:var(--brand-ink);font-size:13px;line-height:1.5;margin-bottom:14px;}
+  .coachcallout svg{width:18px;height:18px;flex:none;margin-top:1px;}
+  .okcap{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:800;color:var(--brand-ink);text-transform:uppercase;letter-spacing:.05em;margin:2px 0 8px;}
+  .okcap svg{width:15px;height:15px;}
 </style>
 
 <div class="wrap">
@@ -481,6 +491,16 @@
             </div>
           </div>
         </div>
+
+        <!-- framing tips (extra reading, opened from the notice) -->
+        <div class="page" id="tips">
+          <div class="pagestatus"><span>20:33</span><span class="sigbars"><i></i><i></i><i></i><i></i></span></div>
+          <div class="pagebar">
+            <div class="back" id="tips-back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></div>
+            <div class="ptitle" id="tips-t"></div>
+          </div>
+          <div class="pagebody" id="tips-body"></div>
+        </div>
       </div>
     </div>
 
@@ -585,11 +605,14 @@
       dataNoSdWarn:"No SD card — this session won't be kept. Insert one, or use cloud.",
       pageTitle:'Get set up', psOk:"I'm ready", reach:'Keep your ATOM within reach.',
       pickT:'Which ATOM?', pickHint:'Pick the one next to you.',
-      coachSub:'Good framing keeps AI accurate.',
+      coachSub:'ATOM watches like a coach — set it up so it can see you clearly.',
       coachDoH:'Set up',
-      coachDo:['Full body in frame','Phone steady, ~chest height','Even light, just you'],
-      coachAvoidH:'Avoid',
-      coachAvoid:['Body cropped or blocked','Too close, far or angled','Backlit, dark, or others in view'],
+      coachDo:['Whole body in frame, centered','Set ATOM about knee height','Stand about 0.7 m back','Face it front-on or side-on','Clear space — nothing blocking you'],
+      coachAvoidH:'These hurt accuracy',
+      coachAvoid:['Body cut off or off to one side','Too close or too far — aim for ~0.7 m','ATOM tilted steeply up at you','Blocked by a bench, rack or barbell','Backlit, too dark, or others in frame'],
+      coachLine:'Think of ATOM as your coach’s eyes: if a coach standing there could see your form, so can ATOM.',
+      tipsLink:'See framing tips', tipsTitle:'Framing tips',
+      perExH:'Per exercise', perEx:'Some moves (floor work, wide stances) need more room — just follow the on-screen guide for each.',
       recapSub:'Stay in frame, any angle. Good light, just you.',
       recapDoH:'Keep in mind',
       recapDo:['Stay fully in frame the whole workout','Angle is flexible — front or side is fine','Enough light; just you in frame'],
@@ -634,11 +657,14 @@
       dataNoSdWarn:'未检测到 SD 卡，本次不会保留。请插卡或改用云端。',
       pageTitle:'课前须知', psOk:'准备好了', reach:'让 ATOM 就在你的手边。',
       pickT:'使用哪一台 ATOM？', pickHint:'选择你身边的那台。',
-      coachSub:'画面摆好，识别才准。',
+      coachSub:'ATOM 就像教练的眼睛——摆好位置，让它看清你。',
       coachDoH:'这样摆',
-      coachDo:['全身完整入框','手机放稳，约胸口高','光线均匀，只有你'],
-      coachAvoidH:'避免',
-      coachAvoid:['肢体被裁切、遮挡','太近、太远或角度歪','逆光、过暗或他人入镜'],
+      coachDo:['全身入框，站在画面中央','ATOM 放到约膝盖高度','离 ATOM 约 0.7 米','正对或侧对镜头','周围留空，别被器械挡住'],
+      coachAvoidH:'这些会影响识别',
+      coachAvoid:['身体被裁切或偏到一边','太近或太远——约 0.7 米最好','ATOM 过度仰角对着你','被卧推凳、深蹲架或杠铃挡住','逆光、过暗，或有他人入镜'],
+      coachLine:'把 ATOM 想成教练的眼睛：教练站那儿能看清你的动作，ATOM 就能看清。',
+      tipsLink:'查看拍摄技巧', tipsTitle:'拍摄技巧',
+      perExH:'不同动作', perEx:'部分动作（地面动作、大跨步）需要更大画面，按每个动作的屏幕提示调整即可。',
       recapSub:'全程在画面里，角度随意。光线充足、只有你。',
       recapDoH:'记住这几点',
       recapDo:['运动全程待在画面里','角度不苛刻，正面或侧面都行','光线别太暗，画面里只有你'],
@@ -737,6 +763,9 @@
     return '<div class="dataline'+(warn?' warn':'')+'" id="ps-datarow"><span>'+txt+'</span><span class="drchange">'+t.drChange+'</span></div>';
   }
   function _dontrow(t){ return '<div class="dontrow'+(psSkip?' on':'')+'" id="ps-dont"><span class="box">'+CHKM+'</span><span>'+t.dontShow+'</span></div>'; }
+  var EYEI='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>';
+  var CHEVI='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>';
+  function _tipslink(t){ return '<div class="tipslink" id="ps-tips"><span class="ti">'+EYEI+'</span><span class="tt">'+t.tipsLink+'</span><span class="tc">'+CHEVI+'</span></div>'; }
   function openPrestart(keep){
     var t=T[LANG];
     var selEl=sheet.querySelector('.mode.sel'); if(!selEl)return;
@@ -746,7 +775,7 @@
     if(mode==='coach'){
       h+='<div class="pagesub">'+t.coachSub+'</div>'+FRAME_LIGHT
         +_do(t.coachDo)
-        +_sec(t.coachAvoidH,true)+_avoid(t.coachAvoid)
+        +_tipslink(t)
         +'<div class="caution" style="margin-top:14px">'+WARNI+'<span>'+t.beta+'</span></div>';
     } else {
       h+='<div class="pagesub">'+t.recapSub+'</div>'+FRAME_LIGHT;
@@ -757,7 +786,20 @@
     psBody.innerHTML=h; prestart.classList.add('show'); if(!keep) psBody.scrollTop=0;
     document.getElementById('ps-datarow').onclick=openDataSheet;
     document.getElementById('ps-dont').onclick=function(){ psSkip=!psSkip; var st=psBody.scrollTop; openPrestart(true); psBody.scrollTop=st; };
+    var tl=document.getElementById('ps-tips'); if(tl) tl.onclick=showTips;
   }
+  /* framing tips (extra reading — OK image + what hurts accuracy + per-exercise) */
+  var tips=document.getElementById('tips'), tipsT=document.getElementById('tips-t'), tipsBody=document.getElementById('tips-body');
+  function showTips(){
+    var t=T[LANG];
+    tipsT.textContent=t.tipsTitle;
+    tipsBody.innerHTML='<div class="coachcallout">'+EYEI+'<span>'+t.coachLine+'</span></div>'
+      +'<div class="okcap">'+CHK+'<span>'+t.coachDoH+'</span></div>'+FRAME_LIGHT
+      +_sec(t.coachAvoidH,true)+_avoid(t.coachAvoid)
+      +_info(INFOI,t.perExH,t.perEx);
+    tips.classList.add('show'); tipsBody.scrollTop=0;
+  }
+  document.getElementById('tips-back').onclick=function(){ tips.classList.remove('show'); };
   psBack.onclick=function(){ prestart.classList.remove('show'); };
   psOk.onclick=function(){ prestart.classList.remove('show'); };   // proceed (would start workout)
 
@@ -921,7 +963,7 @@
   /* reset the whole demo back to the preview screens */
   document.getElementById('reset').addEventListener('click',function(){
     closePop(); dpick.classList.remove('show'); roverlay.classList.remove('show');
-    prestart.classList.remove('show'); datasheet.classList.remove('show'); settings.classList.remove('show');
+    prestart.classList.remove('show'); datasheet.classList.remove('show'); settings.classList.remove('show'); tips.classList.remove('show');
     sessionSave=false;
     preview.classList.remove('hiding'); preview.classList.add('show');
     atomidle.classList.remove('hiding'); atomidle.classList.add('show');
