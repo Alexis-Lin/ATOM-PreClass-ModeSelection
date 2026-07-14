@@ -189,6 +189,100 @@
 
 ---
 
+## 5.1 文案清单 · Copy inventory（逐页 / per screen）
+
+> 唯一改文案入口：`prototype-demo.html` 的 `T`（对应 Flutter `strings.dart`）。标注「占位」的为示例数据，待产品/设计替换。交互流程见 `FLOW-课前交互流程.md`。
+
+### ① 课程预览 Course preview
+| 键 key | EN | 中文 |
+|---|---|---|
+| pvKicker | TODAY'S WORKOUT | 今日训练 |
+| course（课程名·占位）| Back & Legs | 背部与腿部力量 |
+| pvMeta（占位）| 32 min · Strength · Intermediate | 32 分钟 · 力量 · 进阶 |
+| pvDesc（占位）| A lower-body strength session — squats, hinges and lunges for stronger legs and back. | 下肢力量训练——深蹲、髋铰链与弓步，练强腿部和背部。 |
+| pvStat（占位）| 32 min · 12 exercises · ~280 kcal | 32 分钟 · 12 个动作 · ~280 千卡 |
+| pvInc | In this session | 本节包含 |
+| pvEx1–4（占位）| Goblet squat · Romanian deadlift · Walking lunge · Back extension | 高脚杯深蹲 · 罗马尼亚硬拉 · 行走弓步 · 背部伸展 |
+| pvStart | Start workout | 开始训练 |
+
+### ⑰ 设置 Settings
+| 键 | EN | 中文 |
+|---|---|---|
+| settingsTitle | Settings | 设置 |
+| setSaveTitle | Save workout videos | 保存训练视频 |
+| setSaveBody | On by default. Turn off and no video is recorded or uploaded — your reps and stats are still logged, and you'll be asked each time whether to allow saving. | 默认开启。关闭后不再录制或上传任何视频——组数、数据仍会记录；每次训练会询问是否允许保存。 |
+
+### ② 选择上课模式 Mode select
+| 键 | EN | 中文 |
+|---|---|---|
+| selectMode | Select workout mode | 选择上课模式 |
+| connected / nonet / add | Connected / No network / Add device | 已连接 / 无网络 / 添加设备 |
+| flexNote（绿色小字）| Not sure? Switch modes anytime, even mid-workout. | 不确定？课中随时能切换，先选一个。 |
+| Live Coach（名/说明/CTA）| Live Coach / Live rep counting and form cues. / Start Coaching | 实时教练 / 实时计数、动作提示。 / 开始指导 |
+| Record & Recap | Record & Recap / Records quietly, reports after. / Start Recording | 录制复盘 / 安静录制，练后出报告。 / 开始录制 |
+| Manual Log | Manual Log / Log sets & reps yourself. No camera. / Start Logging | 手动记录 / 自己记录，不开摄像头。 / 开始记录 |
+| plus tag | Plus | Plus |
+| warnNonet（离线告警）| ATOM is offline — connect it to start AI modes. | ATOM 未联网，连网后才能启动 AI 模式。 |
+| switchHint | Or switch to an online device. | 或切换到在线设备。 |
+| ctaBlocked | ATOM must be online | ATOM 需在线 |
+
+### ⑥⑦ 门槛弹窗 Gate ｜ ⑧ 设备列表 Picker
+| 键 | EN | 中文 |
+|---|---|---|
+| popDevT / popDevS / popDevBtn | {mode} runs on ATOM / Pair a nearby ATOM to unlock AI modes. / Add device | {mode} 需要 ATOM / 连接身边的 ATOM，解锁 AI 模式。 / 添加设备 |
+| popPlusT / popPlusS / popPlusBtn | {mode} needs Plus / Get Plus to unlock AI modes. / Get Plus | {mode} 需要 Plus / 开通 Plus，解锁 AI 模式。 / 开通 Plus |
+| cancel | Not now | 以后再说 |
+| pickT / pickHint | Which ATOM? / Pick the one next to you. | 使用哪一台 ATOM？ / 选择你身边的那台。 |
+
+### ⑨⑩ 课前须知 Get set up
+| 键 | EN | 中文 |
+|---|---|---|
+| pageTitle / psOk / dontShow | Get set up / I'm ready / Don't show this again | 课前须知 / 准备好了 / 下次不再提示 |
+| coachSub | ATOM watches like a coach — set it up so it can see you clearly. | ATOM 就像教练的眼睛——摆好位置，让它看清你。 |
+| coachDo（5）| Whole body in frame, centered · Set ATOM about knee height · Stand 0.5–1 m back · Face it front-on or side-on · Clear space — nothing blocking you | 全身入框，站在画面中央 · ATOM 放到约膝盖高度 · 离 ATOM 0.5–1 米 · 正对或侧对镜头 · 周围留空，别被器械挡住 |
+| tipsLink | See framing tips | 查看拍摄技巧 |
+| beta | Beta — AI may miss or miscount reps. Use your judgment. | Beta——AI 可能漏计或误计，请自行判断。 |
+| recapSub | Stay in frame, any angle. Good light, just you. | 全程在画面里，角度随意。光线充足、只有你。 |
+| reportH / report | Your report / Deeper recaps coming via OTA. Today's is basic. | 关于报告 / 更深复盘将随 OTA 上线，当前报告较简单。 |
+| algoH / algo | Nothing is lost / Video is saved — future upgrades re-analyze it. | 不用担心 / 视频留存，日后升级可重新分析。 |
+| recapNoSave（不保存时）| This workout won't be saved, so there's no recap report. | 本次不保存，将没有复盘报告。 |
+
+### ⑪ 数据保存 Data saving（行 + 弹窗 + 反向引导）
+| 键 | EN | 中文 |
+|---|---|---|
+| drCloud / drLocal / drNoSd | Saved to your cloud / Saved on ATOM (SD card) / Won't be saved — no SD card | 视频同步到云端 / 视频存于 ATOM（SD 卡）/ 不会保存——无 SD 卡 |
+| drSaveOff / drTurnOn | Video saving is off — this workout won't be saved. / Turn on | 视频保存已关闭，本次不会保存。 / 开启保存 |
+| drChange / dDone | Change / Done | 更改 / 完成 |
+| dataSheetT | Where to save your video? | 视频保存在哪里？ |
+| dCloudName / dRecommended / benefits | Cloud / Recommended / No SD card needed · Auto re-analyzed as AI improves | 云端 / 推荐 / 无需 SD 卡 · 算法升级后自动重分析 |
+| dLocalName / dLocalNeedsSd / benefits | Keep on ATOM / Needs SD card / On the SD card — copy off anytime · Not uploaded | 仅存 ATOM / 需 SD 卡 / 存 SD 卡，随时自取 · 不上传云端 |
+| dataNoSdWarn | No SD card — this session won't be kept. Insert one, or use cloud. | 未检测到 SD 卡，本次不会保留。请插卡或改用云端。 |
+| saveOnT / saveOnBody / saveNotNow | Save this workout's video? / Saving is off in your settings. Turn it on for this one to get your recap — and to help ATOM keep improving. / Not this time | 保存这次的视频？ / 你已在设置中关闭保存。为本次开启即可获得复盘，也能帮助 ATOM 持续优化。 / 这次不用 |
+| privacyNote / privacyLink | We don't view your videos or use your data to train our AI. / Privacy Policy | 我们不会查看你的视频，也不用于训练 AI。 / 隐私协议 |
+
+### ⑳ 拍摄技巧 Framing tips
+| 键 | EN | 中文 |
+|---|---|---|
+| tipsTitle | Framing tips | 拍摄技巧 |
+| coachLine | Think of ATOM as your coach's eyes: if a coach standing there could see your form, so can ATOM. | 把 ATOM 想成教练的眼睛：教练站那儿能看清你，ATOM 就能看清。 |
+| coachDoH（OK 标）| Set up | 这样摆 |
+| tripodH / tripod | Steady placement / A compatible ATOM tripod or stand keeps it level at about knee height. | 稳定摆放 / 用配套的 ATOM 三脚架/支架，把它平稳架在约膝盖高度。 |
+| coachAvoidH | These hurt accuracy | 这些会影响识别 |
+| coachAvoid（5）| Body cut off or off to one side · Too close or too far — aim for 0.5–1 m · ATOM tilted steeply up at you · Blocked by a bench, rack or barbell · Backlit, too dark, or others in frame | 身体被裁切或偏到一边 · 太近或太远——0.5–1 米最好 · ATOM 过度仰角对着你 · 被卧推凳、深蹲架或杠铃挡住 · 逆光、过暗，或有他人入镜 |
+| perExH / perEx | Per exercise / Some moves (floor work, wide stances) need more room — just follow the on-screen guide for each. | 不同动作 / 部分动作（地面动作、大跨步）需要更大画面，按每个动作的屏幕提示调整即可。 |
+
+### ⑬⑭⑮⑯ ATOM 圆屏 Device
+| 键 | EN | 中文 |
+|---|---|---|
+| workoutMode | Workout mode | 上课模式 |
+| atomCoachSub / atomRecapSub | Live counting and cues. / Records quietly, reports after. | 实时计数、动作提示。 / 安静录制，练后出报告。 |
+| rstart / rcT / rcDont / rcGo | Start / Before you start / Don't show again / Start | 开始 / 开始前 / 不再显示 / 开始 |
+| rcCoach（2）| AI is beta — may miss or miscount reps. / Whole body in frame — no blocking or backlight. | AI 仍是 beta，可能漏记或误记。 / 全身入框，别遮挡、别逆光。 |
+| rcRecap（2）| Stay in frame — angle is flexible. / Deeper recaps coming via OTA. | 全程在画面里，角度随意。 / 更深复盘随 OTA 上线。 |
+| 待机 Idle | 复用预览的 pvKicker / course / pvMetaShort(32 min · Strength) / pvStart | 复用：今日训练 / 背部与腿部力量 / 32 分钟 · 力量 / 开始训练 |
+
+---
+
 ## 6. 最新设计 UI · Latest design
 
 **全界面素材图（16 个界面/状态 × 中英）**——供设计师核对文案与素材：
