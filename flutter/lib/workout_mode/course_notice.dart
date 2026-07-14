@@ -47,6 +47,8 @@ class CourseNoticePage extends StatelessWidget {
                     const FramingIllustration(),
                     const SizedBox(height: 16),
                     ..._body(context, l),
+                    const SizedBox(height: 16),
+                    _DataSaveLine(controller: controller), // follows the content
                   ],
                 ),
               ),
@@ -316,9 +318,7 @@ class _Footer extends StatelessWidget {
         border: Border(top: BorderSide(color: Wm.hair)),
       ),
       child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-        _DataSaveLine(controller: controller),
-        const SizedBox(height: 10),
-        _DontShowRow(controller: controller),
+        _DontShowRow(controller: controller), // follows the button
         const SizedBox(height: 12),
         PillButton(label: l.ready, onTap: () => onStart(mode)),
       ]),
@@ -370,7 +370,10 @@ class _DataSaveLine extends StatelessWidget {
     return GestureDetector(
       onTap: () => showDataChoiceSheet(context, controller),
       behavior: HitTestBehavior.opaque,
-      child: Row(children: [
+      child: Container(
+        decoration: const BoxDecoration(border: Border(top: BorderSide(color: Wm.hair))),
+        padding: const EdgeInsets.only(top: 12),
+        child: Row(children: [
         Icon(noSd ? Icons.warning_amber_rounded : Icons.cloud_outlined, size: 14, color: color),
         const SizedBox(width: 6),
         Expanded(
@@ -383,7 +386,8 @@ class _DataSaveLine extends StatelessWidget {
         Text(l.drChange,
             style: const TextStyle(
                 fontSize: 11.5, fontWeight: FontWeight.w700, color: Wm.ink, decoration: TextDecoration.underline)),
-      ]),
+        ]),
+      ),
     );
   }
 }

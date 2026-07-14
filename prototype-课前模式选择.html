@@ -792,7 +792,7 @@
       if(!saving()) h+=_info(REPORTI,t.reportH,t.recapNoSave);
       else h+=_info(REPORTI,t.reportH,t.report)+_info(ALGOI,t.algoH,t.algo);
     }
-    h+='<div class="ps-foot">'+_datarow(t)+_dontrow(t)+'</div>';
+    h+=_datarow(t)+'<div class="ps-foot">'+_dontrow(t)+'</div>';  // save-line follows content; don't-show follows the button
     psBody.innerHTML=h; prestart.classList.add('show'); if(!keep) psBody.scrollTop=0;
     document.getElementById('ps-datarow').onclick=openDataSheet;
     document.getElementById('ps-dont').onclick=function(){ psSkip=!psSkip; var st=psBody.scrollTop; openPrestart(true); psBody.scrollTop=st; };
