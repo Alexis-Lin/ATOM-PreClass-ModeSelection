@@ -7,7 +7,7 @@
 | 版本 Version | v2 (Draft) |
 | 状态 Status | 设计讨论中 · In review |
 | 负责 Owner | Alexis Lin |
-| 关联 | `prototype-demo.html`（左右双端 · 预览优先 · 主 demo）· `prototype-mobile.html`（手机满屏版）· `prototype-课前模式选择.html`（标注版）· `flutter/`（代码实现）· `images/UI-spec-en.png`·`images/UI-spec-zh.png`（全界面素材图）· `README.md` |
+| 关联 | `prototype-课前模式选择.html`（可交互原型 · 手机 + ATOM 双端 · 预览优先）· `flutter/`（代码实现）· `images/`（`UI-spec-en/zh.png` 全 20 屏素材 + `flow-board.png` 流程图）· `TIPS-识别准确度指南.md` · `README.md` |
 | 规格 Spec | iPhone 17 逻辑尺寸 **402×874pt**；App 字号统一 **20 / 16 / 14 / 12**（标题 / 名称·区块·按钮 / 正文 / 标注）；灰阶 + 单一品牌绿点缀（`#7CC00C` 占位）。 |
 
 ---
@@ -154,6 +154,50 @@
 
 手机端与 ATOM 端**共享同一套模式与规则**；ATOM 端仅提供两个 AI 模式（Manual Log 留在手机端），标题为「Workout mode / 上课模式」，选项标题与说明分两行、**仅选中卡片显示说明**。任一端发起都会经过「选择模式 → 开始前确认」。
 
+### 4.6 交互流程 · Interaction flow
+
+编号对应 §5.1 文案清单与 `images/UI-spec-*.png`；整图见 `images/flow-board.png`。
+
+```mermaid
+flowchart TD
+  P0["① 课程预览 Preview"] -->|开始训练| M["② 选择上课模式 Mode select"]
+  M -->|点已锁定的 AI 模式| G{"门槛 Gate"}
+  G -->|缺设备| G1["⑥ 需要 ATOM → 添加设备"]
+  G -->|缺 Plus| G2["⑦ 需要 Plus → 开通"]
+  M -->|切换图标（多台）| DP["⑧ 设备列表 Picker"]
+  M -.->|ATOM 离线| OFF["③ 顶部告警 · CTA 置灰"]
+  M -->|选 Manual Log · Start Logging| START(("▶ 开始训练"))
+  M -->|选 AI 模式 · Start| N["⑨/⑩ 课前须知 Get set up"]
+  N -->|查看拍摄技巧| T["⑳ 拍摄技巧 Tips（额外阅读）"]
+  N -->|数据行 Change| D["⑪ 数据保存 Where to save?"]
+  D -->|Done| N
+  N -->|I'm ready| START
+  P0 -->|齿轮| S["⑰ 设置 Save workout videos"]
+  S -.->|关闭保存| N2["⑱ 须知·保存已关闭（引导条）"]
+  N2 -->|Turn on| INV["⑲ 保存这次的视频？"]
+  INV --> N
+  A0["⑬ ATOM 待机 Idle"] -->|开始训练| AM["⑭ 模式列表"]
+  AM -->|Start| AC["⑮/⑯ 开始前确认"]
+  AC -->|Start| START
+```
+
+**分步（触发 → 结果）**
+
+| # | 页面 | 触发 | 结果 / 下一步 |
+|---|---|---|---|
+| ① | 课程预览 | 点「开始训练」 | 上滑弹出「选择上课模式」（**先不弹**）；右上角齿轮进设置 |
+| ② | 选择模式 | 点未锁定卡 | 选中，CTA 变对应「开始…」；点锁定卡→⑥/⑦ 门槛；多台点切换→⑧ 列表 |
+| ③ | ATOM 离线 | ATOM 无网 | 顶部告警 + CTA 置灰，拦截启动 |
+| ⑥/⑦ | 门槛弹窗 | 点锁定卡 | 缺设备→添加设备；缺 Plus→开通；或「以后再说」 |
+| ⑧ | 设备列表 | 切换图标 | 选身边设备，回弹窗 |
+| — | Manual Log | 点「开始记录」 | 直接 ▶ 开始（不进须知） |
+| ⑨/⑩ | 课前须知 | AI 模式点 CTA | 整页正向引导（Coach 5 条做到 + 拍摄技巧入口；Recap 副标 + 报告/留存）|
+| ⑳ | 拍摄技巧 | 点「查看拍摄技巧」 | 二级页：教练心智 + OK 图 + 稳定摆放 + 会影响识别 + 每个动作差异 |
+| ⑪ | 数据保存 | 点「更改」 | 云端(推荐)/仅存 ATOM；无 SD 告警；「下次不再提示」记住偏好 |
+| — | 须知 | I'm ready | ▶ 开始训练 |
+| ⑰→⑱→⑲ | 设置→须知→引导 | 关掉「保存训练视频」 | 须知数据行变引导条「已关闭·开启」→点开正向弹窗引导为本次开启 |
+| ⑬→⑭→⑮/⑯ | ATOM 待机→模式→确认 | 逐步 Start | 与手机端同规则；仅两个 AI 模式；确认独立整屏，可「不再显示」→ ▶ 开始 |
+
 ---
 
 ## 5. 关键文案 · Copy（EN / 中文）
@@ -191,7 +235,7 @@
 
 ## 5.1 文案清单 · Copy inventory（逐页 / per screen）
 
-> 唯一改文案入口：`prototype-demo.html` 的 `T`（对应 Flutter `strings.dart`）。标注「占位」的为示例数据，待产品/设计替换。交互流程见 `FLOW-课前交互流程.md`。
+> 唯一改文案入口：`prototype-课前模式选择.html` 的 `T`（对应 Flutter `strings.dart`）。标注「占位」的为示例数据，待产品/设计替换。交互流程见 §4.6。
 
 ### ① 课程预览 Course preview
 | 键 key | EN | 中文 |
@@ -295,7 +339,7 @@
 
 > 覆盖：课程预览 / 模式选择（在线·离线·无设备·无 Plus）/ 门槛弹窗（缺设备·缺会员）/ 设备列表 / 课前须知（Coach·Recap）/ 数据保存（云端·无 SD）/ ATOM（待机·模式列表·确认 Coach·确认 Recap）。
 > 火柴人取景图、柠檬绿、课程数据（32 分钟 / 12 动作 / 280 千卡 / 动作名）均为**占位**，待设计师替换。
-> 交互版见 `prototype-demo.html`（左右双端）与 `prototype-mobile.html`（手机满屏）。
+> 交互版见 `prototype-课前模式选择.html`（手机 + ATOM 双端）。
 
 ---
 

@@ -261,6 +261,68 @@
   .note p{margin:0;font-size:12.5px;color:var(--studio-sub);line-height:1.55;}
   .k{display:inline-block;font-size:11px;background:var(--bg);border:1px solid var(--studio-line);border-radius:5px;padding:1px 6px;font-weight:600;color:var(--studio-ink);}
   footer{margin-top:34px;font-size:12px;color:var(--studio-sub);text-align:center;}
+
+  /* ============ DEMO (left-right, preview-first) ============ */
+  .eyebrow,.lede,.side,footer,h1{display:none!important;}
+  .wrap{max-width:1000px;margin:0 auto;padding:22px 20px 60px;}
+  .controls{justify-content:center;margin-top:4px;}
+  .stage{gap:44px;margin-top:24px;align-items:flex-start;justify-content:center;}
+  .reset{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--studio-line);background:var(--studio-card);
+    color:var(--studio-sub);font:inherit;font-size:12px;font-weight:700;padding:7px 12px;border-radius:10px;cursor:pointer;}
+  .reset svg{width:14px;height:14px;}
+
+  /* phone course preview */
+  .pvhero{height:212px;flex:none;position:relative;display:flex;align-items:flex-end;padding:18px;
+    background:linear-gradient(150deg,#2b302e 0%,#4a5247 55%,#727a68 100%);}
+  .pvstatus{position:absolute;top:14px;left:0;right:0;display:flex;justify-content:space-between;padding:0 20px;color:#f4f5f2;font-size:13px;font-weight:600;opacity:.92;}
+  .pvhero-in{color:#fff;position:relative;}
+  .pvkicker{font-size:12px;font-weight:700;letter-spacing:.13em;opacity:.82;margin-bottom:7px;}
+  .pvtitle{font-size:20px;font-weight:800;letter-spacing:-.01em;}
+  .pvmeta{font-size:12px;opacity:.9;margin-top:7px;}
+  .pvbody{flex:1;padding:18px;display:flex;flex-direction:column;gap:16px;}
+  .pvdesc{font-size:14px;line-height:1.6;color:var(--ink-2);}
+  .pvstats{display:flex;gap:10px;}
+  .pvstat{flex:1;background:#f4f5f2;border:1px solid var(--line);border-radius:12px;padding:12px 8px;text-align:center;}
+  .pvs-n{font-size:20px;font-weight:800;color:var(--ink);letter-spacing:-.01em;}
+  .pvs-l{font-size:12px;color:var(--ink-3);margin-top:2px;}
+  .pvcta{padding:14px 18px 18px;flex:none;}
+  .pvcta button{width:100%;background:var(--cta);color:#fff;border:0;border-radius:999px;padding:16px;font:inherit;font-size:16px;font-weight:700;cursor:pointer;letter-spacing:-.01em;}
+  .pvsec-h{font-size:12px;font-weight:800;color:var(--ink);text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px;}
+  .pvli{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--hair);font-size:14px;font-weight:500;color:var(--ink);}
+  .pvli:last-child{border-bottom:0;}
+  .pvli-n{width:22px;height:22px;border-radius:7px;background:#f2f3ef;color:var(--ink-2);font-size:12px;font-weight:700;display:grid;place-items:center;flex:none;}
+  .preview{transition:opacity .28s ease;}
+  .preview.hiding{opacity:0;pointer-events:none;}
+  .rcap{display:none!important;}
+
+  /* ATOM idle */
+  .aidle-k{font-size:11px;font-weight:700;letter-spacing:.14em;color:#8b918a;margin-bottom:8px;}
+  .aidle-t{font-size:20px;font-weight:800;color:#f2f4ef;letter-spacing:-.01em;text-align:center;line-height:1.15;}
+  .aidle-m{font-size:12px;color:#8b918a;margin-top:9px;margin-bottom:22px;}
+  #atomidle{transition:opacity .28s ease;}
+  #atomidle.hiding{opacity:0;pointer-events:none;}
+  .pv-gear{position:absolute;top:12px;right:14px;width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.16);
+    display:grid;place-items:center;color:#fff;cursor:pointer;border:0;padding:0;}
+  .pv-gear svg{width:19px;height:19px;}
+  /* invite-to-save state (global saving off) */
+  .dataline.off{margin-top:16px;padding:11px 12px;border-top:0;background:var(--brand-tint,#eef7df);
+    border:1px solid #d6ecb3;border-radius:10px;color:var(--brand-ink);align-items:center;}
+  .dataline.off .drchange.allow{color:var(--brand-ink);text-decoration:underline;}
+  /* settings row */
+  .setrow{display:flex;align-items:flex-start;gap:14px;padding:14px 2px;border-bottom:1px solid var(--hair);}
+  .settext{flex:1;min-width:0;}
+  .sett{font-size:16px;font-weight:700;color:var(--ink);}
+  .setb{font-size:12px;color:var(--ink-2);line-height:1.55;margin-top:5px;}
+  /* framing-tips link on the notice */
+  .tipslink{display:flex;align-items:center;gap:10px;margin-top:14px;padding:12px 13px;border:1px solid var(--line);border-radius:12px;cursor:pointer;background:#fff;}
+  .tipslink .ti,.tipslink .ti svg{width:20px;height:20px;color:var(--ink-2);flex:none;}
+  .tipslink .tt{flex:1;font-size:14px;font-weight:700;color:var(--ink);}
+  .tipslink .tc,.tipslink .tc svg{width:18px;height:18px;color:var(--ink-3);flex:none;}
+  /* tips page */
+  .coachcallout{display:flex;gap:10px;align-items:flex-start;background:var(--brand-tint,#eef7df);border:1px solid #d6ecb3;border-radius:12px;padding:12px 13px;color:var(--brand-ink);font-size:13px;line-height:1.5;margin-bottom:14px;}
+  .coachcallout svg{width:18px;height:18px;flex:none;margin-top:1px;}
+  .okcap{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:800;color:var(--brand-ink);text-transform:uppercase;letter-spacing:.05em;margin:2px 0 8px;}
+  .okcap svg{width:15px;height:15px;}
 </style>
 
 <div class="wrap">
@@ -273,6 +335,8 @@
     <div class="seg" id="atomstat"><span class="cap">ATOM</span><button data-st="conn" aria-pressed="true">Online</button><button data-st="nonet" aria-pressed="false">No network</button></div>
     <div class="ctl"><button class="sw" id="sw-plus" role="switch" aria-checked="true"></button><span class="lab">Plus</span></div>
     <div class="ctl"><button class="sw" id="sw-sd" role="switch" aria-checked="true"></button><span class="lab">SD card</span></div>
+    <div class="ctl"><button class="sw" id="sw-save" role="switch" aria-checked="true"></button><span class="lab">Save video (Settings)</span></div>
+    <button class="reset" id="reset"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 4v4h4"/></svg>Reset</button>
   </div>
 
   <div class="stage">
@@ -381,6 +445,62 @@
 
         <!-- secondary data-save sheet (opened from the small entry on the notice) -->
         <div class="pop" id="datasheet"><div class="popcard" id="datasheet-card"></div></div>
+
+        <!-- course preview (shown first; the bottom button opens the modal) -->
+        <div class="page preview show" id="preview">
+          <div class="pvhero">
+            <div class="pvstatus"><span>20:33</span><button class="pv-gear" id="pv-gear" aria-label="Settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/><circle cx="9" cy="6" r="2.1" fill="currentColor" stroke="none"/><circle cx="15" cy="12" r="2.1" fill="currentColor" stroke="none"/><circle cx="9" cy="18" r="2.1" fill="currentColor" stroke="none"/></svg></button></div>
+            <div class="pvhero-in">
+              <div class="pvkicker" data-i18n="pvKicker">TODAY’S WORKOUT</div>
+              <div class="pvtitle" data-i18n="course">Back &amp; Legs</div>
+              <div class="pvmeta" data-i18n="pvMeta">32 min · Strength · Intermediate</div>
+            </div>
+          </div>
+          <div class="pvbody">
+            <div class="pvdesc" data-i18n="pvDesc"></div>
+            <div class="pvstats">
+              <div class="pvstat"><div class="pvs-n">32</div><div class="pvs-l" data-i18n="pvStatMin">min</div></div>
+              <div class="pvstat"><div class="pvs-n">12</div><div class="pvs-l" data-i18n="pvStatEx">exercises</div></div>
+              <div class="pvstat"><div class="pvs-n">~280</div><div class="pvs-l" data-i18n="pvStatKcal">kcal</div></div>
+            </div>
+            <div class="pvsec">
+              <div class="pvsec-h" data-i18n="pvInc">In this session</div>
+              <div class="pvli"><span class="pvli-n">1</span><span data-i18n="pvEx1"></span></div>
+              <div class="pvli"><span class="pvli-n">2</span><span data-i18n="pvEx2"></span></div>
+              <div class="pvli"><span class="pvli-n">3</span><span data-i18n="pvEx3"></span></div>
+              <div class="pvli"><span class="pvli-n">4</span><span data-i18n="pvEx4"></span></div>
+            </div>
+          </div>
+          <div class="pvcta"><button id="preview-start" data-i18n="pvStart">Start workout</button></div>
+        </div>
+
+        <!-- Settings (global video-saving toggle lives here) -->
+        <div class="page" id="settings">
+          <div class="pagestatus"><span>20:33</span><span class="sigbars"><i></i><i></i><i></i><i></i></span></div>
+          <div class="pagebar">
+            <div class="back" id="set-back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></div>
+            <div class="ptitle" data-i18n="settingsTitle">Settings</div>
+          </div>
+          <div class="pagebody">
+            <div class="setrow">
+              <div class="settext">
+                <div class="sett" data-i18n="setSaveTitle">Save workout videos</div>
+                <div class="setb" data-i18n="setSaveBody"></div>
+              </div>
+              <button class="sw" id="set-save-sw" role="switch" aria-checked="true"></button>
+            </div>
+          </div>
+        </div>
+
+        <!-- framing tips (extra reading, opened from the notice) -->
+        <div class="page" id="tips">
+          <div class="pagestatus"><span>20:33</span><span class="sigbars"><i></i><i></i><i></i><i></i></span></div>
+          <div class="pagebar">
+            <div class="back" id="tips-back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></div>
+            <div class="ptitle" id="tips-t"></div>
+          </div>
+          <div class="pagebody" id="tips-body"></div>
+        </div>
       </div>
     </div>
 
@@ -402,6 +522,15 @@
           </div>
           <div class="rstart"><button id="r-start-btn"><span id="r-start"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button></div>
         </div>
+
+        <!-- ATOM idle (shown first; tap Start to reveal the mode list) -->
+        <div class="roverlay show" id="atomidle">
+          <div class="aidle-k" data-i18n="pvKicker">TODAY’S WORKOUT</div>
+          <div class="aidle-t" data-i18n="course">Back &amp; Legs</div>
+          <div class="aidle-m" data-i18n="pvMetaShort">32 min · Strength</div>
+          <button class="rgo" id="atomidle-start" data-i18n="pvStart">Start workout</button>
+        </div>
+
         <div class="roverlay" id="roverlay">
           <div class="rframe"><svg class="rfrm" viewBox="0 0 200 130" preserveAspectRatio="xMidYMid meet">
             <rect x="5" y="5" width="190" height="120" rx="14" fill="#151614" stroke="#3a3d38" stroke-width="2"/>
@@ -463,6 +592,12 @@
       dLocalNeedsSd:'Needs SD card',
       dCloudBenefits:['No SD card needed','Auto re-analyzed as AI improves'],
       dLocalBenefits:['On the SD card — copy off anytime','Not uploaded'],
+      drSaveOff:'Video saving is off — this workout won’t be saved.', drTurnOn:'Turn on',
+      saveOnT:'Save this workout’s video?',
+      saveOnBody:'Saving is off in your settings. Turn it on for this one to get your recap — and to help ATOM keep improving.',
+      saveNotNow:'Not this time', recapNoSave:'This workout won’t be saved, so there’s no recap report.',
+      settingsTitle:'Settings', setSaveTitle:'Save workout videos',
+      setSaveBody:'On by default. Turn off and no video is recorded or uploaded — your reps and stats are still logged, and you’ll be asked each time whether to allow saving.',
       privacyNote:"We don't view your videos or use your data to train our AI.",
       privacyLink:'Privacy Policy',
       drCloud:'Saved to your cloud', drLocal:'Saved on ATOM (SD card)', drNoSd:"Won't be saved — no SD card",
@@ -470,11 +605,15 @@
       dataNoSdWarn:"No SD card — this session won't be kept. Insert one, or use cloud.",
       pageTitle:'Get set up', psOk:"I'm ready", reach:'Keep your ATOM within reach.',
       pickT:'Which ATOM?', pickHint:'Pick the one next to you.',
-      coachSub:'Good framing keeps AI accurate.',
+      coachSub:'ATOM watches like a coach — set it up so it can see you clearly.',
       coachDoH:'Set up',
-      coachDo:['Full body in frame','Phone steady, ~chest height','Even light, just you'],
-      coachAvoidH:'Avoid',
-      coachAvoid:['Body cropped or blocked','Too close, far or angled','Backlit, dark, or others in view'],
+      coachDo:['Whole body in frame, centered','Set ATOM about knee height','Stand 0.5–1 m back','Face it front-on or side-on','Clear space — nothing blocking you'],
+      coachAvoidH:'These hurt accuracy',
+      coachAvoid:['Body cut off or off to one side','Too close or too far — aim for 0.5–1 m','ATOM tilted steeply up at you','Blocked by a bench, rack or barbell','Backlit, too dark, or others in frame'],
+      coachLine:'Think of ATOM as your coach’s eyes: if a coach standing there could see your form, so can ATOM.',
+      tipsLink:'See framing tips', tipsTitle:'Framing tips',
+      tripodH:'Steady placement', tripod:'A compatible ATOM tripod or stand keeps it level at about knee height.',
+      perExH:'Per exercise', perEx:'Some moves (floor work, wide stances) need more room — just follow the on-screen guide for each.',
       recapSub:'Stay in frame, any angle. Good light, just you.',
       recapDoH:'Keep in mind',
       recapDo:['Stay fully in frame the whole workout','Angle is flexible — front or side is fine','Enough light; just you in frame'],
@@ -487,6 +626,10 @@
       rcRecap:['Stay in frame — angle is flexible.','Deeper recaps coming via OTA.'],
       head_phone:'iPhone · in-app modal', head_device:'ATOM device · 466×466 round',
       course:'Back & Legs', course_short:'Back & Legs', selectMode:'Select workout mode', workoutMode:'Workout mode',
+      pvKicker:'TODAY’S WORKOUT', pvMeta:'32 min · Strength · Intermediate', pvMetaShort:'32 min · Strength',
+      pvDesc:'A lower-body strength session — squats, hinges and lunges for stronger legs and back.',
+      pvStart:'Start workout', pvStatMin:'min', pvStatEx:'exercises', pvStatKcal:'kcal',
+      pvInc:'In this session', pvEx1:'Goblet squat', pvEx2:'Romanian deadlift', pvEx3:'Walking lunge', pvEx4:'Back extension',
       flexNote:'Not sure? Switch modes anytime, even mid-workout.',
       rstart:'Start', atomCoachSub:'Live counting and cues.', atomRecapSub:'Records quietly, reports after.',
       devcap:'Title is just “Workout mode”. Selected card shows its one-line explanation; the others show only their title. Manual Log stays on the phone.' },
@@ -502,6 +645,12 @@
       dLocalNeedsSd:'需 SD 卡',
       dCloudBenefits:['无需 SD 卡','算法升级后自动重分析'],
       dLocalBenefits:['存 SD 卡，随时自取','不上传云端'],
+      drSaveOff:'视频保存已关闭，本次不会保存。', drTurnOn:'开启保存',
+      saveOnT:'保存这次的视频？',
+      saveOnBody:'你已在设置中关闭保存。为本次开启即可获得复盘，也能帮助 ATOM 持续优化。',
+      saveNotNow:'这次不用', recapNoSave:'本次不保存，将没有复盘报告。',
+      settingsTitle:'设置', setSaveTitle:'保存训练视频',
+      setSaveBody:'默认开启。关闭后不再录制或上传任何视频——组数、数据仍会记录；每次训练会询问是否允许保存。',
       privacyNote:'我们不会查看你的视频，也不用于训练 AI。',
       privacyLink:'隐私协议',
       drCloud:'视频同步到云端', drLocal:'视频存于 ATOM（SD 卡）', drNoSd:'不会保存——无 SD 卡',
@@ -509,11 +658,15 @@
       dataNoSdWarn:'未检测到 SD 卡，本次不会保留。请插卡或改用云端。',
       pageTitle:'课前须知', psOk:'准备好了', reach:'让 ATOM 就在你的手边。',
       pickT:'使用哪一台 ATOM？', pickHint:'选择你身边的那台。',
-      coachSub:'画面摆好，识别才准。',
+      coachSub:'ATOM 就像教练的眼睛——摆好位置，让它看清你。',
       coachDoH:'这样摆',
-      coachDo:['全身完整入框','手机放稳，约胸口高','光线均匀，只有你'],
-      coachAvoidH:'避免',
-      coachAvoid:['肢体被裁切、遮挡','太近、太远或角度歪','逆光、过暗或他人入镜'],
+      coachDo:['全身入框，站在画面中央','ATOM 放到约膝盖高度','离 ATOM 0.5–1 米','正对或侧对镜头','周围留空，别被器械挡住'],
+      coachAvoidH:'这些会影响识别',
+      coachAvoid:['身体被裁切或偏到一边','太近或太远——0.5–1 米最好','ATOM 过度仰角对着你','被卧推凳、深蹲架或杠铃挡住','逆光、过暗，或有他人入镜'],
+      coachLine:'把 ATOM 想成教练的眼睛：教练站那儿能看清你的动作，ATOM 就能看清。',
+      tipsLink:'查看拍摄技巧', tipsTitle:'拍摄技巧',
+      tripodH:'稳定摆放', tripod:'用配套的 ATOM 三脚架/支架，把它平稳架在约膝盖高度。',
+      perExH:'不同动作', perEx:'部分动作（地面动作、大跨步）需要更大画面，按每个动作的屏幕提示调整即可。',
       recapSub:'全程在画面里，角度随意。光线充足、只有你。',
       recapDoH:'记住这几点',
       recapDo:['运动全程待在画面里','角度不苛刻，正面或侧面都行','光线别太暗，画面里只有你'],
@@ -526,6 +679,10 @@
       rcRecap:['全程在画面里，角度随意。','更深复盘随 OTA 上线。'],
       head_phone:'iPhone · 应用内弹窗', head_device:'ATOM 设备 · 466×466 圆屏',
       course:'背部与腿部力量', course_short:'背腿力量', selectMode:'选择上课模式', workoutMode:'上课模式',
+      pvKicker:'今日训练', pvMeta:'32 分钟 · 力量 · 进阶', pvMetaShort:'32 分钟 · 力量',
+      pvDesc:'下肢力量训练——深蹲、髋铰链与弓步，练强腿部和背部。',
+      pvStart:'开始训练', pvStatMin:'分钟', pvStatEx:'个动作', pvStatKcal:'千卡',
+      pvInc:'本节包含', pvEx1:'高脚杯深蹲', pvEx2:'罗马尼亚硬拉', pvEx3:'行走弓步', pvEx4:'背部伸展',
       flexNote:'不确定？课中随时能切换，先选一个。',
       rstart:'开始', atomCoachSub:'实时计数、动作提示。', atomRecapSub:'安静录制，练后出报告。',
       devcap:'标题就是「上课模式」。选中的卡片显示一行说明，其余只显示标题。手动记录留在手机端。' }
@@ -593,17 +750,25 @@
   var INFOI='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.5h.01"/></svg>';
   var CHKM='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>';
   var dataChoice='cloud', psSkip=false;
+  var SAVEOFF=false, sessionSave=false;   // global "don't save videos" setting + per-session opt-in
+  function saving(){ return !SAVEOFF || sessionSave; }
   function _sec(txt,warn){ return '<div class="ps-sec'+(warn?' warn':'')+'">'+txt+'</div>'; }
   function _do(items){ return '<div class="checklist">'+items.map(function(x){return '<div class="it">'+CHK+'<span>'+x+'</span></div>';}).join('')+'</div>'; }
   function _avoid(items){ return '<div class="avoidlist">'+items.map(function(x){return '<div class="av">'+AVX+'<span>'+x+'</span></div>';}).join('')+'</div>'; }
   function _reach(t){ return '<div class="reach">'+PINI+'<span>'+t.reach+'</span></div>'; }
   function _info(icon,h,txt){ return '<div class="infobox"><div class="ih">'+icon+'<span>'+h+'</span></div><span>'+txt+'</span></div>'; }
   function _datarow(t){
-    var warn=dataChoice==='local'&&!SDCARD, txt;
-    if(dataChoice==='cloud') txt=t.drCloud; else if(SDCARD) txt=t.drLocal; else txt=t.drNoSd;
+    if(!saving()){
+      return '<div class="dataline off" id="ps-datarow"><span>'+t.drSaveOff+'</span><span class="drchange allow">'+t.drTurnOn+'</span></div>';
+    }
+    var warn=dataChoice==='local'&&!SDCARD, txt = dataChoice==='cloud'?t.drCloud:(SDCARD?t.drLocal:t.drNoSd);
     return '<div class="dataline'+(warn?' warn':'')+'" id="ps-datarow"><span>'+txt+'</span><span class="drchange">'+t.drChange+'</span></div>';
   }
   function _dontrow(t){ return '<div class="dontrow'+(psSkip?' on':'')+'" id="ps-dont"><span class="box">'+CHKM+'</span><span>'+t.dontShow+'</span></div>'; }
+  var EYEI='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>';
+  var CHEVI='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>';
+  var TRIPODI='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="3" width="8" height="6" rx="1.5"/><path d="M12 9v5M12 14l-5 7M12 14l5 7M9.5 17.5h5"/></svg>';
+  function _tipslink(t){ return '<div class="tipslink" id="ps-tips"><span class="ti">'+EYEI+'</span><span class="tt">'+t.tipsLink+'</span><span class="tc">'+CHEVI+'</span></div>'; }
   function openPrestart(keep){
     var t=T[LANG];
     var selEl=sheet.querySelector('.mode.sel'); if(!selEl)return;
@@ -613,39 +778,64 @@
     if(mode==='coach'){
       h+='<div class="pagesub">'+t.coachSub+'</div>'+FRAME_LIGHT
         +_do(t.coachDo)
-        +_sec(t.coachAvoidH,true)+_avoid(t.coachAvoid)
+        +_tipslink(t)
         +'<div class="caution" style="margin-top:14px">'+WARNI+'<span>'+t.beta+'</span></div>';
     } else {
-      h+='<div class="pagesub">'+t.recapSub+'</div>'+FRAME_LIGHT
-        +_info(REPORTI,t.reportH,t.report)
-        +_info(ALGOI,t.algoH,t.algo);
+      h+='<div class="pagesub">'+t.recapSub+'</div>'+FRAME_LIGHT;
+      if(!saving()) h+=_info(REPORTI,t.reportH,t.recapNoSave);
+      else h+=_info(REPORTI,t.reportH,t.report)+_info(ALGOI,t.algoH,t.algo);
     }
     h+=_datarow(t)+_dontrow(t);
     psBody.innerHTML=h; prestart.classList.add('show'); if(!keep) psBody.scrollTop=0;
     document.getElementById('ps-datarow').onclick=openDataSheet;
     document.getElementById('ps-dont').onclick=function(){ psSkip=!psSkip; var st=psBody.scrollTop; openPrestart(true); psBody.scrollTop=st; };
+    var tl=document.getElementById('ps-tips'); if(tl) tl.onclick=showTips;
   }
+  /* framing tips (extra reading — OK image + what hurts accuracy + per-exercise) */
+  var tips=document.getElementById('tips'), tipsT=document.getElementById('tips-t'), tipsBody=document.getElementById('tips-body');
+  function showTips(){
+    var t=T[LANG];
+    tipsT.textContent=t.tipsTitle;
+    tipsBody.innerHTML='<div class="coachcallout">'+EYEI+'<span>'+t.coachLine+'</span></div>'
+      +'<div class="okcap">'+CHK+'<span>'+t.coachDoH+'</span></div>'+FRAME_LIGHT
+      +_info(TRIPODI,t.tripodH,t.tripod)
+      +_sec(t.coachAvoidH,true)+_avoid(t.coachAvoid)
+      +_info(INFOI,t.perExH,t.perEx);
+    tips.classList.add('show'); tipsBody.scrollTop=0;
+  }
+  document.getElementById('tips-back').onclick=function(){ tips.classList.remove('show'); };
   psBack.onclick=function(){ prestart.classList.remove('show'); };
   psOk.onclick=function(){ prestart.classList.remove('show'); };   // proceed (would start workout)
 
   /* secondary data-save sheet (opened from the small entry on the notice) */
   var datasheet=document.getElementById('datasheet'), dsCard=document.getElementById('datasheet-card');
+  function reopenNotice(){ datasheet.classList.remove('show'); var st=psBody.scrollTop; openPrestart(true); psBody.scrollTop=st; }
   function openDataSheet(){
     var t=T[LANG]; var warn=dataChoice==='local'&&!SDCARD;
+    var allow = SAVEOFF && !sessionSave;   // saving is globally off → invite the user to allow it
     function card(key,name,rec,badge,benefits){
       var s=dataChoice===key;
       var lis=benefits.map(function(x){return '<li>'+CHKM+'<span>'+x+'</span></li>';}).join('');
       var tag=rec?'<span class="rec">'+t.dRecommended+'</span>':(badge?'<span class="needsd">'+badge+'</span>':'');
       return '<div class="dcard'+(s?' sel':'')+'" data-d="'+key+'"><div class="dtop"><span class="dn2">'+name+'</span>'+tag+'<span class="dradio">'+CHKM+'</span></div><ul>'+lis+'</ul></div>';
     }
-    dsCard.innerHTML='<div class="pt">'+t.dataSheetT+'</div>'
+    var head = allow
+      ? '<div class="pt">'+t.saveOnT+'</div><div class="pagesub" style="margin:-2px 0 12px">'+t.saveOnBody+'</div>'
+      : '<div class="pt">'+t.dataSheetT+'</div>';
+    dsCard.innerHTML=head
       +card('cloud',t.dCloudName,true,null,t.dCloudBenefits)
       +card('local',t.dLocalName,false,t.dLocalNeedsSd,t.dLocalBenefits)
       +(warn?'<div class="datanote warn" style="margin-bottom:10px">'+WARNI+'<span>'+t.dataNoSdWarn+'</span></div>':'')
       +'<div class="privacy">'+t.privacyNote+' <a>'+t.privacyLink+'</a></div>'
-      +'<div class="pbtns"><div class="pb primary" id="ds-done">'+t.dDone+'</div></div>';
-    dsCard.querySelectorAll('.dcard').forEach(function(c){ c.onclick=function(){ dataChoice=c.getAttribute('data-d'); openDataSheet(); }; });
-    document.getElementById('ds-done').onclick=function(){ datasheet.classList.remove('show'); var st=psBody.scrollTop; openPrestart(true); psBody.scrollTop=st; };
+      +(allow
+        ? '<div class="pbtns"><div class="pb" id="ds-skip">'+t.saveNotNow+'</div></div>'
+        : '<div class="pbtns"><div class="pb primary" id="ds-done">'+t.dDone+'</div></div>');
+    dsCard.querySelectorAll('.dcard').forEach(function(c){ c.onclick=function(){
+      dataChoice=c.getAttribute('data-d');
+      if(allow){ sessionSave=true; reopenNotice(); } else { openDataSheet(); }
+    }; });
+    var done=document.getElementById('ds-done'); if(done) done.onclick=reopenNotice;
+    var skip=document.getElementById('ds-skip'); if(skip) skip.onclick=reopenNotice;
     datasheet.classList.add('show');
   }
   datasheet.addEventListener('click',function(e){ if(e.target===datasheet) datasheet.classList.remove('show'); });
@@ -752,6 +942,36 @@
 
   var dmodes=[].slice.call(document.querySelectorAll('.dmode'));
   dmodes.forEach(function(el){ el.addEventListener('click',function(){ dmodes.forEach(function(m){m.classList.remove('sel');}); el.classList.add('sel'); }); });
+
+  /* preview-first: dismiss the preview / idle screens to reveal the flow */
+  var preview=document.getElementById('preview'), atomidle=document.getElementById('atomidle');
+  function hideOverlay(el){ el.classList.add('hiding'); setTimeout(function(){ el.classList.remove('show','hiding'); }, 280); }
+  document.getElementById('preview-start').addEventListener('click',function(){ hideOverlay(preview); });
+  document.getElementById('atomidle-start').addEventListener('click',function(){ hideOverlay(atomidle); });
+
+  /* global "Save workout videos" setting (default on) */
+  var settings=document.getElementById('settings');
+  function setSaveOff(off){
+    SAVEOFF=off; sessionSave=false;
+    var a=String(!off);
+    var s1=document.getElementById('sw-save'); if(s1)s1.setAttribute('aria-checked',a);
+    var s2=document.getElementById('set-save-sw'); if(s2)s2.setAttribute('aria-checked',a);
+    if(prestart.classList.contains('show')){ var st=psBody.scrollTop; openPrestart(true); psBody.scrollTop=st; }
+    if(datasheet.classList.contains('show')) openDataSheet();
+  }
+  document.getElementById('pv-gear').addEventListener('click',function(){ settings.classList.add('show'); });
+  document.getElementById('set-back').addEventListener('click',function(){ settings.classList.remove('show'); });
+  document.getElementById('set-save-sw').addEventListener('click',function(){ setSaveOff(!SAVEOFF); });
+  document.getElementById('sw-save').addEventListener('click',function(){ setSaveOff(!SAVEOFF); });
+
+  /* reset the whole demo back to the preview screens */
+  document.getElementById('reset').addEventListener('click',function(){
+    closePop(); dpick.classList.remove('show'); roverlay.classList.remove('show');
+    prestart.classList.remove('show'); datasheet.classList.remove('show'); settings.classList.remove('show'); tips.classList.remove('show');
+    sessionSave=false;
+    preview.classList.remove('hiding'); preview.classList.add('show');
+    atomidle.classList.remove('hiding'); atomidle.classList.add('show');
+  });
 
   render();
 })();

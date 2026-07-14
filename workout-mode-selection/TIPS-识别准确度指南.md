@@ -4,7 +4,7 @@
 
 How to place and set up so ATOM's AI counting & tracking is **as accurate as possible**. This is the long-form version of the pre-workout "Set up before you start" screen — use it in the help center / first-run onboarding / a "View full tips" link.
 
-> 相关：`PRD-课前模式选择.md`（第 4.4 节 开始前确认）· `prototype-demo.html`
+> 相关：`PRD-课前模式选择.md`（第 4.4 节 开始前确认）· `prototype-课前模式选择.html`
 
 > **一句话心智**：把 ATOM 想成**教练的眼睛**——教练站在那儿能看清你的动作，ATOM 就能看清。按「你会怎么站到教练面前」来摆。
 > Think of ATOM as your coach's eyes: if a coach standing there could see your form, so can ATOM.
