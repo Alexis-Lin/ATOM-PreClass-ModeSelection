@@ -80,6 +80,10 @@ class WorkoutModeController extends ChangeNotifier {
 
   bool get showOfflineWarning => isPaired && !isOnline;
 
+  /// AI modes are fully usable (device + Plus + online). Drives whether the
+  /// "switch anytime" note is shown — it's misleading when only Manual works.
+  bool get aiUsable => isPaired && isPlus && isOnline;
+
   // ---- writes ----
   void selectMode(WorkoutMode m) {
     if (isLocked(m) || _selected == m) return;

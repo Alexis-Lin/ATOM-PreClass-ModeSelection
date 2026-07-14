@@ -71,11 +71,11 @@
 
 > 「**不确定？课中随时能切换，先选一个。**」
 
-**位置与样式**：放在**三张卡片下方、主按钮上方**；为**纯灰色小字**（不加色块/描边/图标），弱化存在感。**ATOM 离线时不展示**这句（此时 AI 模式本就无法启动，提示会自相矛盾）。
+**位置与样式**：放在**三张卡片下方、主按钮上方**；为**友好的绿色小字**（不加色块/描边/图标），弱化存在感。**只在 AI 模式真正可用时才展示**（配对 + Plus + 在线）；无设备 / 无 Plus / 离线时**自动隐藏**——此时只有 Manual Log 可选，「随时切换三种模式」会自相矛盾。
+
+**模式心智原则（易懂优先）**：目标是让用户快速建立「实时带练 / 只录制看报告 / 纯手动」这个**三档心智**，但**不做成复杂配置**。落地手法：① 具名卡片、一句话说明；② 未选中只留标题，选中才展开一行（信息渐进）；③「课中随时能切」降低决策压力；④ 命名沿一条**直觉光谱**：实时驱动 → 自动 → 全手动。**不引入**开关矩阵 / 多层设置，避免"配置感"。
 
 > 备选结构（已探索、暂不采用）见 `explorations/`：D 能力开关、E 两开关+独立手动、C 具名+开关、A 单开关。若未来能力增多或跟练课上线，可再评估切换到开关式。
-
-命名沿「AI 参与度」光谱：实时驱动 → 自动 → 全手动。
 
 | 模式 | 一句话 | 依赖 | 图标 |
 |---|---|---|---|
@@ -136,7 +136,8 @@
   - 离约 **0.5–1 米**；
   - 正对或侧对，**别过度仰角**；
   - 周围留空，**别被器械（卧推凳 / 深蹲架 / 杠铃）挡住**。
-- **反例（✗ 会影响识别）+ 稳定摆放 + 每个动作差异**放到单独的**「拍摄技巧」二级页**（须知上有「查看拍摄技巧」入口），避免课前堆负面信息。**图片策略**：须知放 1 张 OK；Tips 页放 OK vs 若干 Not-OK 对照 + 说明。
+- **拍摄技巧」二级页**（须知上有「查看拍摄技巧」入口，避免课前堆负面信息）内容：教练心智 + OK 图 + **「背景有人没关系」**（ATOM 只认画面里最大的那个人）+ 稳定摆放（三脚架）+ 反例（✗ 会影响识别）+ 每个动作差异。**图片策略**：须知放 1 张 OK；Tips 页放 OK vs 若干 Not-OK 对照 + 说明。
+  - **识别主体**：ATOM **自动锁定画面中最大的角色**——所以背景里有其他人一般不影响，关键是你**居中、离得够近，是画面里最大的主体**。（这条也进详版 `TIPS-识别准确度指南.md`。）
 - **稳定摆放**（Tips 页）：推荐**配套 ATOM 三脚架/支架**，把设备平稳架在约膝盖高度。
 - 课前要求可**按动作模板化**（地面动作 / 大跨步需要更大画面）。
 - **Beta 提示**：可能漏/误计，请自行判断。
@@ -219,7 +220,8 @@ flowchart TD
 | 课前须知·标题 | Get set up | 课前须知 |
 | Coach 副标 | ATOM watches like a coach — set it up so it can see you clearly. | ATOM 就像教练的眼睛——摆好位置，让它看清你。 |
 | Coach 做到（5） | Whole body in frame, centered · Set ATOM about knee height · Stand 0.5–1 m back · Face it front-on or side-on · Clear space — nothing blocking you | 全身入框，站在画面中央 · ATOM 放到约膝盖高度 · 离 ATOM 0.5–1 米 · 正对或侧对镜头 · 周围留空，别被器械挡住 |
-| Coach 反例（Tips 页） | Body cut off or off to one side · Too close or too far (0.5–1 m) · ATOM tilted steeply up · Blocked by a bench, rack or barbell · Backlit, dark, or others in frame | 身体被裁切或偏到一边 · 太近或太远（0.5–1 米） · ATOM 过度仰角 · 被卧推凳/深蹲架/杠铃挡住 · 逆光、过暗或他人入镜 |
+| Coach 反例（Tips 页） | Body cut off or off to one side · Too close or too far (0.5–1 m) · ATOM tilted steeply up · Blocked by a bench, rack or barbell · Backlit, too dark, or heavy shadows | 身体被裁切或偏到一边 · 太近或太远（0.5–1 米） · ATOM 过度仰角 · 被卧推凳/深蹲架/杠铃挡住 · 逆光、过暗或阴影很重 |
+| Tips · 背景有人没关系 | Crowd is fine · ATOM tracks the largest person in view, so background people won't throw it off — just be centred and biggest. | 背景有人没关系 · ATOM 只认画面里最大的那个人，背景有人也不影响——你居中、是最大的主体就行。 |
 | Tips · 稳定摆放 | A compatible ATOM tripod or stand keeps it level at about knee height. | 用配套的 ATOM 三脚架/支架，把它平稳架在约膝盖高度。 |
 | 教练心智 | Think of ATOM as your coach's eyes: if a coach standing there could see your form, so can ATOM. | 把 ATOM 想成教练的眼睛：教练站那儿能看清你，ATOM 就能看清。 |
 | Recap 副标 | Stay in frame, any angle. Good light, just you. | 全程在画面里，角度随意。光线充足、只有你。 |
@@ -310,9 +312,10 @@ flowchart TD
 | tipsTitle | Framing tips | 拍摄技巧 |
 | coachLine | Think of ATOM as your coach's eyes: if a coach standing there could see your form, so can ATOM. | 把 ATOM 想成教练的眼睛：教练站那儿能看清你，ATOM 就能看清。 |
 | coachDoH（OK 标）| Set up | 这样摆 |
+| crowdH / crowd | Crowd is fine / ATOM tracks the largest person in view, so people in the background won't throw it off — just be centred and close enough that you're the biggest. | 背景有人没关系 / ATOM 只认画面里最大的那个人，背景有人也不影响——你居中、离得够近，是画面里最大的主体就行。 |
 | tripodH / tripod | Steady placement / A compatible ATOM tripod or stand keeps it level at about knee height. | 稳定摆放 / 用配套的 ATOM 三脚架/支架，把它平稳架在约膝盖高度。 |
 | coachAvoidH | These hurt accuracy | 这些会影响识别 |
-| coachAvoid（5）| Body cut off or off to one side · Too close or too far — aim for 0.5–1 m · ATOM tilted steeply up at you · Blocked by a bench, rack or barbell · Backlit, too dark, or others in frame | 身体被裁切或偏到一边 · 太近或太远——0.5–1 米最好 · ATOM 过度仰角对着你 · 被卧推凳、深蹲架或杠铃挡住 · 逆光、过暗，或有他人入镜 |
+| coachAvoid（5）| Body cut off or off to one side · Too close or too far — aim for 0.5–1 m · ATOM tilted steeply up at you · Blocked by a bench, rack or barbell · Backlit, too dark, or heavy shadows | 身体被裁切或偏到一边 · 太近或太远——0.5–1 米最好 · ATOM 过度仰角对着你 · 被卧推凳、深蹲架或杠铃挡住 · 逆光、过暗，或阴影很重 |
 | perExH / perEx | Per exercise / Some moves (floor work, wide stances) need more room — just follow the on-screen guide for each. | 不同动作 / 部分动作（地面动作、大跨步）需要更大画面，按每个动作的屏幕提示调整即可。 |
 
 ### ⑬⑭⑮⑯ ATOM 圆屏 Device
@@ -343,16 +346,37 @@ flowchart TD
 
 ---
 
-## 7. 边界情况 · Edge cases
+## 7. 边界与空/极限状态 · Edge, empty & limit states
 
+### 7.1 状态矩阵 · State matrix
 | 维度 | 状态 | 处理 |
 |---|---|---|
-| 配对 | 未配对 / 单台 / 多台 | 锁定引导 / 正常 / 列表二次选择 |
-| 网络 | 在线 / 无网络 | 可启动 / 拦截并提示 |
+| 配对 | 未配对 / 单台 / 多台 | AI 锁定引导添加 / 正常 / 切换图标弹列表二次选择 |
+| 网络 | 在线 / 无网络 | 可启动 / **拦截**并顶部告警、CTA 置灰 |
 | 会员 | 有 / 无 Plus | 正常 / 锁定引导开通 |
 | 手动记录 | 任意 | 永远可用，不依赖设备/网络/会员 |
 
-**有意不在此处理**：低电量、固件升级、课中掉线、Plus 课中到期、权限申请（解耦到进入模式后）。
+### 7.2 空 / 0 状态 · Empty & zero states
+| 场景 | 现状 | 处理 / 待办 |
+|---|---|---|
+| **无设备**（0 台） | 设备行显示「ATOM」+ 添加设备；两个 AI 模式灰化锁定；只有 Manual Log 可用 | ✓ **「课中随时能切」小字自动隐藏**（只有 Manual 时切换提示无意义）|
+| **无 Plus** | AI 模式灰化，点击弹开通；只有 Manual | ✓ 同上，切换小字隐藏 |
+| **无 SD 卡 + 选「仅存 ATOM」** | 须知数据行 + 弹窗告警「本次不会保留」 | ✓；**边界**：全局关保存→引导弹窗里选「仅存 ATOM」且无 SD，当前是选完即收起、告警落在须知那行（用户仍被告知）|
+| **全局关闭保存视频** | 须知数据行变绿色引导条「已关闭·开启」 | ✓ 反向引导 |
+| **课程无动作 / 数据缺失**（预览） | 预览的时长/动作/消耗、动作清单为占位 | ⏳ 接真实数据；**0 动作时应隐藏「本节包含」整块**（工程实现注意）|
+
+### 7.3 极限状态 · Limit states
+| 场景 | 现状 | 处理 / 待办 |
+|---|---|---|
+| **超长设备名** | 单行不换行，可能溢出 | ⏳ 加 `ellipsis` 截断 |
+| **Record & Recap 英文名较长** | 窄屏 `Plus` 标签掉到标题下一行 | 可接受（已处理换行）|
+| **超长课程名 / 动作名** | 预览标题、动作行可能折行/溢出 | ⏳ 限行 + `ellipsis` |
+| **多台设备（>2）** | 原型仅演示 2 台 | ⏳ 设备列表需**可滚动** |
+| **多台全部离线** | 顶部告警，无「切到在线设备」补充句 | ✓ |
+| **离线 + 无 Plus 同时** | 门槛优先级：点锁定卡先弹「缺设备/缺 Plus」（设备优先）；离线告警仍显示但此时 AI 本就不可选 | ✓（告警无害，可后续按需抑制）|
+| **状态中途变化被锁** | 选中项被锁 → 自动回退到可用模式（`_reconcile`）| ✓ |
+
+**有意不在此处理 · Out of scope**：ATOM 低电量 / 固件升级（不硬卡）、Plus 课中到期、**课中** ATOM 掉线降级、权限申请（解耦到进入模式后再按需申请）、ATOM 设备端自身的离线态。
 
 ---
 

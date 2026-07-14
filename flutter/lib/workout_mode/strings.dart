@@ -105,19 +105,23 @@ class L {
       'Think of ATOM as your coach’s eyes: if a coach standing there could see your form, so can ATOM.',
       '把 ATOM 想成教练的眼睛：教练站那儿能看清你，ATOM 就能看清。');
   String get setupLabel => _t('Set up', '这样摆');
+  String get crowdHeader => _t('Crowd is fine', '背景有人没关系');
+  String get crowd => _t(
+      'ATOM tracks the largest person in view, so people in the background won’t throw it off — just be centred and close enough that you’re the biggest.',
+      'ATOM 只认画面里最大的那个人，背景有人也不影响——你居中、离得够近，是画面里最大的主体就行。');
   String get tripodHeader => _t('Steady placement', '稳定摆放');
   String get tripod => _t(
       'A compatible ATOM tripod or stand keeps it level at about knee height.',
       '用配套的 ATOM 三脚架/支架，把它平稳架在约膝盖高度。');
   String get avoidHeader => _t('These hurt accuracy', '这些会影响识别');
   List<String> get coachAvoid => zh
-      ? const ['身体被裁切或偏到一边', '太近或太远——0.5–1 米最好', 'ATOM 过度仰角对着你', '被卧推凳、深蹲架或杠铃挡住', '逆光、过暗，或有他人入镜']
+      ? const ['身体被裁切或偏到一边', '太近或太远——0.5–1 米最好', 'ATOM 过度仰角对着你', '被卧推凳、深蹲架或杠铃挡住', '逆光、过暗，或阴影很重']
       : const [
           'Body cut off or off to one side',
           'Too close or too far — aim for 0.5–1 m',
           'ATOM tilted steeply up at you',
           'Blocked by a bench, rack or barbell',
-          'Backlit, too dark, or others in frame',
+          'Backlit, too dark, or heavy shadows',
         ];
   String get perExHeader => _t('Per exercise', '不同动作');
   String get perEx => _t(

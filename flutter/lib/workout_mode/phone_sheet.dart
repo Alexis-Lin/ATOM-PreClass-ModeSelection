@@ -68,9 +68,10 @@ class WorkoutModeSheet extends StatelessWidget {
                     onTap: () => _onModeTap(context, m),
                   ),
                 ),
-              // "Switch anytime" note: plain green text, below the cards,
-              // hidden while ATOM is offline (it'd contradict the block).
-              if (!controller.showOfflineWarning) _FlexNote(text: l.flexNote),
+              // "Switch anytime" note: plain green text, below the cards.
+              // Shown only when the AI modes are actually usable (device +
+              // Plus + online); otherwise only Manual works and it'd mislead.
+              if (controller.aiUsable) _FlexNote(text: l.flexNote),
               const SizedBox(height: 2),
               _cta(context, l),
             ],

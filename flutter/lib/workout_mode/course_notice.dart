@@ -130,6 +130,8 @@ class FramingTipsPage extends StatelessWidget {
             const SizedBox(height: 8),
             const FramingIllustration(),
             const SizedBox(height: 14),
+            _InfoBox(icon: Icons.groups_outlined, header: l.crowdHeader, body: l.crowd),
+            const SizedBox(height: 10),
             _InfoBox(icon: Icons.camera_outdoor_outlined, header: l.tripodHeader, body: l.tripod),
             const SizedBox(height: 16),
             Text(l.avoidHeader.toUpperCase(),

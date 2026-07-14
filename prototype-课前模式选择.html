@@ -609,10 +609,11 @@
       coachDoH:'Set up',
       coachDo:['Whole body in frame, centered','Set ATOM about knee height','Stand 0.5–1 m back','Face it front-on or side-on','Clear space — nothing blocking you'],
       coachAvoidH:'These hurt accuracy',
-      coachAvoid:['Body cut off or off to one side','Too close or too far — aim for 0.5–1 m','ATOM tilted steeply up at you','Blocked by a bench, rack or barbell','Backlit, too dark, or others in frame'],
+      coachAvoid:['Body cut off or off to one side','Too close or too far — aim for 0.5–1 m','ATOM tilted steeply up at you','Blocked by a bench, rack or barbell','Backlit, too dark, or heavy shadows'],
       coachLine:'Think of ATOM as your coach’s eyes: if a coach standing there could see your form, so can ATOM.',
       tipsLink:'See framing tips', tipsTitle:'Framing tips',
       tripodH:'Steady placement', tripod:'A compatible ATOM tripod or stand keeps it level at about knee height.',
+      crowdH:'Crowd is fine', crowd:'ATOM tracks the largest person in view, so people in the background won’t throw it off — just be centred and close enough that you’re the biggest.',
       perExH:'Per exercise', perEx:'Some moves (floor work, wide stances) need more room — just follow the on-screen guide for each.',
       recapSub:'Stay in frame, any angle. Good light, just you.',
       recapDoH:'Keep in mind',
@@ -662,10 +663,11 @@
       coachDoH:'这样摆',
       coachDo:['全身入框，站在画面中央','ATOM 放到约膝盖高度','离 ATOM 0.5–1 米','正对或侧对镜头','周围留空，别被器械挡住'],
       coachAvoidH:'这些会影响识别',
-      coachAvoid:['身体被裁切或偏到一边','太近或太远——0.5–1 米最好','ATOM 过度仰角对着你','被卧推凳、深蹲架或杠铃挡住','逆光、过暗，或有他人入镜'],
+      coachAvoid:['身体被裁切或偏到一边','太近或太远——0.5–1 米最好','ATOM 过度仰角对着你','被卧推凳、深蹲架或杠铃挡住','逆光、过暗，或阴影很重'],
       coachLine:'把 ATOM 想成教练的眼睛：教练站那儿能看清你的动作，ATOM 就能看清。',
       tipsLink:'查看拍摄技巧', tipsTitle:'拍摄技巧',
       tripodH:'稳定摆放', tripod:'用配套的 ATOM 三脚架/支架，把它平稳架在约膝盖高度。',
+      crowdH:'背景有人没关系', crowd:'ATOM 只认画面里最大的那个人，背景有人也不影响——你居中、离得够近，是画面里最大的主体就行。',
       perExH:'不同动作', perEx:'部分动作（地面动作、大跨步）需要更大画面，按每个动作的屏幕提示调整即可。',
       recapSub:'全程在画面里，角度随意。光线充足、只有你。',
       recapDoH:'记住这几点',
@@ -768,6 +770,7 @@
   var EYEI='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>';
   var CHEVI='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>';
   var TRIPODI='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="3" width="8" height="6" rx="1.5"/><path d="M12 9v5M12 14l-5 7M12 14l5 7M9.5 17.5h5"/></svg>';
+  var PEOPLEI='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3 20a6 6 0 0 1 12 0"/><path d="M16 5.5a3 3 0 0 1 0 5M21 20a5.5 5.5 0 0 0-4-5.3"/></svg>';
   function _tipslink(t){ return '<div class="tipslink" id="ps-tips"><span class="ti">'+EYEI+'</span><span class="tt">'+t.tipsLink+'</span><span class="tc">'+CHEVI+'</span></div>'; }
   function openPrestart(keep){
     var t=T[LANG];
@@ -798,6 +801,7 @@
     tipsT.textContent=t.tipsTitle;
     tipsBody.innerHTML='<div class="coachcallout">'+EYEI+'<span>'+t.coachLine+'</span></div>'
       +'<div class="okcap">'+CHK+'<span>'+t.coachDoH+'</span></div>'+FRAME_LIGHT
+      +_info(PEOPLEI,t.crowdH,t.crowd)
       +_info(TRIPODI,t.tripodH,t.tripod)
       +_sec(t.coachAvoidH,true)+_avoid(t.coachAvoid)
       +_info(INFOI,t.perExH,t.perEx);
@@ -911,7 +915,10 @@
 
     var showWarn = paired() && !online();
     warn.classList.toggle('show', showWarn);
-    var fnote=document.getElementById('flexnote'); if(fnote) fnote.style.display=showWarn?'none':'';
+    // "switch anytime" only makes sense when the AI modes are actually usable
+    // (paired + Plus + online). Otherwise only Manual is available → hide it.
+    var aiReady = paired() && PLUS && online();
+    var fnote=document.getElementById('flexnote'); if(fnote) fnote.style.display=aiReady?'':'none';
     if(showWarn){ var msg=t.warnNonet;
       var otherOnline = DEVCOUNT==='two' && deviceList().some(function(d,i){return i!==ACTIVE && d.status==='conn';});
       if(otherOnline) msg+=t.switchHint; warnTxt.textContent=msg; }
