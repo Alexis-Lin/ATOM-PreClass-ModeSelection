@@ -11,6 +11,8 @@ class WorkoutModeController extends ChangeNotifier {
     AppLang lang = AppLang.en,
     this.hasSdCard = true,
     this.dataChoice = DataChoice.cloud,
+    this.saveVideosOn = true,
+    this.sessionSave = false,
     this.skipNotice = false,
     this.skipAtomConfirm = false,
   })  : _devices = List.of(devices),
@@ -31,6 +33,18 @@ class WorkoutModeController extends ChangeNotifier {
 
   /// Whether the active ATOM has an SD card (needed for "keep on ATOM").
   bool hasSdCard;
+
+  /// Global "Save workout videos" setting (Settings). Default on — we do NOT
+  /// nudge users away from saving. When off, each session invites them to
+  /// allow saving instead.
+  bool saveVideosOn;
+
+  /// Per-session opt-in to save when [saveVideosOn] is off.
+  bool sessionSave;
+
+  /// Whether this workout's video is being saved (destination applies only
+  /// when true). Report/recap needs this.
+  bool get saving => saveVideosOn || sessionSave;
 
   /// "Don't show again" for the phone course-notice page.
   bool skipNotice;
@@ -91,6 +105,10 @@ class WorkoutModeController extends ChangeNotifier {
   void setLang(AppLang v) { if (_lang != v) { _lang = v; notifyListeners(); } }
   void setHasSdCard(bool v) { if (hasSdCard != v) { hasSdCard = v; notifyListeners(); } }
   void setDataChoice(DataChoice v) { if (dataChoice != v) { dataChoice = v; notifyListeners(); } }
+  void setSaveVideosOn(bool v) { saveVideosOn = v; sessionSave = false; notifyListeners(); }
+  void setSessionSave(bool v) { sessionSave = v; notifyListeners(); }
+  /// Reset per-session opt-in (call when starting a fresh pre-workout flow).
+  void resetSession() { sessionSave = false; notifyListeners(); }
   void setSkipNotice(bool v) { skipNotice = v; notifyListeners(); }
   void setSkipAtomConfirm(bool v) { skipAtomConfirm = v; notifyListeners(); }
 

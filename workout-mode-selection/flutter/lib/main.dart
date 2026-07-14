@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'workout_mode/atom_screens.dart';
 import 'workout_mode/controller.dart';
 import 'workout_mode/models.dart';
-import 'workout_mode/phone_sheet.dart';
+import 'workout_mode/preview_settings.dart';
 import 'workout_mode/tokens.dart';
 
 /// Demo harness — NOT production. It wires the reusable pieces together and
@@ -78,7 +78,7 @@ class _DemoPageState extends State<DemoPage> {
             children: [
               _controls(),
               const SizedBox(height: 20),
-              _sectionLabel('iPhone · in-app modal'),
+              _sectionLabel('iPhone · course preview → modal'),
               const SizedBox(height: 10),
               _phoneFrame(),
               const SizedBox(height: 28),
@@ -134,6 +134,10 @@ class _DemoPageState extends State<DemoPage> {
               _chip('In', controller.hasSdCard, () => controller.setHasSdCard(true)),
               _chip('None', !controller.hasSdCard, () => controller.setHasSdCard(false)),
             ]),
+            _group('Save video (Settings)', [
+              _chip('On', controller.saveVideosOn, () => controller.setSaveVideosOn(true)),
+              _chip('Off', !controller.saveVideosOn, () => controller.setSaveVideosOn(false)),
+            ]),
             _group('Lang', [
               _chip('EN', controller.lang == AppLang.en, () => controller.setLang(AppLang.en)),
               _chip('中文', controller.lang == AppLang.zh, () => controller.setLang(AppLang.zh)),
@@ -172,37 +176,18 @@ class _DemoPageState extends State<DemoPage> {
 
   Widget _phoneFrame() => Center(
         child: Container(
-          width: 360,
+          width: 402, // iPhone 17 logical width
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(30),
             border: Border.all(color: const Color(0x14000000)),
             boxShadow: const [BoxShadow(color: Color(0x22000000), blurRadius: 30, offset: Offset(0, 12))],
           ),
           clipBehavior: Clip.antiAlias,
-          child: Column(
-            children: [
-              // faux course-preview backdrop
-              Container(
-                height: 90,
-                decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [Color(0xFF3A3D38), Color(0xFF565A51)],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
-                ),
-                alignment: Alignment.bottomLeft,
-                padding: const EdgeInsets.all(16),
-                child: const Text('Back & Legs',
-                    style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w800)),
-              ),
-              WorkoutModeSheet(
-                controller: controller,
-                onStart: _start,
-                onAddDevice: () { _count = 1; _status = AtomConnState.online; _applyDevices(); },
-                onGetPlus: () => controller.setPlus(true),
-              ),
-            ],
+          child: CoursePreviewPage(
+            controller: controller,
+            onStart: _start,
+            onAddDevice: () { _count = 1; _status = AtomConnState.online; _applyDevices(); },
+            onGetPlus: () => controller.setPlus(true),
           ),
         ),
       );

@@ -8,11 +8,11 @@ import 'tokens.dart';
 
 /// Full-screen pre-start course notice.
 ///
-/// Mode-specific framing / setup guidance so users know how to keep tracking
-/// accurate before the AI session starts. Live Coach is strict (do + avoid +
-/// Beta caveat); Record & Recap is relaxed (stay in frame) and sets report /
-/// algorithm-upgrade expectations. The data-save choice is demoted to a subtle
-/// bottom line that opens a secondary sheet.
+/// Positive-only framing guidance. Live Coach shows a coach mental model +
+/// a short "do" checklist + a link to the Framing tips page (the don'ts live
+/// there). Record & Recap sets report / algorithm expectations. The data-save
+/// choice is a subtle bottom line; when global saving is off it flips to an
+/// invite to allow saving for this workout.
 class CourseNoticePage extends StatelessWidget {
   const CourseNoticePage({
     super.key,
@@ -33,19 +33,7 @@ class CourseNoticePage extends StatelessWidget {
         final l = L(controller.lang);
         return Scaffold(
           backgroundColor: Wm.sheet,
-          appBar: AppBar(
-            backgroundColor: Wm.sheet,
-            surfaceTintColor: Colors.transparent,
-            elevation: 0,
-            scrolledUnderElevation: 0.5,
-            leading: IconButton(
-              icon: const Icon(Icons.arrow_back, color: Wm.ink),
-              onPressed: () => Navigator.of(context).maybePop(),
-            ),
-            title: Text(l.noticeTitle,
-                style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w800, color: Wm.ink)),
-            centerTitle: false,
-          ),
+          appBar: _bar(context, l.noticeTitle),
           body: SafeArea(
             top: false,
             child: Column(children: [
@@ -53,11 +41,12 @@ class CourseNoticePage extends StatelessWidget {
                 child: ListView(
                   padding: const EdgeInsets.fromLTRB(18, 8, 18, 12),
                   children: [
-                    Text(_sub(l), style: const TextStyle(fontSize: 14.5, height: 1.5, color: Wm.ink2)),
+                    Text(mode == WorkoutMode.recordRecap ? l.recapSub : l.coachSub,
+                        style: const TextStyle(fontSize: 14.5, height: 1.5, color: Wm.ink2)),
                     const SizedBox(height: 14),
-                    const _FramingIllustration(),
+                    const FramingIllustration(),
                     const SizedBox(height: 16),
-                    ..._body(l),
+                    ..._body(context, l),
                   ],
                 ),
               ),
@@ -69,58 +58,163 @@ class CourseNoticePage extends StatelessWidget {
     );
   }
 
-  String _sub(L l) => mode == WorkoutMode.recordRecap ? l.recapSub : l.coachSub;
-
-  List<Widget> _body(L l) {
+  List<Widget> _body(BuildContext context, L l) {
     if (mode == WorkoutMode.recordRecap) {
+      if (!controller.saving) {
+        return [
+          _InfoBox(icon: Icons.description_outlined, header: l.reportHeader, body: l.recapNoSave),
+        ];
+      }
       return [
-        _GuideBlock(header: l.keepHeader, items: l.recapKeep, tone: _GuideTone.good),
-        const SizedBox(height: 14),
         _InfoBox(icon: Icons.auto_awesome_outlined, header: l.reportHeader, body: l.report),
         const SizedBox(height: 10),
         _InfoBox(icon: Icons.shield_outlined, header: l.algoHeader, body: l.algo),
       ];
     }
     return [
-      _GuideBlock(header: l.doHeader, items: l.coachDo, tone: _GuideTone.good),
+      CheckList(items: l.coachDo, tone: CheckTone.good),
       const SizedBox(height: 14),
-      _GuideBlock(header: l.avoidHeader, items: l.coachAvoid, tone: _GuideTone.bad),
+      _TipsLink(
+        text: l.tipsLink,
+        onTap: () => Navigator.of(context).push(MaterialPageRoute(
+          builder: (_) => FramingTipsPage(controller: controller),
+        )),
+      ),
       const SizedBox(height: 14),
       BetaCaution(text: l.beta),
     ];
   }
 }
 
-// ---------------------------------------------------------------------------
-enum _GuideTone { good, bad }
+AppBar _bar(BuildContext context, String title) => AppBar(
+      backgroundColor: Wm.sheet,
+      surfaceTintColor: Colors.transparent,
+      elevation: 0,
+      scrolledUnderElevation: 0.5,
+      leading: IconButton(
+        icon: const Icon(Icons.arrow_back, color: Wm.ink),
+        onPressed: () => Navigator.of(context).maybePop(),
+      ),
+      title: Text(title,
+          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w800, color: Wm.ink)),
+      centerTitle: false,
+    );
 
-class _GuideBlock extends StatelessWidget {
-  const _GuideBlock({required this.header, required this.items, required this.tone});
-  final String header;
-  final List<String> items;
-  final _GuideTone tone;
+// ---------------------------------------------------------------------------
+// Framing tips page (extra reading, opened from the notice)
+// ---------------------------------------------------------------------------
+class FramingTipsPage extends StatelessWidget {
+  const FramingTipsPage({super.key, required this.controller});
+  final WorkoutModeController controller;
 
   @override
   Widget build(BuildContext context) {
-    final good = tone == _GuideTone.good;
-    final markColor = good ? Wm.brandInk : Wm.warn;
-    final markIcon = good ? Icons.check_circle : Icons.cancel;
+    final l = L(controller.lang);
+    return Scaffold(
+      backgroundColor: Wm.sheet,
+      appBar: _bar(context, l.tipsTitle),
+      body: SafeArea(
+        top: false,
+        child: ListView(
+          padding: const EdgeInsets.fromLTRB(18, 8, 18, 24),
+          children: [
+            _CoachCallout(text: l.coachLine),
+            const SizedBox(height: 14),
+            Row(children: [
+              const Icon(Icons.check, size: 15, color: Wm.brandInk),
+              const SizedBox(width: 7),
+              Text(l.setupLabel.toUpperCase(),
+                  style: const TextStyle(
+                      fontSize: 12, fontWeight: FontWeight.w800, color: Wm.brandInk, letterSpacing: 0.5)),
+            ]),
+            const SizedBox(height: 8),
+            const FramingIllustration(),
+            const SizedBox(height: 14),
+            _InfoBox(icon: Icons.camera_outdoor_outlined, header: l.tripodHeader, body: l.tripod),
+            const SizedBox(height: 16),
+            Text(l.avoidHeader.toUpperCase(),
+                style: const TextStyle(
+                    fontSize: 12, fontWeight: FontWeight.w800, color: Wm.warn, letterSpacing: 0.5)),
+            const SizedBox(height: 8),
+            CheckList(items: l.coachAvoid, tone: CheckTone.bad),
+            const SizedBox(height: 16),
+            _InfoBox(icon: Icons.info_outline, header: l.perExHeader, body: l.perEx),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _CoachCallout extends StatelessWidget {
+  const _CoachCallout({required this.text});
+  final String text;
+  @override
+  Widget build(BuildContext context) => Container(
+        padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 12),
+        decoration: BoxDecoration(
+          color: Wm.brandTint,
+          border: Border.all(color: const Color(0xFFD6ECB3)),
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          const Icon(Icons.visibility_outlined, size: 18, color: Wm.brandInk),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Text(text, style: const TextStyle(fontSize: 13, height: 1.5, color: Wm.brandInk)),
+          ),
+        ]),
+      );
+}
+
+class _TipsLink extends StatelessWidget {
+  const _TipsLink({required this.text, required this.onTap});
+  final String text;
+  final VoidCallback onTap;
+  @override
+  Widget build(BuildContext context) => InkWell(
+        borderRadius: BorderRadius.circular(12),
+        onTap: onTap,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 12),
+          decoration: BoxDecoration(
+            border: Border.all(color: Wm.line),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Row(children: [
+            const Icon(Icons.visibility_outlined, size: 20, color: Wm.ink2),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Text(text,
+                  style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: Wm.ink)),
+            ),
+            const Icon(Icons.chevron_right, size: 20, color: Wm.ink3),
+          ]),
+        ),
+      );
+}
+
+// ---------------------------------------------------------------------------
+enum CheckTone { good, bad }
+
+class CheckList extends StatelessWidget {
+  const CheckList({super.key, required this.items, required this.tone});
+  final List<String> items;
+  final CheckTone tone;
+  @override
+  Widget build(BuildContext context) {
+    final good = tone == CheckTone.good;
+    final color = good ? Wm.brandInk : Wm.warn;
+    final icon = good ? Icons.check : Icons.close;
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Text(header,
-          style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w800, color: Wm.ink)),
-      const SizedBox(height: 8),
       for (final item in items)
         Padding(
-          padding: const EdgeInsets.only(bottom: 7),
-          child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 1),
-              child: Icon(markIcon, size: 16, color: markColor),
-            ),
-            const SizedBox(width: 9),
+          padding: const EdgeInsets.only(bottom: 9),
+          child: Row(children: [
+            Icon(icon, size: 17, color: color),
+            const SizedBox(width: 10),
             Expanded(
-              child: Text(item,
-                  style: const TextStyle(fontSize: 13.5, height: 1.45, color: Wm.ink2)),
+              child: Text(item, style: const TextStyle(fontSize: 14, height: 1.4, color: Wm.ink)),
             ),
           ]),
         ),
@@ -133,23 +227,19 @@ class _InfoBox extends StatelessWidget {
   final IconData icon;
   final String header;
   final String body;
-
   @override
   Widget build(BuildContext context) => Container(
         padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 12),
-        decoration: BoxDecoration(
-          color: Wm.iconBg,
-          borderRadius: BorderRadius.circular(12),
-        ),
+        decoration: BoxDecoration(color: Wm.iconBg, borderRadius: BorderRadius.circular(12)),
         child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Icon(icon, size: 18, color: Wm.ink2),
           const SizedBox(width: 10),
           Expanded(
             child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Text(header,
-                  style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w800, color: Wm.ink)),
+                  style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w800, color: Wm.ink)),
               const SizedBox(height: 3),
-              Text(body, style: const TextStyle(fontSize: 12.5, height: 1.45, color: Wm.ink2)),
+              Text(body, style: const TextStyle(fontSize: 12, height: 1.45, color: Wm.ink2)),
             ]),
           ),
         ]),
@@ -158,8 +248,8 @@ class _InfoBox extends StatelessWidget {
 
 /// Placeholder framing diagram.
 /// ⚠️ DESIGNER: replace with the "correct vs wrong" framing illustration.
-class _FramingIllustration extends StatelessWidget {
-  const _FramingIllustration();
+class FramingIllustration extends StatelessWidget {
+  const FramingIllustration({super.key});
   @override
   Widget build(BuildContext context) => Container(
         height: 150,
@@ -205,7 +295,8 @@ class _Footer extends StatelessWidget {
   }
 }
 
-/// Subtle "Video syncs to your cloud account · Change" line.
+/// Subtle data-destination line. When global saving is off, it flips to a
+/// green invite ("Video saving is off — this workout won't be saved · Turn on").
 class _DataSaveLine extends StatelessWidget {
   const _DataSaveLine({required this.controller});
   final WorkoutModeController controller;
@@ -213,6 +304,33 @@ class _DataSaveLine extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l = L(controller.lang);
+    if (!controller.saving) {
+      return InkWell(
+        borderRadius: BorderRadius.circular(10),
+        onTap: () => showDataChoiceSheet(context, controller),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 10),
+          decoration: BoxDecoration(
+            color: Wm.brandTint,
+            border: Border.all(color: const Color(0xFFD6ECB3)),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Row(children: [
+            Expanded(
+              child: Text(l.drSaveOff,
+                  style: const TextStyle(fontSize: 11.5, height: 1.4, color: Wm.brandInk)),
+            ),
+            const SizedBox(width: 8),
+            Text(l.drTurnOn,
+                style: const TextStyle(
+                    fontSize: 11.5,
+                    fontWeight: FontWeight.w700,
+                    color: Wm.brandInk,
+                    decoration: TextDecoration.underline)),
+          ]),
+        ),
+      );
+    }
     final noSd = controller.dataChoice == DataChoice.local && !controller.hasSdCard;
     final label = controller.dataChoice == DataChoice.cloud
         ? l.drCloud
@@ -262,18 +380,25 @@ class _DontShowRow extends StatelessWidget {
 }
 
 // ---------------------------------------------------------------------------
-// Data-choice secondary sheet
+// Data-choice secondary sheet (normal "where to save" vs invite-to-save)
 // ---------------------------------------------------------------------------
 Future<void> showDataChoiceSheet(BuildContext context, WorkoutModeController controller) {
   final l = L(controller.lang);
+  final invite = !controller.saving; // saving globally off → guide to allow
   return showAppSheet(
     context,
     scrollable: true,
     child: StatefulBuilder(
       builder: (context, setSheetState) {
         void pick(DataChoice c) {
-          controller.setDataChoice(c);
-          setSheetState(() {});
+          if (invite) {
+            controller.setDataChoice(c);
+            controller.setSessionSave(true);
+            Navigator.pop(context);
+          } else {
+            controller.setDataChoice(c);
+            setSheetState(() {});
+          }
         }
 
         final noSd = controller.dataChoice == DataChoice.local && !controller.hasSdCard;
@@ -281,8 +406,12 @@ Future<void> showDataChoiceSheet(BuildContext context, WorkoutModeController con
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text(l.dataSheetTitle,
-                style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w800, color: Wm.ink)),
+            Text(invite ? l.saveOnTitle : l.dataSheetTitle,
+                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: Wm.ink)),
+            if (invite) ...[
+              const SizedBox(height: 4),
+              Text(l.saveOnBody, style: const TextStyle(fontSize: 12.5, height: 1.5, color: Wm.ink2)),
+            ],
             const SizedBox(height: 12),
             _DataOption(
               icon: Icons.cloud_outlined,
@@ -290,7 +419,7 @@ Future<void> showDataChoiceSheet(BuildContext context, WorkoutModeController con
               tag: l.dRecommended,
               tagGood: true,
               benefits: l.dCloudBenefits,
-              selected: controller.dataChoice == DataChoice.cloud,
+              selected: !invite && controller.dataChoice == DataChoice.cloud,
               onTap: () => pick(DataChoice.cloud),
             ),
             const SizedBox(height: 10),
@@ -300,10 +429,10 @@ Future<void> showDataChoiceSheet(BuildContext context, WorkoutModeController con
               tag: l.dNeedsSd,
               tagGood: false,
               benefits: l.dLocalBenefits,
-              selected: controller.dataChoice == DataChoice.local,
+              selected: !invite && controller.dataChoice == DataChoice.local,
               onTap: () => pick(DataChoice.local),
             ),
-            if (noSd) ...[
+            if (!invite && noSd) ...[
               const SizedBox(height: 12),
               BetaCaution(text: l.noSdWarn),
             ],
@@ -328,7 +457,11 @@ Future<void> showDataChoiceSheet(BuildContext context, WorkoutModeController con
               ),
             ]),
             const SizedBox(height: 16),
-            SheetButton(label: l.dDone, primary: true, onTap: () => Navigator.pop(context)),
+            SheetButton(
+              label: invite ? l.saveNotNow : l.dDone,
+              primary: !invite,
+              onTap: () => Navigator.pop(context),
+            ),
           ],
         );
       },
@@ -370,7 +503,7 @@ class _DataOption extends StatelessWidget {
               Icon(icon, size: 20, color: selected ? Wm.brandInk : Wm.ink2),
               const SizedBox(width: 10),
               Text(name,
-                  style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w800, color: Wm.ink)),
+                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: Wm.ink)),
               const SizedBox(width: 8),
               _DataTag(text: tag, good: tagGood),
               const Spacer(),
@@ -410,6 +543,6 @@ class _DataTag extends StatelessWidget {
         ),
         child: Text(text,
             style: TextStyle(
-                fontSize: 9.5, fontWeight: FontWeight.w700, color: good ? Wm.brandInk : Wm.plus)),
+                fontSize: 12, fontWeight: FontWeight.w700, color: good ? Wm.brandInk : Wm.plus)),
       );
 }

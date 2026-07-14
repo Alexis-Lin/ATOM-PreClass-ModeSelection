@@ -49,17 +49,15 @@ class WorkoutModeSheet extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.fromLTRB(2, 2, 2, 6),
+                padding: const EdgeInsets.fromLTRB(2, 2, 2, 8),
                 child: Text(l.title,
-                    style: const TextStyle(fontSize: 19, fontWeight: FontWeight.w800, color: Wm.ink)),
+                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w800, color: Wm.ink)),
               ),
               _DeviceRow(controller: controller, onAddDevice: onAddDevice),
               if (controller.showOfflineWarning) ...[
                 const SizedBox(height: 8),
                 _WarningStrip(text: _offlineWarn(controller, l)),
               ],
-              const SizedBox(height: 10),
-              _FlexNote(text: l.flexNote),
               const SizedBox(height: 10),
               for (final m in WorkoutMode.values)
                 Padding(
@@ -70,6 +68,9 @@ class WorkoutModeSheet extends StatelessWidget {
                     onTap: () => _onModeTap(context, m),
                   ),
                 ),
+              // "Switch anytime" note: plain green text, below the cards,
+              // hidden while ATOM is offline (it'd contradict the block).
+              if (!controller.showOfflineWarning) _FlexNote(text: l.flexNote),
               const SizedBox(height: 2),
               _cta(context, l),
             ],
@@ -119,20 +120,11 @@ class _FlexNote extends StatelessWidget {
   const _FlexNote({required this.text});
   final String text;
   @override
-  Widget build(BuildContext context) => Container(
-        padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 10),
-        decoration: BoxDecoration(
-          color: Wm.brandTint,
-          border: Border.all(color: const Color(0xFFD6ECB3)),
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          const Icon(Icons.lightbulb_outline, size: 16, color: Wm.brandInk),
-          const SizedBox(width: 8),
-          Expanded(
-            child: Text(text, style: const TextStyle(fontSize: 12, height: 1.45, color: Wm.brandInk)),
-          ),
-        ]),
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.fromLTRB(10, 12, 10, 2),
+        child: Text(text,
+            textAlign: TextAlign.center,
+            style: const TextStyle(fontSize: 12, height: 1.45, color: Wm.brandInk)),
       );
 }
 
@@ -282,23 +274,13 @@ class _ModeCard extends StatelessWidget {
               _ModeIcon(mode: mode, selected: selected, dim: locked),
               const SizedBox(width: 13),
               Expanded(
-                child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  Row(children: [
-                    Flexible(
-                      child: Text(l.modeName(mode),
-                          style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                              color: locked ? Wm.ink3 : Wm.ink)),
-                    ),
-                    if (mode.requiresPlus) ...[const SizedBox(width: 7), PlusTag(label: l.plusTag)],
-                  ]),
-                  const SizedBox(height: 3),
-                  Opacity(
-                    opacity: locked ? 0.5 : 1,
-                    child: Text(l.modeDesc(mode),
-                        style: const TextStyle(fontSize: 12.5, height: 1.45, color: Wm.ink2)),
-                  ),
+                // Unselected = title only; the one-line description lives in
+                // the expand (shown once selected).
+                child: Wrap(crossAxisAlignment: WrapCrossAlignment.center, spacing: 7, runSpacing: 4, children: [
+                  Text(l.modeName(mode),
+                      style: TextStyle(
+                          fontSize: 16, fontWeight: FontWeight.w700, color: locked ? Wm.ink3 : Wm.ink)),
+                  if (mode.requiresPlus) PlusTag(label: l.plusTag),
                 ]),
               ),
               const SizedBox(width: 10),
@@ -343,17 +325,10 @@ class _ModeDetail extends StatelessWidget {
   final L l;
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.fromLTRB(14, 2, 14, 14),
+        padding: const EdgeInsets.fromLTRB(68, 0, 14, 14),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text.rich(TextSpan(children: [
-            TextSpan(
-                text: '${l.bestLabel} ',
-                style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: Wm.ink)),
-            TextSpan(
-                text: l.modeBest(mode),
-                style: const TextStyle(
-                    fontSize: 12, height: 1.45, color: Wm.ink2, fontWeight: FontWeight.w500)),
-          ])),
+          Text(l.modeDesc(mode),
+              style: const TextStyle(fontSize: 14, height: 1.5, color: Wm.ink2)),
           if (mode == WorkoutMode.liveCoach) ...[
             const SizedBox(height: 8),
             BetaCaution(text: l.beta),

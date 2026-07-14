@@ -22,25 +22,29 @@ flutter run          # 或 flutter run -d chrome 跑 Web
 
 ```
 lib/
-├── main.dart                      # 演示壳（预览开关 + 手机弹窗 + ATOM 圆屏）—— 非生产
+├── main.dart                      # 演示壳（预览开关 + 手机预览 + ATOM 圆屏）—— 非生产
 └── workout_mode/                  # ★ 可复用模块
     ├── models.dart                # 枚举与数据类（无 UI 依赖）
     ├── strings.dart               # ★ 全部中英文案（L）—— 改文案只动这里
     ├── tokens.dart                # 设计 token（颜色/圆角）
     ├── controller.dart            # ★ 全部业务逻辑（ChangeNotifier）
     ├── shared.dart                # 公用小组件（胶囊按钮 / Radio / Plus 标 / Beta 提示 / 弹窗壳）
-    ├── phone_sheet.dart           # 手机端弹窗 + 模式卡 + 门槛/设备列表弹窗
-    ├── course_notice.dart         # 整页「课前须知」+ 数据保存二次弹窗（云端 / 存 ATOM）
+    ├── preview_settings.dart      # 课程预览页（预览优先入口）+ 设置页（保存视频全局开关）
+    ├── phone_sheet.dart           # 模式弹窗 + 模式卡（未选中只标题）+ 门槛/设备列表弹窗
+    ├── course_notice.dart         # 整页「课前须知」+ 拍摄技巧页 + 数据保存/引导弹窗
     └── atom_screens.dart          # ATOM 466×466 圆屏 + 整屏开始前确认
 ```
 
-**关注点分离**：`controller.dart` 是唯一的规则来源；UI 只读它的判定函数，不自己算逻辑。**所有文案集中在 `strings.dart`（`L`）**，便于按「精确 + 精简 + 少折行 + 必要时才呈现」的原则统一打磨。
+**关注点分离**：`controller.dart` 是唯一的规则来源；UI 只读它的判定函数，不自己算逻辑。**所有文案集中在 `strings.dart`（`L`）**（与原型 `T` 一一对应）。
 
-### 方向 F（当前采用）
-保留**具名三选一**（Live Coach / Record & Recap / Manual Log）——决策与理解成本最低——并在卡片上方加一条心智提示（`flexNote`）：*「不确定？三种模式课中随时能切换，先随便选一个就好。」* 其它「开关式」结构（A/C/D/E）留在 `../explorations/` 备查。
+### 结构（方向 F）
+具名三选一（Live Coach / Record & Recap / Manual Log）；未选中卡片**只显示标题**，选中才展开一行说明。心智提示 `flexNote`（*「不确定？课中随时能切换，先选一个。」*）为**卡片下方、按钮上方的绿色小字**，**离线时不显示**。
 
-### 完整流程
-模式弹窗（具名三选一 + flexNote）→ **AI 模式** 点 CTA → 整页**课前须知**（Live Coach：严格取景 do/avoid + Beta 提示；Record & Recap：宽松取景 + 报告迭代/算法升级说明）→ 底部一行不显眼的**数据去向**（默认「同步到云端」· 更改）可展开二次弹窗（**云端【推荐】** vs **仅存 ATOM【需 SD 卡】**；无 SD → 告警「本次不会保留」；报告依赖云端；隐私说明 + 隐私协议）→ `I'm ready` → `onStart`。**Manual Log** 不走须知直接开始。
+### 完整流程（预览优先）
+**课程预览页**（`CoursePreviewPage`，右上角齿轮进 `SettingsPage`）→ 点「开始训练」弹出**模式弹窗** → **AI 模式** 点 CTA → 整页**课前须知**（Live Coach：教练心智副标 + OK 取景图 + 5 条做到 + 「查看拍摄技巧」入口 + Beta；Record & Recap：宽松取景 + 报告/留存）。「拍摄技巧」二级页（`FramingTipsPage`）放教练心智 + OK 图 + 稳定摆放(三脚架) + 反例 + 每个动作差异 → `I'm ready` → `onStart`。**Manual Log** 不走须知直接开始。
+
+### 数据保存（反向逻辑）
+默认**不引导用户不存**：课前只有 **云端 / 仅存 ATOM**。「不保存」= **Settings 全局开关 `saveVideosOn`**（默认开）。关掉后课前须知数据行变绿色引导条「已关闭·开启」，点开是**「保存这次的视频？」**正向弹窗（云端/仅存 ATOM + 底部「这次不用」），选云端/仅存即 `sessionSave = true`。`saving = saveVideosOn || sessionSave`；Record & Recap 不保存则提示无复盘报告。
 
 ---
 
