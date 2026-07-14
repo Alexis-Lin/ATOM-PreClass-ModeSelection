@@ -28,13 +28,13 @@ class L {
   // ---- blocking warning + CTA ----
   String get warnNoNetwork =>
       _t('ATOM is offline — connect it to start AI modes.', 'ATOM 未联网，连网后才能启动 AI 模式。');
-  String get switchHint => _t(' Or switch to an online device.', ' 或切换到在线设备。');
+  String get switchHint => _t(' Or switch to an online device.', ' 也可切换到在线的设备。');
   String get ctaBlocked => _t('ATOM must be online', 'ATOM 需在线');
 
   // ---- gate sheet (locked mode tapped) ----
   String gateTitle(WorkoutMode m, GateReason r) => r == GateReason.needDevice
       ? _t('${modeName(m)} runs on ATOM', '${modeName(m)} 需要 ATOM')
-      : _t('${modeName(m)} needs Plus', '${modeName(m)} 需要 Plus');
+      : _t('${modeName(m)} needs Plus', '${modeName(m)} 需要 Plus 会员');
   String gateBody(GateReason r) => r == GateReason.needDevice
       ? _t('Pair a nearby ATOM to unlock AI modes.', '连接身边的 ATOM，解锁 AI 模式。')
       : _t('Get Plus to unlock AI modes.', '开通 Plus，解锁 AI 模式。');
@@ -89,7 +89,8 @@ class L {
 
   // Record & Recap
   String get recapSub => _t(
-      'Stay in frame, any angle. Good light, just you.', '全程在画面里，角度随意。光线充足、只有你。');
+      'Stay in frame at any angle — just keep the light good.',
+      '全程在画面里，角度随意，光线充足就好。');
   String get reportHeader => _t('Your report', '关于报告');
   String get report => _t(
       'Deeper recaps coming via OTA. Today’s is basic.', '更深复盘将随 OTA 上线，当前报告较简单。');
@@ -103,7 +104,7 @@ class L {
   String get tipsTitle => _t('Framing tips', '拍摄技巧');
   String get coachLine => _t(
       'Think of ATOM as your coach’s eyes: if a coach standing there could see your form, so can ATOM.',
-      '把 ATOM 想成教练的眼睛：教练站那儿能看清你，ATOM 就能看清。');
+      '把 ATOM 想成教练的眼睛：教练站那儿能看清你的动作，ATOM 就能看清。');
   String get setupLabel => _t('Set up', '这样摆');
   String get crowdHeader => _t('Crowd is fine', '背景有人没关系');
   String get crowd => _t(
@@ -190,7 +191,7 @@ class L {
   // ---- ATOM round device ----
   String get atomTitle => _t('Workout mode', '上课模式');
   String get atomStart => _t('Start', '开始');
-  String get atomConfirmTitle => _t('Before you start', '开始前');
+  String get atomConfirmTitle => _t('Before you start', '开始前请确认');
   List<String> atomBullets(WorkoutMode m) => m == WorkoutMode.recordRecap
       ? (zh
           ? const ['全程在画面里，角度随意。', '更深复盘随 OTA 上线。']
