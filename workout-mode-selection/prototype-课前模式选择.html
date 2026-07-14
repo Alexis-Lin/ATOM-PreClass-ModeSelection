@@ -463,10 +463,6 @@
       dLocalNeedsSd:'Needs SD card',
       dCloudBenefits:['No SD card needed','Auto re-analyzed as AI improves'],
       dLocalBenefits:['On the SD card — copy off anytime','Not uploaded'],
-      dNoneName:'Don’t save video', dNonePrivate:'Most private',
-      dNoneBenefits:['Nothing is recorded or uploaded','Your reps & stats are still logged'],
-      drNone:'Video isn’t saved — real-time only',
-      recapNoReport:'No recap report without a saved video — use Live Coach for pure real-time.',
       privacyNote:"We don't view your videos or use your data to train our AI.",
       privacyLink:'Privacy Policy',
       drCloud:'Saved to your cloud', drLocal:'Saved on ATOM (SD card)', drNoSd:"Won't be saved — no SD card",
@@ -506,10 +502,6 @@
       dLocalNeedsSd:'需 SD 卡',
       dCloudBenefits:['无需 SD 卡','算法升级后自动重分析'],
       dLocalBenefits:['存 SD 卡，随时自取','不上传云端'],
-      dNoneName:'不保存视频', dNonePrivate:'最私密',
-      dNoneBenefits:['不录制、不上传任何影像','组数、数据仍记入训练记录'],
-      drNone:'不保存视频（仅实时）',
-      recapNoReport:'不保存视频就没有复盘报告；想要纯实时可用 Live Coach。',
       privacyNote:'我们不会查看你的视频，也不用于训练 AI。',
       privacyLink:'隐私协议',
       drCloud:'视频同步到云端', drLocal:'视频存于 ATOM（SD 卡）', drNoSd:'不会保存——无 SD 卡',
@@ -608,7 +600,7 @@
   function _info(icon,h,txt){ return '<div class="infobox"><div class="ih">'+icon+'<span>'+h+'</span></div><span>'+txt+'</span></div>'; }
   function _datarow(t){
     var warn=dataChoice==='local'&&!SDCARD, txt;
-    if(dataChoice==='cloud') txt=t.drCloud; else if(dataChoice==='none') txt=t.drNone; else if(SDCARD) txt=t.drLocal; else txt=t.drNoSd;
+    if(dataChoice==='cloud') txt=t.drCloud; else if(SDCARD) txt=t.drLocal; else txt=t.drNoSd;
     return '<div class="dataline'+(warn?' warn':'')+'" id="ps-datarow"><span>'+txt+'</span><span class="drchange">'+t.drChange+'</span></div>';
   }
   function _dontrow(t){ return '<div class="dontrow'+(psSkip?' on':'')+'" id="ps-dont"><span class="box">'+CHKM+'</span><span>'+t.dontShow+'</span></div>'; }
@@ -624,9 +616,9 @@
         +_sec(t.coachAvoidH,true)+_avoid(t.coachAvoid)
         +'<div class="caution" style="margin-top:14px">'+WARNI+'<span>'+t.beta+'</span></div>';
     } else {
-      h+='<div class="pagesub">'+t.recapSub+'</div>'+FRAME_LIGHT;
-      if(dataChoice==='none') h+=_info(REPORTI,t.reportH,t.recapNoReport);
-      else h+=_info(REPORTI,t.reportH,t.report)+_info(ALGOI,t.algoH,t.algo);
+      h+='<div class="pagesub">'+t.recapSub+'</div>'+FRAME_LIGHT
+        +_info(REPORTI,t.reportH,t.report)
+        +_info(ALGOI,t.algoH,t.algo);
     }
     h+=_datarow(t)+_dontrow(t);
     psBody.innerHTML=h; prestart.classList.add('show'); if(!keep) psBody.scrollTop=0;
@@ -640,8 +632,6 @@
   var datasheet=document.getElementById('datasheet'), dsCard=document.getElementById('datasheet-card');
   function openDataSheet(){
     var t=T[LANG]; var warn=dataChoice==='local'&&!SDCARD;
-    var selM=sheet.querySelector('.mode.sel'); var mode=selM?selM.getAttribute('data-mode'):'coach';
-    var noReport=dataChoice==='none'&&mode==='recap';
     function card(key,name,rec,badge,benefits){
       var s=dataChoice===key;
       var lis=benefits.map(function(x){return '<li>'+CHKM+'<span>'+x+'</span></li>';}).join('');
@@ -651,9 +641,7 @@
     dsCard.innerHTML='<div class="pt">'+t.dataSheetT+'</div>'
       +card('cloud',t.dCloudName,true,null,t.dCloudBenefits)
       +card('local',t.dLocalName,false,t.dLocalNeedsSd,t.dLocalBenefits)
-      +card('none',t.dNoneName,false,t.dNonePrivate,t.dNoneBenefits)
       +(warn?'<div class="datanote warn" style="margin-bottom:10px">'+WARNI+'<span>'+t.dataNoSdWarn+'</span></div>':'')
-      +(noReport?'<div class="datanote warn" style="margin-bottom:10px">'+WARNI+'<span>'+t.recapNoReport+'</span></div>':'')
       +'<div class="privacy">'+t.privacyNote+' <a>'+t.privacyLink+'</a></div>'
       +'<div class="pbtns"><div class="pb primary" id="ds-done">'+t.dDone+'</div></div>';
     dsCard.querySelectorAll('.dcard').forEach(function(c){ c.onclick=function(){ dataChoice=c.getAttribute('data-d'); openDataSheet(); }; });
