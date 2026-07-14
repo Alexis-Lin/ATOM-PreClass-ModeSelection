@@ -18,14 +18,16 @@ How to place and set up so ATOM's AI counting & tracking is **as accurate as pos
 - **ATOM 放到约膝盖高度**（贴地设备），别过度仰角
 - 离 ATOM **0.5–1 米**
 - **正对或侧对**镜头
-- 光线充足均匀、避免逆光；画面里只有你，**别被器械挡住**
+- **你当「主角」**：ATOM 自动识别画面里**最大**的那个人，背景有人一般没关系——你**居中、离得够近**就行
+- 光线充足均匀、避免逆光，**别被器械挡住**
 
 **❌ 这些会让识别变不准**
 - 身体被裁切，或偏到一边
 - 太近或太远（0.5–1 米最好）
 - **ATOM 过度仰角**对着你
 - 被**卧推凳 / 深蹲架 / 杠铃**、宽松衣物遮挡
-- 强逆光 / 反光 / 过暗，或画面里有其他人
+- 强逆光 / 反光 / 过暗
+- 你**没在画面中央**，被更靠前的人抢了「主角」
 
 ---
 
@@ -69,8 +71,8 @@ How to place and set up so ATOM's AI counting & tracking is **as accurate as pos
 
 ## 5. 背景与环境 · Background & environment
 
-- **画面里只有你一人**：其他人入镜可能被误识别或抢占识别目标。
-- **背景干净**：杂乱物品、晃动的人影、屏幕/电视画面都可能干扰。
+- **ATOM 自动锁定画面中最大的那个人**：所以背景里有其他人一般**不影响**识别；但要确保**你是画面里最大、居中的主体**——站得够近、站在中间，别让别人比你更靠近镜头而被误锁定。<br>ATOM tracks the **largest figure** in view, so people in the background usually don't matter — just make sure **you're the largest, centred** subject.
+- **背景干净**：杂乱物品、屏幕 / 电视画面等仍可能干扰，尽量简洁。
 - **避免镜面**：正对大镜子会出现「镜中人」，造成重复或错误识别。
 
 ---
