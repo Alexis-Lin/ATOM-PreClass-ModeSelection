@@ -9,7 +9,7 @@
 ## 1. 如何运行 · Run
 
 ```bash
-cd workout-mode-selection/flutter
+cd flutter
 flutter pub get
 flutter run          # 或 flutter run -d chrome 跑 Web
 ```
