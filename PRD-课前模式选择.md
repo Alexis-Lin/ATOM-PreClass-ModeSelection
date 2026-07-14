@@ -4,7 +4,7 @@
 
 | 项 | 内容 |
 |---|---|
-| 版本 Version | v2 (Draft) |
+| 版本 Version | v3 (Draft) |
 | 状态 Status | 设计讨论中 · In review |
 | 负责 Owner | Alexis Lin |
 | 关联 | `prototype-课前模式选择.html`（可交互原型 · 手机 + ATOM 双端 · 预览优先）· `flutter/`（代码实现）· `images/`（`UI-spec-en/zh.png` 全 20 屏素材 + `flow-board.png` 流程图）· `TIPS-识别准确度指南.md` · `README.md` |
@@ -99,8 +99,8 @@
 |---|---|---|
 | 未配对 | — | AI 锁定，引导添加设备 |
 | 单台 | 在线 | 可启动 |
-| 单台 | 无网络 | **拦截启动**（ATOM 离线无法提供影像支持）：提示「请确保 ATOM 在线」 |
-| 多台 | — | 设备行前置**切换图标 → 弹列表**二次选择，默认保留当前激活设备，列表顶部提示「**请选择在你身边的设备**」（一部手机可配多台 ATOM，类比 iPhone ↔ 多块 Apple Watch）|
+| 单台 | 无网络 | **拦截启动**（ATOM 离线无法提供影像支持）：顶部告警「ATOM 未联网，连网后才能启动 AI 模式」+ CTA 置灰「ATOM 需在线」 |
+| 多台 | — | 设备行前置**切换图标 → 弹列表**二次选择，默认保留当前激活设备，列表顶部提示「**选择你身边的那台**」（一部手机可配多台 ATOM，类比 iPhone ↔ 多块 Apple Watch）|
 
 ### 4.4 课前须知页（对应 G4）
 
@@ -108,10 +108,10 @@
 
 **通用**
 - **AI 提示在上**，页面主体是摆位/须知；数据选择**弱化到底部一行小字**——避免用户每次为隐私纠结（产品希望默认更多人上传云端）。
-- **取景示意图**：一个人完整站在手机取景框内、脚踩地面线、四周留安全边距（火柴人为占位，正式版待设计师出「正确 vs 错误」对照插画）。
-- **注意事项一律 3 条 bullet**（正/负各三条），精炼不赘述。
+- **取景示意图**：一个人完整站在 **ATOM 取景框**内、脚踩地面线、四周留安全边距（火柴人为占位，正式版待设计师出「正确 vs 错误」对照插画）。
+- **只放正向、精简**：Live Coach = 一张 OK 图 + 约 5 条「做到」+「查看拍摄技巧」入口；**反例 / 易错移到二级「拍摄技巧」页**（详见下），不在课前堆负面信息。
 - **训练数据保存（底部小行 + 二次弹窗）**：
-  - 底部只有一行小字显示当前选择（默认「视频将同步到你的云端账户」）+ 「更改」。点击才弹**二次小弹窗**做选择，降低决策成本。
+  - 底部只有一行小字显示当前选择（默认「视频同步到云端」）+ 「更改」。点击才弹**二次小弹窗**做选择，降低决策成本。
   - **云端（推荐，默认）**：① 无需 SD 卡；② 算法升级后自动重新分析、结果自动刷新。用正向收益引导。弹窗内附**隐私说明**：「我们不会主动查看你的视频，也不会用你的数据训练 AI」+ **隐私协议**链接。
   - **仅存 ATOM**（标注 **需 SD 卡**）：视频存 ATOM 的 SD 卡，可自行拷走，不上传云端。
   - 选「仅存 ATOM」但**未检测到 SD 卡** → 告警「本次训练不会被保留」（当前为提醒，不硬拦）。
@@ -136,14 +136,14 @@
   - 离约 **0.5–1 米**；
   - 正对或侧对，**别过度仰角**；
   - 周围留空，**别被器械（卧推凳 / 深蹲架 / 杠铃）挡住**。
-- **拍摄技巧」二级页**（须知上有「查看拍摄技巧」入口，避免课前堆负面信息）内容：教练心智 + OK 图 + **「背景有人没关系」**（ATOM 只认画面里最大的那个人）+ 稳定摆放（三脚架）+ 反例（✗ 会影响识别）+ 每个动作差异。**图片策略**：须知放 1 张 OK；Tips 页放 OK vs 若干 Not-OK 对照 + 说明。
+- **「拍摄技巧」二级页**（须知上有「查看拍摄技巧」入口，避免课前堆负面信息）内容：教练心智 + OK 图 + **「背景有人没关系」**（ATOM 只认画面里最大的那个人）+ 稳定摆放（三脚架）+ 反例（✗ 会影响识别）+ 每个动作差异。**图片策略**：须知放 1 张 OK；Tips 页放 OK vs 若干 Not-OK 对照 + 说明。
   - **识别主体**：ATOM **自动锁定画面中最大的角色**——所以背景里有其他人一般不影响，关键是你**居中、离得够近，是画面里最大的主体**。（这条也进详版 `TIPS-识别准确度指南.md`。）
 - **稳定摆放**（Tips 页）：推荐**配套 ATOM 三脚架/支架**，把设备平稳架在约膝盖高度。
 - 课前要求可**按动作模板化**（地面动作 / 大跨步需要更大画面）。
 - **Beta 提示**：可能漏/误计，请自行判断。
 
 **Record & Recap（对角度较宽松）**
-- 副标题把取景要求**一句带过**：**全程在画面里，角度随意。光线充足、只有你。**（不再单列清单——图 + 这句已足够。）
+- 副标题把取景要求**一句带过**：**全程在画面里，角度随意，光线充足就好。**（不再单列清单——图 + 这句已足够。）
 - **关于报告**：更深复盘将随 OTA 上线，当前报告较简单——管理预期。
 - **不用担心**：视频留存，日后每次算法升级都能重新分析这段录像。
 
@@ -193,7 +193,7 @@ flowchart TD
 | ⑧ | 设备列表 | 切换图标 | 选身边设备，回弹窗 |
 | — | Manual Log | 点「开始记录」 | 直接 ▶ 开始（不进须知） |
 | ⑨/⑩ | 课前须知 | AI 模式点 CTA | 整页正向引导（Coach 5 条做到 + 拍摄技巧入口；Recap 副标 + 报告/留存）|
-| ⑳ | 拍摄技巧 | 点「查看拍摄技巧」 | 二级页：教练心智 + OK 图 + 稳定摆放 + 会影响识别 + 每个动作差异 |
+| ⑳ | 拍摄技巧 | 点「查看拍摄技巧」 | 二级页：教练心智 + OK 图 + 背景有人没关系 + 稳定摆放 + 会影响识别 + 每个动作差异 |
 | ⑪ | 数据保存 | 点「更改」 | 云端(推荐)/仅存 ATOM；无 SD 告警；「下次不再提示」记住偏好 |
 | — | 须知 | I'm ready | ▶ 开始训练 |
 | ⑰→⑱→⑲ | 设置→须知→引导 | 关掉「保存训练视频」 | 须知数据行变引导条「已关闭·开启」→点开正向弹窗引导为本次开启 |
@@ -224,7 +224,7 @@ flowchart TD
 | Tips · 背景有人没关系 | Crowd is fine · ATOM tracks the largest person in view, so background people won't throw it off — just be centred and biggest. | 背景有人没关系 · ATOM 只认画面里最大的那个人，背景有人也不影响——你居中、是最大的主体就行。 |
 | Tips · 稳定摆放 | A compatible ATOM tripod or stand keeps it level at about knee height. | 用配套的 ATOM 三脚架/支架，把它平稳架在约膝盖高度。 |
 | 教练心智 | Think of ATOM as your coach's eyes: if a coach standing there could see your form, so can ATOM. | 把 ATOM 想成教练的眼睛：教练站那儿能看清你，ATOM 就能看清。 |
-| Recap 副标 | Stay in frame, any angle. Good light, just you. | 全程在画面里，角度随意。光线充足、只有你。 |
+| Recap 副标 | Stay in frame at any angle — just keep the light good. | 全程在画面里，角度随意，光线充足就好。 |
 | 报告预期 | Deeper recaps coming via OTA. Today's is basic. | 更深复盘将随 OTA 上线，当前报告较简单。 |
 | 算法留存 | Video is saved — future upgrades re-analyze it. | 视频留存，日后升级可重新分析。 |
 | 数据·底部行 | Saved to your cloud · Change | 视频同步到云端 · 更改 |
@@ -288,7 +288,7 @@ flowchart TD
 | coachDo（5）| Whole body in frame, centered · Set ATOM about knee height · Stand 0.5–1 m back · Face it front-on or side-on · Clear space — nothing blocking you | 全身入框，站在画面中央 · ATOM 放到约膝盖高度 · 离 ATOM 0.5–1 米 · 正对或侧对镜头 · 周围留空，别被器械挡住 |
 | tipsLink | See framing tips | 查看拍摄技巧 |
 | beta | Beta — AI may miss or miscount reps. Use your judgment. | Beta——AI 可能漏计或误计，请自行判断。 |
-| recapSub | Stay in frame, any angle. Good light, just you. | 全程在画面里，角度随意。光线充足、只有你。 |
+| recapSub | Stay in frame at any angle — just keep the light good. | 全程在画面里，角度随意，光线充足就好。 |
 | reportH / report | Your report / Deeper recaps coming via OTA. Today's is basic. | 关于报告 / 更深复盘将随 OTA 上线，当前报告较简单。 |
 | algoH / algo | Nothing is lost / Video is saved — future upgrades re-analyze it. | 不用担心 / 视频留存，日后升级可重新分析。 |
 | recapNoSave（不保存时）| This workout won't be saved, so there's no recap report. | 本次不保存，将没有复盘报告。 |
@@ -332,7 +332,7 @@ flowchart TD
 
 ## 6. 最新设计 UI · Latest design
 
-**全界面素材图（16 个界面/状态 × 中英）**——供设计师核对文案与素材：
+**全界面素材图（20 个界面/状态 × 中英）**——供设计师核对文案与素材。流程编排见 `images/flow-board.png`：
 
 **English**
 ![UI spec · EN](images/UI-spec-en.png)
@@ -340,7 +340,7 @@ flowchart TD
 **中文**
 ![UI 素材 · 中文](images/UI-spec-zh.png)
 
-> 覆盖：课程预览 / 模式选择（在线·离线·无设备·无 Plus）/ 门槛弹窗（缺设备·缺会员）/ 设备列表 / 课前须知（Coach·Recap）/ 数据保存（云端·无 SD）/ ATOM（待机·模式列表·确认 Coach·确认 Recap）。
+> 覆盖：课程预览 / 模式选择（在线·离线·无设备·无 Plus）/ 门槛弹窗（缺设备·缺会员）/ 设备列表 / 课前须知（Coach·Recap）/ 数据保存（云端·无 SD）/ ATOM（待机·模式列表·确认 Coach·确认 Recap）/ 设置 / 保存反向引导（须知条·弹窗）/ 拍摄技巧页。
 > 火柴人取景图、柠檬绿、课程数据（32 分钟 / 12 动作 / 280 千卡 / 动作名）均为**占位**，待设计师替换。
 > 交互版见 `prototype-课前模式选择.html`（手机 + ATOM 双端）。
 
@@ -389,7 +389,7 @@ flowchart TD
 - 是否需要「连接中 / 配对中」过渡态。
 - Record & Recap 英文名较长，窄屏下 `Plus` 标签会掉到标题下一行——是否可接受，或强制同行（会压小字号）。
 
-**本轮已确认**：切换心智提示移到卡片下方、纯灰小字、离线不展示；未选中卡片只留标题；字号统一 20/16/14/12；iPhone 17 尺寸；预览优先入口。
+**已确认（近几轮）**：预览优先入口；未选中卡片只留标题；切换心智提示移到卡片下方、**绿色小字、AI 不可用时（无设备/无 Plus/离线）自动隐藏**；课前须知只放正向 + 反例移到「拍摄技巧」二级页；**「不保存视频」= 全局设置 + 反向引导**（默认不劝退保存）；**ATOM 只认画面里最大的角色**（背景有人没关系）；取景改为 **ATOM 约膝盖高度 · 0.5–1 米**；字号统一 20/16/14/12；iPhone 17 尺寸。
 
 ---
 
