@@ -169,6 +169,11 @@
   .infobox.stack{gap:0;padding:0;}
   .infobox.stack .ir{display:flex;flex-direction:column;gap:4px;padding:12px;}
   .infobox.stack .ir+.ir{border-top:1px solid var(--line);}
+  .infobox .ih.warntone,.infobox .ih.warntone svg{color:var(--warn);}
+  .infobox .avoidlist{margin-top:8px;}
+  /* tips page: plain lead paragraph under the image (was a green callout box) */
+  .tipslead{font-size:14px;color:var(--ink-2);line-height:1.55;margin:14px 2px 4px;}
+  .tipslead b{color:var(--ink);font-weight:700;}
   .dataopts{display:flex;gap:8px;margin-bottom:9px;}
   .dataopt{flex:1;display:flex;align-items:center;gap:7px;padding:11px 11px;border:1.5px solid var(--line);border-radius:12px;background:#fff;cursor:pointer;font-size:12px;font-weight:600;color:var(--ink-2);}
   .dataopt svg{width:16px;height:16px;flex:none;}
@@ -617,11 +622,11 @@
       dLocalBenefits:['On the SD card — copy off anytime','Not uploaded'],
       drSaveOff:'Video saving is off — this workout won’t be saved.', drTurnOn:'Turn on',
       saveOnT:'Save this workout’s video?',
-      saveOnBody:'Saving is off in your settings. Turn it on for this one to get your recap — and to help ATOM keep improving.',
+      saveOnBody:'Saving is off in your settings. Turn it on for this workout to get your recap.',
       saveNotNow:'Not this time', recapNoSave:'This workout won’t be saved, so there’s no recap report.',
       settingsTitle:'Settings', setSaveTitle:'Save workout videos',
       setSaveBody:'On by default. Turn off and no video is recorded or uploaded — your reps and stats are still logged, and you’ll be asked each time whether to allow saving.',
-      privacyNote:"We don't view your videos or use your data to train our AI.",
+      privacyNote:'See our',
       privacyLink:'Privacy Policy',
       drCloud:'Saved to your cloud', drLocal:'Saved on ATOM (SD card)', drNoSd:"Won't be saved — no SD card",
       drChange:'Change', dontShow:'Don’t show this again',
@@ -674,11 +679,11 @@
       dLocalBenefits:['存 SD 卡，随时自取','不上传云端'],
       drSaveOff:'视频保存已关闭，本次不会保存。', drTurnOn:'开启保存',
       saveOnT:'保存这次的视频？',
-      saveOnBody:'你已在设置中关闭保存。为本次开启即可获得复盘，也能帮助 ATOM 持续优化。',
+      saveOnBody:'你已在设置中关闭保存。为本次开启即可获得复盘。',
       saveNotNow:'这次不用', recapNoSave:'本次不保存，将没有复盘报告。',
       settingsTitle:'设置', setSaveTitle:'保存训练视频',
       setSaveBody:'默认开启。关闭后不再录制或上传任何视频——组数、数据仍会记录；每次训练会询问是否允许保存。',
-      privacyNote:'我们不会查看你的视频，也不用于训练 AI。',
+      privacyNote:'详见',
       privacyLink:'隐私协议',
       drCloud:'视频同步到云端', drLocal:'视频存于 ATOM（SD 卡）', drNoSd:'不会保存——无 SD 卡',
       drChange:'更改', dontShow:'下次不再提示',
@@ -789,6 +794,7 @@
   function _info(icon,h,txt){ return '<div class="infobox"><div class="ih">'+icon+'<span>'+h+'</span></div><span>'+txt+'</span></div>'; }
   function _info2(rows){ return '<div class="infobox stack">'+rows.map(function(r){return '<div class="ir"><div class="ih">'+r[0]+'<span>'+r[1]+'</span></div><span>'+r[2]+'</span></div>';}).join('')+'</div>'; }
   function _infoW(icon,h,txt){ return '<div class="infobox warn"><div class="ih">'+icon+'<span>'+h+'</span></div><span>'+txt+'</span></div>'; }
+  function _avoidbox(icon,h,items){ return '<div class="infobox"><div class="ih warntone">'+icon+'<span>'+h+'</span></div>'+_avoid(items)+'</div>'; }
   function _datarow(t){
     if(!saving()){
       return '<div class="dataline off" id="ps-datarow"><span>'+t.drSaveOff+'</span><span class="drchange allow">'+t.drTurnOn+'</span></div>';
@@ -810,13 +816,15 @@
     var h='';
     // Record & Recap's whole output is the saved video + recap → saving is REQUIRED for it.
     var recapNeedsSave = (mode==='recap' && !saving());
+    // Image first → text → boxed hints (consistent rhythm with the tips page).
     if(mode==='coach'){
-      h+='<div class="pagesub">'+t.coachSub+'</div>'+FRAME_LIGHT
+      h+=FRAME_LIGHT
+        +'<div class="pagesub">'+t.coachSub+'</div>'
         +_do(t.coachDo)
         +_tipslink(t)
         +'<div class="caution" style="margin-top:14px">'+WARNI+'<span>'+t.beta+'</span></div>';
     } else {
-      h+='<div class="pagesub">'+t.recapSub+'</div>'+FRAME_LIGHT;
+      h+=FRAME_LIGHT+'<div class="pagesub">'+t.recapSub+'</div>';
       if(recapNeedsSave) h+=_infoW(WARNI,t.recapNeedH,t.recapNeed);   // hard requirement, not just "no report"
       else h+=_info(REPORTI,t.reportH,t.report)+_info(ALGOI,t.algoH,t.algo);
     }
@@ -835,10 +843,11 @@
   function showTips(){
     var t=T[LANG];
     tipsT.textContent=t.tipsTitle;
-    tipsBody.innerHTML='<div class="coachcallout">'+EYEI+'<span>'+t.coachLine+'</span></div>'
-      +'<div class="okcap">'+CHK+'<span>'+t.coachDoH+'</span></div>'+FRAME_LIGHT
+    // Layout: ① image → ② plain lead text → ③ line-boxed hints (cohesive rhythm).
+    tipsBody.innerHTML=FRAME_LIGHT
+      +'<div class="tipslead">'+t.coachLine+'</div>'
       +_info2([[PEOPLEI,t.crowdH,t.crowd],[TRIPODI,t.tripodH,t.tripod]])
-      +_sec(t.coachAvoidH,true)+_avoid(t.coachAvoid);
+      +_avoidbox(WARNI,t.coachAvoidH,t.coachAvoid);
     tips.classList.add('show'); tipsBody.scrollTop=0;
   }
   document.getElementById('tips-back').onclick=function(){ tips.classList.remove('show'); };
