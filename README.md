@@ -14,7 +14,7 @@
 | **`PRD-课前模式选择.md`** | 需求文档 · 交互流程（§4.6）· 逐页文案清单（§5.1）。 |
 | **`TIPS-识别准确度指南.md`** | 拍摄/摆位准确度详版（帮助中心 / 首课引导用）。 |
 | **`flutter/`** | 参考实现（纯 `flutter/material`，零第三方依赖）。见 `flutter/IMPLEMENTATION-代码实现说明.md`。 |
-| **`images/`** | `UI-spec-en/zh.png`（全 20 屏素材）+ `flow-board.png`（交互流程图）。 |
+| **`images/`** | `UI-spec-en/zh.png`（全 24 屏素材）+ `flow-board.png`（交互流程图）。 |
 | **`backup-history/`** | 早期结构探索、未采用的过程稿（3 选 1 vs 开关式 A/C/D/E/F），存档备查。 |
 
 ---

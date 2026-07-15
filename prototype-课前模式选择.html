@@ -164,6 +164,8 @@
   .infobox{display:flex;flex-direction:column;gap:4px;font-size:12px;line-height:1.5;color:var(--ink-2);background:#f4f5f2;border:1px solid var(--line);border-radius:8px;padding:12px;margin-top:10px;}
   .infobox .ih{display:flex;align-items:center;gap:7px;font-size:14px;font-weight:800;color:var(--ink);}
   .infobox .ih svg{width:15px;height:15px;color:var(--ink-2);}
+  .infobox.warn{background:#fdf6ea;border-color:#f0dcae;color:#7a6320;}
+  .infobox.warn .ih,.infobox.warn .ih svg{color:#8a6d1f;}
   .infobox.stack{gap:0;padding:0;}
   .infobox.stack .ir{display:flex;flex-direction:column;gap:4px;padding:12px;}
   .infobox.stack .ir+.ir{border-top:1px solid var(--line);}
@@ -346,6 +348,7 @@
     <div class="seg" id="paired"><span class="cap">Paired</span><button data-dc="nodev" aria-pressed="false">None</button><button data-dc="one" aria-pressed="true">One</button><button data-dc="two" aria-pressed="false">Two</button></div>
     <div class="seg" id="atomstat"><span class="cap">ATOM</span><button data-st="conn" aria-pressed="true">Online</button><button data-st="nonet" aria-pressed="false">No network</button></div>
     <div class="ctl"><button class="sw" id="sw-plus" role="switch" aria-checked="true"></button><span class="lab">Plus</span></div>
+    <div class="ctl"><button class="sw" id="sw-quota" role="switch" aria-checked="true"></button><span class="lab">AI quota</span></div>
     <div class="ctl"><button class="sw" id="sw-sd" role="switch" aria-checked="true"></button><span class="lab">SD card</span></div>
     <div class="ctl"><button class="sw" id="sw-save" role="switch" aria-checked="true"></button><span class="lab">Save video (Settings)</span></div>
     <button class="reset" id="reset"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 4v4h4"/></svg>Reset</button>
@@ -583,7 +586,7 @@
 
 <script>
 (function(){
-  var LANG='en', PLUS=true, DEVCOUNT='one', STAT='conn', ACTIVE=0, SDCARD=true;
+  var LANG='en', PLUS=true, DEVCOUNT='one', STAT='conn', ACTIVE=0, SDCARD=true, AIQUOTA=true;
 
   var MODES={
     coach:{ en:{name:'Live Coach',desc:'Live rep counting and form cues.',cta:'Start Coaching'},
@@ -601,6 +604,9 @@
       ctaBlocked:'ATOM must be online', cancel:'Not now',
       popDevT:'{n} runs on ATOM', popDevS:'Pair a nearby ATOM to unlock AI modes.', popDevBtn:'Add device',
       popPlusT:'{n} needs Plus', popPlusS:'Get Plus to unlock AI modes.', popPlusBtn:'Get Plus',
+      popQuotaT:'{n} — AI limit reached', popQuotaS:'You’ve used up this cycle’s AI sessions. Manual Log still works.', popQuotaBtn:'See options',
+      recapNeedH:'Saving required', recapNeed:'Record & Recap keeps the video to build your recap — turn on saving to start.',
+      recapTurnOnCta:'Turn on saving to continue', dEnableCta:'Turn on saving', dSaveAlways:'Keep saving on from now on',
       dataSheetT:'Where to save your video?',
       dCloudName:'Cloud', dLocalName:'Keep on ATOM', dRecommended:'Recommended', dDone:'Done',
       dLocalNeedsSd:'Needs SD card',
@@ -654,6 +660,9 @@
       ctaBlocked:'ATOM 需在线', cancel:'以后再说',
       popDevT:'{n} 需要 ATOM', popDevS:'连接身边的 ATOM，解锁 AI 模式。', popDevBtn:'添加设备',
       popPlusT:'{n} 需要 Plus 会员', popPlusS:'开通 Plus，解锁 AI 模式。', popPlusBtn:'开通 Plus',
+      popQuotaT:'{n}：AI 额度已用尽', popQuotaS:'本期 AI 次数已用完。手动记录仍可使用。', popQuotaBtn:'查看方案',
+      recapNeedH:'需开启保存', recapNeed:'录制复盘要保存视频才能生成复盘——开启保存即可开始。',
+      recapTurnOnCta:'开启保存以继续', dEnableCta:'开启保存', dSaveAlways:'以后一直开启保存（可在设置关闭）',
       dataSheetT:'视频保存在哪里？',
       dCloudName:'云端', dLocalName:'仅存 ATOM', dRecommended:'推荐', dDone:'完成',
       dLocalNeedsSd:'需 SD 卡',
@@ -722,7 +731,7 @@
   function active(){ var l=deviceList(); if(!l.length) return null; if(ACTIVE>=l.length)ACTIVE=0; return l[ACTIVE]; }
   var paired=function(){return DEVCOUNT!=='nodev';};
   var online=function(){ var a=active(); return a && a.status==='conn'; };
-  function missing(req){ if(req==='none')return[]; var m=[]; if(!paired())m.push('device'); if(!PLUS)m.push('plus'); return m; }
+  function missing(req){ if(req==='none')return[]; var m=[]; if(!paired())m.push('device'); if(!PLUS)m.push('plus'); else if(!AIQUOTA)m.push('quota'); return m; }
   function locked(el){ return missing(el.getAttribute('data-req')).length>0; }
 
   function select(el){ modes.forEach(function(m){m.classList.remove('sel');}); el.classList.add('sel'); updateCTA(); }
@@ -742,6 +751,9 @@
     var m=missing(el.getAttribute('data-req')), name=MODES[el.getAttribute('data-mode')][LANG].name, t=T[LANG];
     if(m.indexOf('device')>-1){ popIc.innerHTML=HWIC; popT.textContent=t.popDevT.replace('{n}',name); popS.textContent=t.popDevS;
       popOk.textContent=t.popDevBtn; popOk.onclick=function(){ setDC('one'); closePop(); }; }
+    else if(m.indexOf('quota')>-1){ popIc.innerHTML=GEM; popT.textContent=t.popQuotaT.replace('{n}',name); popS.textContent=t.popQuotaS;
+      // PLACEHOLDER CTA — final action (buy add-on / upgrade / view plans) depends on the business model.
+      popOk.textContent=t.popQuotaBtn; popOk.onclick=function(){ AIQUOTA=true; document.getElementById('sw-quota').setAttribute('aria-checked','true'); render(); closePop(); }; }
     else { popIc.innerHTML=GEM; popT.textContent=t.popPlusT.replace('{n}',name); popS.textContent=t.popPlusS;
       popOk.textContent=t.popPlusBtn; popOk.onclick=function(){ PLUS=true; document.getElementById('sw-plus').setAttribute('aria-checked','true'); render(); closePop(); }; }
     popCancel.textContent=t.cancel; pop.classList.add('show');
@@ -764,7 +776,7 @@
   var INFOI='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.5h.01"/></svg>';
   var CHKM='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>';
   var dataChoice='cloud', psSkip=false;
-  var SAVEOFF=false, sessionSave=false;   // global "don't save videos" setting + per-session opt-in
+  var SAVEOFF=false, sessionSave=false, inviteAlways=false;   // global "don't save videos" setting + per-session opt-in (+ "keep on" scope in the invite)
   function saving(){ return !SAVEOFF || sessionSave; }
   function _sec(txt,warn){ return '<div class="ps-sec'+(warn?' warn':'')+'">'+txt+'</div>'; }
   function _do(items){ return '<div class="checklist">'+items.map(function(x){return '<div class="it">'+CHK+'<span>'+x+'</span></div>';}).join('')+'</div>'; }
@@ -772,6 +784,7 @@
   function _reach(t){ return '<div class="reach">'+PINI+'<span>'+t.reach+'</span></div>'; }
   function _info(icon,h,txt){ return '<div class="infobox"><div class="ih">'+icon+'<span>'+h+'</span></div><span>'+txt+'</span></div>'; }
   function _info2(rows){ return '<div class="infobox stack">'+rows.map(function(r){return '<div class="ir"><div class="ih">'+r[0]+'<span>'+r[1]+'</span></div><span>'+r[2]+'</span></div>';}).join('')+'</div>'; }
+  function _infoW(icon,h,txt){ return '<div class="infobox warn"><div class="ih">'+icon+'<span>'+h+'</span></div><span>'+txt+'</span></div>'; }
   function _datarow(t){
     if(!saving()){
       return '<div class="dataline off" id="ps-datarow"><span>'+t.drSaveOff+'</span><span class="drchange allow">'+t.drTurnOn+'</span></div>';
@@ -789,8 +802,10 @@
     var t=T[LANG];
     var selEl=sheet.querySelector('.mode.sel'); if(!selEl)return;
     var mode=selEl.getAttribute('data-mode');
-    psT.textContent=t.pageTitle; psOk.textContent=t.psOk;
+    psT.textContent=t.pageTitle;
     var h='';
+    // Record & Recap's whole output is the saved video + recap → saving is REQUIRED for it.
+    var recapNeedsSave = (mode==='recap' && !saving());
     if(mode==='coach'){
       h+='<div class="pagesub">'+t.coachSub+'</div>'+FRAME_LIGHT
         +_do(t.coachDo)
@@ -798,10 +813,12 @@
         +'<div class="caution" style="margin-top:14px">'+WARNI+'<span>'+t.beta+'</span></div>';
     } else {
       h+='<div class="pagesub">'+t.recapSub+'</div>'+FRAME_LIGHT;
-      if(!saving()) h+=_info(REPORTI,t.reportH,t.recapNoSave);
+      if(recapNeedsSave) h+=_infoW(WARNI,t.recapNeedH,t.recapNeed);   // hard requirement, not just "no report"
       else h+=_info(REPORTI,t.reportH,t.report)+_info(ALGOI,t.algoH,t.algo);
     }
     h+=_datarow(t)+_dontrow(t);  // snug in the auto-height sheet: save-line after content, don't-show just above the CTA
+    // CTA: recap without saving can't proceed → button turns into "turn on saving to continue".
+    psOk.textContent = recapNeedsSave ? t.recapTurnOnCta : t.psOk;
     psBody.innerHTML=h; prestart.classList.add('show'); if(!keep) psBody.scrollTop=0;
     document.getElementById('ps-datarow').onclick=openDataSheet;
     document.getElementById('ps-dont').onclick=function(){ psSkip=!psSkip; var st=psBody.scrollTop; openPrestart(true); psBody.scrollTop=st; };
@@ -821,7 +838,11 @@
   document.getElementById('tips-back').onclick=function(){ tips.classList.remove('show'); };
   prestart.addEventListener('click',function(e){ if(e.target===prestart) prestart.classList.remove('show'); });  // tap dimmed backdrop to dismiss
   document.getElementById('ps-x').onclick=function(){ prestart.classList.remove('show'); };  // ✕ close → back to mode select
-  psOk.onclick=function(){ prestart.classList.remove('show'); };   // "I'm ready" → proceed (would start the workout)
+  psOk.onclick=function(){
+    var selEl=sheet.querySelector('.mode.sel'), mode=selEl?selEl.getAttribute('data-mode'):'';
+    if(mode==='recap' && !saving()){ openDataSheet(); return; }   // hard-require saving → open the enable flow, don't start
+    prestart.classList.remove('show');   // "I'm ready" → proceed (would start the workout)
+  };
 
   /* secondary data-save sheet (opened from the small entry on the notice) */
   var datasheet=document.getElementById('datasheet'), dsCard=document.getElementById('datasheet-card');
@@ -844,12 +865,19 @@
       +(warn?'<div class="datanote warn" style="margin-bottom:10px">'+WARNI+'<span>'+t.dataNoSdWarn+'</span></div>':'')
       +'<div class="privacy">'+t.privacyNote+' <a>'+t.privacyLink+'</a></div>'
       +(allow
-        ? '<div class="pbtns"><div class="pb" id="ds-skip">'+t.saveNotNow+'</div></div>'
+        ? '<div class="dontrow'+(inviteAlways?' on':'')+'" id="ds-always" style="margin-top:12px"><span class="box">'+CHKM+'</span><span>'+t.dSaveAlways+'</span></div>'
+          +'<div class="pbtns"><div class="pb" id="ds-skip">'+t.saveNotNow+'</div><div class="pb primary" id="ds-enable">'+t.dEnableCta+'</div></div>'
         : '<div class="pbtns"><div class="pb primary" id="ds-done">'+t.dDone+'</div></div>');
     dsCard.querySelectorAll('.dcard').forEach(function(c){ c.onclick=function(){
       dataChoice=c.getAttribute('data-d');
-      if(allow){ sessionSave=true; reopenNotice(); } else { openDataSheet(); }
+      openDataSheet();   // just re-highlight; in invite mode the confirm is the button below
     }; });
+    var always=document.getElementById('ds-always'); if(always) always.onclick=function(){ inviteAlways=!inviteAlways; openDataSheet(); };
+    var enable=document.getElementById('ds-enable'); if(enable) enable.onclick=function(){
+      if(inviteAlways){ inviteAlways=false; setSaveOff(false); }  // "keep on" → flip the GLOBAL setting
+      else { sessionSave=true; }                                  // otherwise just this one session
+      reopenNotice();
+    };
     var done=document.getElementById('ds-done'); if(done) done.onclick=reopenNotice;
     var skip=document.getElementById('ds-skip'); if(skip) skip.onclick=reopenNotice;
     datasheet.classList.add('show');
@@ -929,7 +957,7 @@
     warn.classList.toggle('show', showWarn);
     // "switch anytime" only makes sense when the AI modes are actually usable
     // (paired + Plus + online). Otherwise only Manual is available → hide it.
-    var aiReady = paired() && PLUS && online();
+    var aiReady = paired() && PLUS && AIQUOTA && online();
     var fnote=document.getElementById('flexnote'); if(fnote) fnote.style.display=aiReady?'':'none';
     if(showWarn){ var msg=t.warnNonet;
       var otherOnline = DEVCOUNT==='two' && deviceList().some(function(d,i){return i!==ACTIVE && d.status==='conn';});
@@ -954,6 +982,7 @@
   document.querySelectorAll('#paired button').forEach(function(b){ b.addEventListener('click',function(){ setDC(b.getAttribute('data-dc')); }); });
   document.querySelectorAll('#atomstat button').forEach(function(b){ b.addEventListener('click',function(){ setStat(b.getAttribute('data-st')); }); });
   document.getElementById('sw-plus').addEventListener('click',function(){ PLUS=!PLUS; this.setAttribute('aria-checked',String(PLUS)); render(); });
+  document.getElementById('sw-quota').addEventListener('click',function(){ AIQUOTA=!AIQUOTA; this.setAttribute('aria-checked',String(AIQUOTA)); render(); });
   document.getElementById('sw-sd').addEventListener('click',function(){ SDCARD=!SDCARD; this.setAttribute('aria-checked',String(SDCARD));
     if(datasheet.classList.contains('show')) openDataSheet();
     else if(prestart.classList.contains('show')){ var st=psBody.scrollTop; openPrestart(true); psBody.scrollTop=st; } });
@@ -971,7 +1000,7 @@
   /* global "Save workout videos" setting (default on) */
   var settings=document.getElementById('settings');
   function setSaveOff(off){
-    SAVEOFF=off; sessionSave=false;
+    SAVEOFF=off; sessionSave=false; inviteAlways=false;
     var a=String(!off);
     var s1=document.getElementById('sw-save'); if(s1)s1.setAttribute('aria-checked',a);
     var s2=document.getElementById('set-save-sw'); if(s2)s2.setAttribute('aria-checked',a);
@@ -987,7 +1016,7 @@
   document.getElementById('reset').addEventListener('click',function(){
     closePop(); dpick.classList.remove('show'); roverlay.classList.remove('show');
     prestart.classList.remove('show'); datasheet.classList.remove('show'); settings.classList.remove('show'); tips.classList.remove('show');
-    sessionSave=false;
+    sessionSave=false; inviteAlways=false;
     preview.classList.remove('hiding'); preview.classList.add('show');
     atomidle.classList.remove('hiding'); atomidle.classList.add('show');
   });
