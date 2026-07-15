@@ -589,10 +589,10 @@
   var LANG='en', PLUS=true, DEVCOUNT='one', STAT='conn', ACTIVE=0, SDCARD=true, AIQUOTA=true;
 
   var MODES={
-    coach:{ en:{name:'Live Coach',desc:'Live rep counting and form cues.',cta:'Start Coaching'},
-            zh:{name:'实时教练',desc:'实时计数、动作提示。',cta:'开始指导'} },
-    recap:{ en:{name:'Record & Recap',desc:'Records quietly, reports after.',cta:'Start Recording'},
-            zh:{name:'录制复盘',desc:'安静录制，练后出报告。',cta:'开始录制'} },
+    coach:{ en:{name:'Live Coach',desc:'Live counting & cues — plus a recap after.',cta:'Start Coaching'},
+            zh:{name:'实时教练',desc:'实时计数与提示，练后同样有复盘。',cta:'开始指导'} },
+    recap:{ en:{name:'Record & Recap',desc:'Records quietly, recap after — no live cues.',cta:'Start Recording'},
+            zh:{name:'录制复盘',desc:'安静录制、无实时提示，练后出复盘。',cta:'开始录制'} },
     log:{   en:{name:'Manual Log',desc:'Log sets & reps yourself. No camera.',cta:'Start Logging'},
             zh:{name:'手动记录',desc:'自己记录，不开摄像头。',cta:'开始记录'} }
   };
@@ -996,6 +996,8 @@
   function hideOverlay(el){ el.classList.add('hiding'); setTimeout(function(){ el.classList.remove('show','hiding'); }, 280); }
   document.getElementById('preview-start').addEventListener('click',function(){ hideOverlay(preview); });
   document.getElementById('atomidle-start').addEventListener('click',function(){ hideOverlay(atomidle); });
+  // Mode select is a bottom sheet over the course preview → tapping the dimmed hero above it dismisses back to preview.
+  document.querySelector('.backdrop').addEventListener('click',function(){ preview.classList.remove('hiding'); preview.classList.add('show'); });
 
   /* global "Save workout videos" setting (default on) */
   var settings=document.getElementById('settings');
