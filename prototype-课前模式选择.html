@@ -210,7 +210,9 @@
   .needsd{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.03em;color:var(--ink-2);background:#f1f2ee;border-radius:4px;padding:2px 6px;}
   .privacy{font-size:12px;color:var(--ink-3);line-height:1.5;margin:4px 2px 12px;}
   .privacy a{color:var(--brand-ink);font-weight:700;text-decoration:underline;cursor:pointer;}
-  .dataline{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:16px;padding-top:12px;border-top:1px solid var(--hair);font-size:12px;color:var(--ink-3);}
+  .dataline{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:14px;font-size:12px;color:var(--ink-3);}
+  .ps-actionfoot{margin-top:16px;padding-top:14px;border-top:1px solid var(--hair);}  /* action zone: don't-show + CTA, split off from content+Change */
+  .ps-actionfoot .dontrow{margin-top:0;}
   .dataline .drchange{color:var(--brand-ink);font-weight:700;flex:none;}
   .dataline.warn{color:var(--warn);}
 
@@ -349,7 +351,6 @@
     <div class="seg" id="atomstat"><span class="cap">ATOM</span><button data-st="conn" aria-pressed="true">Online</button><button data-st="nonet" aria-pressed="false">No network</button></div>
     <div class="ctl"><button class="sw" id="sw-plus" role="switch" aria-checked="true"></button><span class="lab">Plus</span></div>
     <div class="ctl"><button class="sw" id="sw-quota" role="switch" aria-checked="true"></button><span class="lab">AI quota</span></div>
-    <div class="ctl"><button class="sw" id="sw-sd" role="switch" aria-checked="true"></button><span class="lab">SD card</span></div>
     <div class="ctl"><button class="sw" id="sw-save" role="switch" aria-checked="true"></button><span class="lab">Save video (Settings)</span></div>
     <button class="reset" id="reset"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 4v4h4"/></svg>Reset</button>
   </div>
@@ -586,7 +587,8 @@
 
 <script>
 (function(){
-  var LANG='en', PLUS=true, DEVCOUNT='one', STAT='conn', ACTIVE=0, SDCARD=true, AIQUOTA=true;
+  var LANG='en', PLUS=true, DEVCOUNT='one', STAT='conn', ACTIVE=0, AIQUOTA=true;
+  // NOTE: the App does NOT know ATOM's SD-card status (not synced) → "Keep on ATOM" is a REMINDER, not a verified state.
 
   var MODES={
     coach:{ en:{name:'Live Coach',desc:'Live counting & cues — plus a recap after.',cta:'Start Coaching'},
@@ -610,6 +612,7 @@
       dataSheetT:'Where to save your video?',
       dCloudName:'Cloud', dLocalName:'Keep on ATOM', dRecommended:'Recommended', dDone:'Done',
       dLocalNeedsSd:'Needs SD card',
+      dLocalReminder:'The app can’t check ATOM’s SD card from here — make sure one’s inserted, or this session won’t be saved.',
       dCloudBenefits:['No SD card needed','Auto re-analyzed as AI improves'],
       dLocalBenefits:['On the SD card — copy off anytime','Not uploaded'],
       drSaveOff:'Video saving is off — this workout won’t be saved.', drTurnOn:'Turn on',
@@ -666,6 +669,7 @@
       dataSheetT:'视频保存在哪里？',
       dCloudName:'云端', dLocalName:'仅存 ATOM', dRecommended:'推荐', dDone:'完成',
       dLocalNeedsSd:'需 SD 卡',
+      dLocalReminder:'App 端无法确认 ATOM 的 SD 卡状态——请自行确保已插卡，否则本次不会保存。',
       dCloudBenefits:['无需 SD 卡','算法升级后自动重分析'],
       dLocalBenefits:['存 SD 卡，随时自取','不上传云端'],
       drSaveOff:'视频保存已关闭，本次不会保存。', drTurnOn:'开启保存',
@@ -789,8 +793,8 @@
     if(!saving()){
       return '<div class="dataline off" id="ps-datarow"><span>'+t.drSaveOff+'</span><span class="drchange allow">'+t.drTurnOn+'</span></div>';
     }
-    var warn=dataChoice==='local'&&!SDCARD, txt = dataChoice==='cloud'?t.drCloud:(SDCARD?t.drLocal:t.drNoSd);
-    return '<div class="dataline'+(warn?' warn':'')+'" id="ps-datarow"><span>'+txt+'</span><span class="drchange">'+t.drChange+'</span></div>';
+    var txt = dataChoice==='cloud'?t.drCloud:t.drLocal;   // App can't verify SD → no "no card" state here
+    return '<div class="dataline" id="ps-datarow"><span>'+txt+'</span><span class="drchange">'+t.drChange+'</span></div>';
   }
   function _dontrow(t){ return '<div class="dontrow'+(psSkip?' on':'')+'" id="ps-dont"><span class="box">'+CHKM+'</span><span>'+t.dontShow+'</span></div>'; }
   var EYEI='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>';
@@ -816,7 +820,9 @@
       if(recapNeedsSave) h+=_infoW(WARNI,t.recapNeedH,t.recapNeed);   // hard requirement, not just "no report"
       else h+=_info(REPORTI,t.reportH,t.report)+_info(ALGOI,t.algoH,t.algo);
     }
-    h+=_datarow(t)+_dontrow(t);  // snug in the auto-height sheet: save-line after content, don't-show just above the CTA
+    // "Change" (save destination) belongs with the content above; "don't show" belongs with the CTA below.
+    // A hairline zone separates the two so they don't read as one group.
+    h+=_datarow(t)+'<div class="ps-actionfoot">'+_dontrow(t)+'</div>';
     // CTA: recap without saving can't proceed → button turns into "turn on saving to continue".
     psOk.textContent = recapNeedsSave ? t.recapTurnOnCta : t.psOk;
     psBody.innerHTML=h; prestart.classList.add('show'); if(!keep) psBody.scrollTop=0;
@@ -848,7 +854,7 @@
   var datasheet=document.getElementById('datasheet'), dsCard=document.getElementById('datasheet-card');
   function reopenNotice(){ datasheet.classList.remove('show'); var st=psBody.scrollTop; openPrestart(true); psBody.scrollTop=st; }
   function openDataSheet(){
-    var t=T[LANG]; var warn=dataChoice==='local'&&!SDCARD;
+    var t=T[LANG]; var remind=dataChoice==='local';   // "Keep on ATOM" → remind about the SD card (App can't verify it)
     var allow = SAVEOFF && !sessionSave;   // saving is globally off → invite the user to allow it
     function card(key,name,rec,badge,benefits){
       var s=dataChoice===key;
@@ -862,7 +868,7 @@
     dsCard.innerHTML=head
       +card('cloud',t.dCloudName,true,null,t.dCloudBenefits)
       +card('local',t.dLocalName,false,t.dLocalNeedsSd,t.dLocalBenefits)
-      +(warn?'<div class="datanote warn" style="margin-bottom:10px">'+WARNI+'<span>'+t.dataNoSdWarn+'</span></div>':'')
+      +(remind?'<div class="datanote ok" style="margin-bottom:10px">'+INFOI+'<span>'+t.dLocalReminder+'</span></div>':'')
       +'<div class="privacy">'+t.privacyNote+' <a>'+t.privacyLink+'</a></div>'
       +(allow
         ? '<div class="dontrow'+(inviteAlways?' on':'')+'" id="ds-always" style="margin-top:12px"><span class="box">'+CHKM+'</span><span>'+t.dSaveAlways+'</span></div>'
@@ -983,9 +989,6 @@
   document.querySelectorAll('#atomstat button').forEach(function(b){ b.addEventListener('click',function(){ setStat(b.getAttribute('data-st')); }); });
   document.getElementById('sw-plus').addEventListener('click',function(){ PLUS=!PLUS; this.setAttribute('aria-checked',String(PLUS)); render(); });
   document.getElementById('sw-quota').addEventListener('click',function(){ AIQUOTA=!AIQUOTA; this.setAttribute('aria-checked',String(AIQUOTA)); render(); });
-  document.getElementById('sw-sd').addEventListener('click',function(){ SDCARD=!SDCARD; this.setAttribute('aria-checked',String(SDCARD));
-    if(datasheet.classList.contains('show')) openDataSheet();
-    else if(prestart.classList.contains('show')){ var st=psBody.scrollTop; openPrestart(true); psBody.scrollTop=st; } });
   devAdd.addEventListener('click',function(){ setDC('one'); });
 
   var dmodes=[].slice.call(document.querySelectorAll('.dmode'));

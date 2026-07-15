@@ -21,7 +21,7 @@
 
 ## 快速开始 · Quick start
 
-- **看原型**：浏览器打开 `prototype-课前模式选择.html`。顶部开关可切换 配对 / 在线 / Plus / SD / 保存视频 / 中英；点「开始训练」进入完整流程。
+- **看原型**：浏览器打开 `prototype-课前模式选择.html`。顶部开关可切换 配对 / 在线 / Plus / AI 额度 / 保存视频 / 中英；点「开始训练」进入完整流程。
 - **跑代码**：`cd flutter && flutter pub get && flutter run`。
 
 ---
