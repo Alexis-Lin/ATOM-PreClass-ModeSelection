@@ -89,9 +89,8 @@ class WorkoutModeSheet extends StatelessWidget {
       enabled: canStart,
       onTap: () {
         if (m.isAi && !controller.skipNotice) {
-          Navigator.of(context).push(MaterialPageRoute(
-            builder: (_) => CourseNoticePage(controller: controller, mode: m, onStart: onStart),
-          ));
+          // Height-adaptive bottom sheet; it calls onStart(m) itself on "I'm ready".
+          showCourseNoticeSheet(context, controller: controller, mode: m, onStart: onStart);
         } else {
           onStart(m);
         }

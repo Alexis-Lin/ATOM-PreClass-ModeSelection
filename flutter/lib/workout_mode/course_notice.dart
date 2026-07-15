@@ -6,16 +6,62 @@ import 'shared.dart';
 import 'strings.dart';
 import 'tokens.dart';
 
-/// Full-screen pre-start course notice.
+/// Pre-start course notice, presented as a **height-adaptive bottom sheet**.
 ///
 /// Positive-only framing guidance. Live Coach shows a coach mental model +
 /// a short "do" checklist + a link to the Framing tips page (the don'ts live
 /// there). Record & Recap sets report / algorithm expectations. The data-save
-/// choice is a subtle bottom line; when global saving is off it flips to an
-/// invite to allow saving for this workout.
-class CourseNoticePage extends StatelessWidget {
-  const CourseNoticePage({
-    super.key,
+/// choice is a subtle line under the content; when global saving is off it
+/// flips to an invite to allow saving for this workout.
+///
+/// ── INTEGRATION (front-end) ────────────────────────────────────────────────
+/// • Present it with [showCourseNoticeSheet] from the mode-select CTA, only for
+///   AI modes and only when the user hasn't opted out — the call site already
+///   guards on `mode.isAi && !controller.skipNotice` (see phone_sheet.dart).
+/// • [onStart] is the ONLY forward exit — your host hook that actually begins
+///   the session (navigate to the live-coaching / recording screen, tell the
+///   ATOM device to start, etc.). The sheet closes itself first, then calls
+///   `onStart(mode)`. Wire this to real navigation / a BLoC/Riverpod event.
+/// • Dismissing (✕ button, drag-down, or scrim tap) just closes the sheet and
+///   returns to mode select — NOTHING starts. This is the "防呆" back-out.
+/// • "Change" opens the data-destination sheet (`showDataChoiceSheet`); "See
+///   framing tips" pushes [FramingTipsPage] as a full page. Both compose fine
+///   on top of this sheet.
+///
+/// ── COPY & ASSETS (for UX writing / design) ────────────────────────────────
+/// • All strings come from [L] (strings.dart) — no copy is hard-coded here, so
+///   wording/localization changes live in that one file.
+/// • The framing diagram is [FramingIllustration], a placeholder — swap its
+///   body for the final art (Image.asset / SVG) without touching this file.
+/// • Height cap is 90% of the screen (`_kMaxSheetFraction`); short content
+///   stays short, taller content scrolls internally with the CTA pinned.
+
+/// Fraction of screen height the notice sheet may occupy before it scrolls.
+const double _kMaxSheetFraction = 0.9;
+
+/// Show the pre-start notice. Returns when the sheet is dismissed OR after the
+/// user taps "I'm ready" (which also fires [onStart]).
+Future<void> showCourseNoticeSheet(
+  BuildContext context, {
+  required WorkoutModeController controller,
+  required WorkoutMode mode,
+  required ModeCallback onStart,
+}) {
+  return showModalBottomSheet<void>(
+    context: context,
+    isScrollControlled: true, // let the sheet grow past the default ~50% cap
+    backgroundColor: Colors.transparent, // our own rounded container paints the bg
+    barrierColor: const Color(0x57181A18), // dimmed course backdrop behind
+    builder: (sheetContext) => _CourseNoticeSheet(
+      controller: controller,
+      mode: mode,
+      onStart: onStart,
+    ),
+  );
+}
+
+class _CourseNoticeSheet extends StatelessWidget {
+  const _CourseNoticeSheet({
     required this.controller,
     required this.mode,
     required this.onStart,
@@ -31,15 +77,33 @@ class CourseNoticePage extends StatelessWidget {
       animation: controller,
       builder: (context, _) {
         final l = L(controller.lang);
-        return Scaffold(
-          backgroundColor: Wm.sheet,
-          appBar: _bar(context, l.noticeTitle),
-          body: SafeArea(
-            top: false,
-            child: Column(children: [
-              Expanded(
+        final media = MediaQuery.of(context);
+        return Container(
+          constraints: BoxConstraints(maxHeight: media.size.height * _kMaxSheetFraction),
+          decoration: const BoxDecoration(
+            color: Wm.sheet,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(26)),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min, // hug content → height-adaptive
+            children: [
+              const _Grab(),
+              // Title + ✕ close (防呆: an explicit back-out besides scrim/drag).
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20, 2, 12, 10),
+                child: Row(children: [
+                  Expanded(
+                    child: Text(l.noticeTitle,
+                        style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w800, color: Wm.ink)),
+                  ),
+                  _CloseButton(onTap: () => Navigator.of(context).maybePop()),
+                ]),
+              ),
+              // Scrollable body — scrolls ONLY when content exceeds the cap.
+              Flexible(
                 child: ListView(
-                  padding: const EdgeInsets.fromLTRB(18, 8, 18, 12),
+                  shrinkWrap: true,
+                  padding: const EdgeInsets.fromLTRB(20, 0, 20, 4),
                   children: [
                     Text(mode == WorkoutMode.recordRecap ? l.recapSub : l.coachSub,
                         style: const TextStyle(fontSize: 14.5, height: 1.5, color: Wm.ink2)),
@@ -52,8 +116,26 @@ class CourseNoticePage extends StatelessWidget {
                   ],
                 ),
               ),
-              _Footer(controller: controller, mode: mode, onStart: onStart),
-            ]),
+              // Pinned footer: don't-show sits just above the CTA.
+              Padding(
+                padding: EdgeInsets.fromLTRB(20, 8, 20, 14 + media.viewPadding.bottom),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    _DontShowRow(controller: controller),
+                    const SizedBox(height: 12),
+                    PillButton(
+                      label: l.ready,
+                      onTap: () {
+                        Navigator.of(context).maybePop(); // close the sheet first…
+                        onStart(mode); // …then start the workout (host hook)
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
         );
       },
@@ -86,6 +168,38 @@ class CourseNoticePage extends StatelessWidget {
       BetaCaution(text: l.beta),
     ];
   }
+}
+
+/// Drag handle at the top of the sheet.
+class _Grab extends StatelessWidget {
+  const _Grab();
+  @override
+  Widget build(BuildContext context) => Container(
+        width: 38,
+        height: 5,
+        margin: const EdgeInsets.only(top: 8, bottom: 4),
+        decoration: BoxDecoration(
+          color: const Color(0xFFD7DAD3),
+          borderRadius: BorderRadius.circular(99),
+        ),
+      );
+}
+
+/// Round ✕ close button (top-right of the sheet).
+class _CloseButton extends StatelessWidget {
+  const _CloseButton({required this.onTap});
+  final VoidCallback onTap;
+  @override
+  Widget build(BuildContext context) => InkResponse(
+        onTap: onTap,
+        radius: 24,
+        child: Container(
+          width: 30,
+          height: 30,
+          decoration: const BoxDecoration(color: Wm.iconBg, shape: BoxShape.circle),
+          child: const Icon(Icons.close, size: 17, color: Wm.ink2),
+        ),
+      );
 }
 
 AppBar _bar(BuildContext context, String title) => AppBar(
@@ -302,30 +416,6 @@ class FramingIllustration extends StatelessWidget {
 }
 
 // ---------------------------------------------------------------------------
-class _Footer extends StatelessWidget {
-  const _Footer({required this.controller, required this.mode, required this.onStart});
-  final WorkoutModeController controller;
-  final WorkoutMode mode;
-  final ModeCallback onStart;
-
-  @override
-  Widget build(BuildContext context) {
-    final l = L(controller.lang);
-    return Container(
-      padding: const EdgeInsets.fromLTRB(18, 12, 18, 14),
-      decoration: const BoxDecoration(
-        color: Wm.sheet,
-        border: Border(top: BorderSide(color: Wm.hair)),
-      ),
-      child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-        _DontShowRow(controller: controller), // follows the button
-        const SizedBox(height: 12),
-        PillButton(label: l.ready, onTap: () => onStart(mode)),
-      ]),
-    );
-  }
-}
-
 /// Subtle data-destination line. When global saving is off, it flips to a
 /// green invite ("Video saving is off — this workout won't be saved · Turn on").
 class _DataSaveLine extends StatelessWidget {
