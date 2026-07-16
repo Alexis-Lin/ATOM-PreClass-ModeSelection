@@ -244,8 +244,8 @@ flowchart TD
 |---|---|---|
 | 标题 | Select workout mode | 选择上课模式 |
 | 切换心智提示 | Not sure? Switch modes anytime, even mid-workout. | 不确定？课中随时能切换，先选一个。 |
-| Live Coach 说明 | Live rep counting and form cues. | 实时计数、动作提示。 |
-| Record & Recap 说明 | Records quietly, reports after. | 安静录制，练后出报告。 |
+| Live Coach 说明 | Live counting & cues — plus a recap after. | 实时计数与提示，练后同样有复盘。 |
+| Record & Recap 说明 | Records quietly, recap after — no live cues. | 安静录制、无实时提示，练后出复盘。 |
 | Manual Log 说明 | Log sets & reps yourself. No camera. | 自己记录，不开摄像头。 |
 | Beta 提示 | Beta — AI may miss or miscount reps. Use your judgment. | Beta——AI 可能漏计或误计，请自行判断。 |
 | 无网拦截 | ATOM is offline — connect it to start AI modes. | ATOM 未联网，连网后才能启动 AI 模式。 |
@@ -263,8 +263,8 @@ flowchart TD
 | 报告预期 | Deeper recaps coming via OTA. Today's is basic. | 更深复盘将随 OTA 上线，当前报告较简单。 |
 | 算法留存 | Video is saved — future upgrades re-analyze it. | 视频留存，日后升级可重新分析。 |
 | 数据·底部行 | Saved to your cloud · Change | 视频同步到云端 · 更改 |
-| 数据·隐私 | We don't view your videos or use your data to train our AI. | 我们不会查看你的视频，也不用于训练 AI。 |
-| 无 SD 告警 | No SD card — this session won't be kept. Insert one, or use cloud. | 未检测到 SD 卡，本次不会保留。请插卡或改用云端。 |
+| 数据·隐私（轻量入口） | See our · Privacy Policy | 详见 · 隐私协议 |
+| SD 提示（非告警） | The app can't check ATOM's SD card from here — make sure one's inserted, or this session won't be saved. | App 端无法确认 ATOM 的 SD 卡状态——请自行确保已插卡，否则本次不会保存。 |
 | ATOM 确认·Coach | AI is beta — may miss or miscount reps. · Whole body in frame — no blocking or backlight. | AI 仍是 beta，可能漏记或误记。· 全身入框，别遮挡、别逆光。 |
 | ATOM 确认·Recap | Stay in frame — angle is flexible. · Deeper recaps coming via OTA. | 全程在画面里，角度随意。· 更深复盘随 OTA 上线。 |
 
@@ -299,8 +299,8 @@ flowchart TD
 | selectMode | Select workout mode | 选择上课模式 |
 | connected / nonet / add | Connected / No network / Add device | 已连接 / 无网络 / 添加设备 |
 | flexNote（绿色小字）| Not sure? Switch modes anytime, even mid-workout. | 不确定？课中随时能切换，先选一个。 |
-| Live Coach（名/说明/CTA）| Live Coach / Live rep counting and form cues. / Start Coaching | 实时教练 / 实时计数、动作提示。 / 开始指导 |
-| Record & Recap | Record & Recap / Records quietly, reports after. / Start Recording | 录制复盘 / 安静录制，练后出报告。 / 开始录制 |
+| Live Coach（名/说明/CTA）| Live Coach / Live counting & cues — plus a recap after. / Start Coaching | 实时教练 / 实时计数与提示，练后同样有复盘。 / 开始指导 |
+| Record & Recap | Record & Recap / Records quietly, recap after — no live cues. / Start Recording | 录制复盘 / 安静录制、无实时提示，练后出复盘。 / 开始录制 |
 | Manual Log | Manual Log / Log sets & reps yourself. No camera. / Start Logging | 手动记录 / 自己记录，不开摄像头。 / 开始记录 |
 | plus tag | Plus | Plus |
 | warnNonet（离线告警）| ATOM is offline — connect it to start AI modes. | ATOM 未联网，连网后才能启动 AI 模式。 |
@@ -331,15 +331,18 @@ flowchart TD
 ### ⑪ 数据保存 Data saving（行 + 弹窗 + 反向引导）
 | 键 | EN | 中文 |
 |---|---|---|
-| drCloud / drLocal / drNoSd | Saved to your cloud / Saved on ATOM (SD card) / Won't be saved — no SD card | 视频同步到云端 / 视频存于 ATOM（SD 卡）/ 不会保存——无 SD 卡 |
+| drCloud / drLocal | Saved to your cloud / Saved on ATOM (SD card) | 视频同步到云端 / 视频存于 ATOM（SD 卡）|
 | drSaveOff / drTurnOn | Video saving is off — this workout won't be saved. / Turn on | 视频保存已关闭，本次不会保存。 / 开启保存 |
 | drChange / dDone | Change / Done | 更改 / 完成 |
 | dataSheetT | Where to save your video? | 视频保存在哪里？ |
 | dCloudName / dRecommended / benefits | Cloud / Recommended / No SD card needed · Auto re-analyzed as AI improves | 云端 / 推荐 / 无需 SD 卡 · 算法升级后自动重分析 |
 | dLocalName / dLocalNeedsSd / benefits | Keep on ATOM / Needs SD card / On the SD card — copy off anytime · Not uploaded | 仅存 ATOM / 需 SD 卡 / 存 SD 卡，随时自取 · 不上传云端 |
-| dataNoSdWarn | No SD card — this session won't be kept. Insert one, or use cloud. | 未检测到 SD 卡，本次不会保留。请插卡或改用云端。 |
-| saveOnT / saveOnBody / saveNotNow | Save this workout's video? / Saving is off in your settings. Turn it on for this one to get your recap — and to help ATOM keep improving. / Not this time | 保存这次的视频？ / 你已在设置中关闭保存。为本次开启即可获得复盘，也能帮助 ATOM 持续优化。 / 这次不用 |
-| privacyNote / privacyLink | We don't view your videos or use your data to train our AI. / Privacy Policy | 我们不会查看你的视频，也不用于训练 AI。 / 隐私协议 |
+| dLocalReminder（SD 提示） | The app can't check ATOM's SD card from here — make sure one's inserted, or this session won't be saved. | App 端无法确认 ATOM 的 SD 卡状态——请自行确保已插卡，否则本次不会保存。 |
+| saveOnT / saveOnBody / saveNotNow | Save this workout's video? / Saving is off in your settings. Turn it on for this workout to get your recap. / Not this time | 保存这次的视频？ / 你已在设置中关闭保存。为本次开启即可获得复盘。 / 这次不用 |
+| dSaveAlways / dEnableCta（开启范围） | Keep saving on from now on / Turn on saving | 以后一直开启保存（可在设置关闭）/ 开启保存 |
+| privacyNote / privacyLink | See our / Privacy Policy | 详见 / 隐私协议 |
+| 额度用尽 gate（占位 CTA）| {mode} — AI limit reached / You've used up this cycle's AI sessions. Manual Log still works. / See options | {模式}：AI 额度已用尽 / 本期 AI 次数已用完。手动记录仍可使用。 / 查看方案 |
+| Recap 需保存（硬要求）| Saving required / Record & Recap keeps the video to build your recap — turn on saving to start. / Turn on saving to continue | 需开启保存 / 录制复盘要保存视频才能生成复盘——开启保存即可开始。 / 开启保存以继续 |
 
 ### ⑳ 拍摄技巧 Framing tips
 | 键 | EN | 中文 |
