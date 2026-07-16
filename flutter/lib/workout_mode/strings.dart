@@ -127,7 +127,6 @@ class L {
   String get coachLine => _t(
       'Think of ATOM as your coach’s eyes: if a coach standing there could see your form, so can ATOM.',
       '把 ATOM 想成教练的眼睛：教练站那儿能看清你的动作，ATOM 就能看清。');
-  String get setupLabel => _t('Set up', '这样摆');
   String get crowdHeader => _t('Crowd is fine', '背景有人没关系');
   String get crowd => _t(
       'ATOM tracks the largest person in view, so people in the background won’t throw it off — just be centred and close enough that you’re the biggest.',
@@ -150,7 +149,6 @@ class L {
   // ---- data-save (bottom line) ----
   String get drCloud => _t('Saved to your cloud', '视频同步到云端');
   String get drLocal => _t('Saved on ATOM (SD card)', '视频存于 ATOM（SD 卡）');
-  String get drNoSd => _t("Won’t be saved — no SD card", '不会保存——无 SD 卡');
   String get drSaveOff =>
       _t('Video saving is off — this workout won’t be saved.', '视频保存已关闭，本次不会保存。');
   String get drTurnOn => _t('Turn on', '开启保存');
@@ -181,9 +179,6 @@ class L {
   List<String> get dLocalBenefits => zh
       ? const ['存 SD 卡，随时自取', '不上传云端']
       : const ['On the SD card — copy off anytime', 'Not uploaded'];
-  String get noSdWarn => _t(
-      "No SD card — this session won’t be kept. Insert one, or use cloud.",
-      '未检测到 SD 卡，本次不会保留。请插卡或改用云端。');
   // Privacy: "just enough" — no strong promise (don't over-commit / invite worry),
   // just a light pointer to the policy.
   String get privacyNote => _t('See our', '详见');

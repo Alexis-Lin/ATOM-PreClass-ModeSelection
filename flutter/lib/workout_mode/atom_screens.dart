@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'controller.dart';
 import 'models.dart';
-import 'shared.dart' show iconFor, kPlusIcon, ModeCallback;
+import 'shared.dart' show iconFor, ModeCallback;
 import 'strings.dart';
 import 'tokens.dart';
 
@@ -298,7 +298,3 @@ class _DontShowAgain extends StatelessWidget {
         ]),
       );
 }
-
-// Kept for parity with the phone tag if needed on device.
-// ignore: unused_element
-Widget atomPlusTag() => const Icon(kPlusIcon, size: 12, color: Wm.plus);

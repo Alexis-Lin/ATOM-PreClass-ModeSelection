@@ -127,9 +127,14 @@ class _Hero extends StatelessWidget {
                   color: Color(0xD9FFFFFF), fontSize: 12, fontWeight: FontWeight.w700, letterSpacing: 1.3)),
           const SizedBox(height: 7),
           Text(l.courseName,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
               style: const TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w800)),
           const SizedBox(height: 7),
-          Text(l.pvMeta, style: const TextStyle(color: Color(0xE6FFFFFF), fontSize: 12)),
+          Text(l.pvMeta,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(color: Color(0xE6FFFFFF), fontSize: 12)),
         ]),
       );
 }

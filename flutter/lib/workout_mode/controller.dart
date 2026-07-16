@@ -9,7 +9,6 @@ class WorkoutModeController extends ChangeNotifier {
     List<AtomDevice> devices = const [],
     bool isPlus = false,
     AppLang lang = AppLang.en,
-    this.hasSdCard = true,
     this.hasAiQuota = true,
     this.dataChoice = DataChoice.cloud,
     this.saveVideosOn = true,
@@ -32,10 +31,8 @@ class WorkoutModeController extends ChangeNotifier {
   /// Where recorded video/report is kept (remembered preference).
   DataChoice dataChoice;
 
-  /// NOTE: the App does NOT actually know the ATOM's SD-card status (not synced),
-  /// so this no longer gates anything — "Keep on ATOM" is surfaced as a REMINDER,
-  /// not a verified state. Kept for API compatibility; safe to remove.
-  bool hasSdCard;
+  // NOTE: the App does NOT know the ATOM's SD-card status (not synced), so it is
+  // NOT modelled here — "Keep on ATOM" is surfaced as a reminder, not a state.
 
   /// Has Plus, but this billing cycle's AI sessions may be used up. When false
   /// (and the user has Plus), AI modes lock with GateReason.overQuota.
@@ -118,7 +115,6 @@ class WorkoutModeController extends ChangeNotifier {
 
   void setPlus(bool v) { if (_isPlus != v) { _isPlus = v; _reconcile(); notifyListeners(); } }
   void setLang(AppLang v) { if (_lang != v) { _lang = v; notifyListeners(); } }
-  void setHasSdCard(bool v) { if (hasSdCard != v) { hasSdCard = v; notifyListeners(); } }
   void setHasAiQuota(bool v) { if (hasAiQuota != v) { hasAiQuota = v; _reconcile(); notifyListeners(); } }
   void setDataChoice(DataChoice v) { if (dataChoice != v) { dataChoice = v; notifyListeners(); } }
   void setSaveVideosOn(bool v) { saveVideosOn = v; sessionSave = false; notifyListeners(); }
