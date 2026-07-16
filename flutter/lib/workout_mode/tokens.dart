@@ -28,10 +28,11 @@ class Wm {
   static const Color cta = Color(0xFF141414);
   static const Color ctaOff = Color(0xFFC9CDC6);
 
-  // Plus / membership marker (muted gold).
-  static const Color plus = Color(0xFFA9812F);
-  static const Color plusBg = Color(0xFFF6F1E6);
-  static const Color plusLine = Color(0xFFECE2CC);
+  // Plus / membership marker — GREEN system (placeholder; final asset from the
+  // brand designer). Amber is reserved for caution/warning only.
+  static const Color plus = Color(0xFF4F7D05);
+  static const Color plusBg = Color(0xFFEEF7DF);
+  static const Color plusLine = Color(0xFFD6ECB3);
 
   // Beta caution (functional amber).
   static const Color caution = Color(0xFF9A7212);

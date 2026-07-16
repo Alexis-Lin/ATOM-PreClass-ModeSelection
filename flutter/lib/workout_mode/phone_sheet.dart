@@ -374,7 +374,13 @@ Future<void> showGateSheet(
             primary: true,
             onTap: () {
               Navigator.pop(context);
-              (reason == GateReason.needDevice ? onAddDevice : onGetPlus)?.call();
+              if (reason == GateReason.needDevice) {
+                onAddDevice?.call();
+              } else if (reason == GateReason.needPlus) {
+                onGetPlus?.call();
+              }
+              // GateReason.overQuota: PLACEHOLDER — wire to buy-credits / upgrade
+              // once the business model is set.
             },
           ),
         ),

@@ -28,7 +28,8 @@ class AtomDevice {
 enum AppLang { en, zh }
 
 /// Why an AI mode is locked (drives the gate sheet).
-enum GateReason { needDevice, needPlus }
+/// - overQuota: has Plus, but this cycle's AI sessions are used up.
+enum GateReason { needDevice, needPlus, overQuota }
 
 /// Where the recorded video / report is kept.
 /// - cloud: uploaded, report available (report needs cloud).

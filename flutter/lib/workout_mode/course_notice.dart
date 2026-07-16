@@ -78,6 +78,8 @@ class _CourseNoticeSheet extends StatelessWidget {
       builder: (context, _) {
         final l = L(controller.lang);
         final media = MediaQuery.of(context);
+        // Record & Recap's output IS the saved video + recap → saving is required.
+        final recapNeedsSave = mode == WorkoutMode.recordRecap && !controller.saving;
         return Container(
           constraints: BoxConstraints(maxHeight: media.size.height * _kMaxSheetFraction),
           decoration: const BoxDecoration(
@@ -99,38 +101,43 @@ class _CourseNoticeSheet extends StatelessWidget {
                   _CloseButton(onTap: () => Navigator.of(context).maybePop()),
                 ]),
               ),
-              // Scrollable body — scrolls ONLY when content exceeds the cap.
+              // Scrollable body — image → text → content → save line (matches the
+              // prototype's image-first rhythm). Scrolls only if it exceeds the cap.
               Flexible(
                 child: ListView(
                   shrinkWrap: true,
                   padding: const EdgeInsets.fromLTRB(20, 0, 20, 4),
                   children: [
+                    FramingIllustration(knee: l.frKnee, dist: l.frDist),
+                    const SizedBox(height: 14),
                     Text(mode == WorkoutMode.recordRecap ? l.recapSub : l.coachSub,
                         style: const TextStyle(fontSize: 14.5, height: 1.5, color: Wm.ink2)),
-                    const SizedBox(height: 14),
-                    const FramingIllustration(),
                     const SizedBox(height: 16),
                     ..._body(context, l),
                     const SizedBox(height: 16),
-                    _DataSaveLine(controller: controller), // follows the content
+                    _DataSaveLine(controller: controller), // "Change" stays with the content
                   ],
                 ),
               ),
-              // Pinned footer: don't-show sits just above the CTA.
-              Padding(
-                padding: EdgeInsets.fromLTRB(20, 8, 20, 14 + media.viewPadding.bottom),
+              // Action zone (hairline-separated from content): don't-show + CTA.
+              Container(
+                decoration: const BoxDecoration(border: Border(top: BorderSide(color: Wm.hair))),
+                padding: EdgeInsets.fromLTRB(20, 12, 20, 14 + media.viewPadding.bottom),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     _DontShowRow(controller: controller),
                     const SizedBox(height: 12),
+                    // Recap without saving can't proceed → CTA opens the enable flow instead.
                     PillButton(
-                      label: l.ready,
-                      onTap: () {
-                        Navigator.of(context).maybePop(); // close the sheet first…
-                        onStart(mode); // …then start the workout (host hook)
-                      },
+                      label: recapNeedsSave ? l.recapTurnOnCta : l.ready,
+                      onTap: recapNeedsSave
+                          ? () => showDataChoiceSheet(context, controller)
+                          : () {
+                              Navigator.of(context).maybePop(); // close the sheet first…
+                              onStart(mode); // …then start the workout (host hook)
+                            },
                     ),
                   ],
                 ),
@@ -146,7 +153,11 @@ class _CourseNoticeSheet extends StatelessWidget {
     if (mode == WorkoutMode.recordRecap) {
       if (!controller.saving) {
         return [
-          _InfoBox(icon: Icons.description_outlined, header: l.reportHeader, body: l.recapNoSave),
+          _InfoBox(
+              icon: Icons.warning_amber_rounded,
+              header: l.recapNeedHeader,
+              body: l.recapNeed,
+              warn: true), // hard requirement, not just "no report"
         ];
       }
       return [
@@ -231,25 +242,16 @@ class FramingTipsPage extends StatelessWidget {
       appBar: _bar(context, l.tipsTitle),
       body: SafeArea(
         top: false,
+        // Rhythm: ① image → ② plain lead text → ③ plain sections (no boxes) → ✗ list.
         child: ListView(
           padding: const EdgeInsets.fromLTRB(18, 8, 18, 24),
           children: [
-            _CoachCallout(text: l.coachLine),
+            FramingIllustration(knee: l.frKnee, dist: l.frDist),
             const SizedBox(height: 14),
-            Row(children: [
-              const Icon(Icons.check, size: 15, color: Wm.brandInk),
-              const SizedBox(width: 7),
-              Text(l.setupLabel.toUpperCase(),
-                  style: const TextStyle(
-                      fontSize: 12, fontWeight: FontWeight.w800, color: Wm.brandInk, letterSpacing: 0.5)),
-            ]),
-            const SizedBox(height: 8),
-            const FramingIllustration(),
-            const SizedBox(height: 14),
-            _InfoStack(rows: [
-              _InfoRow(icon: Icons.groups_outlined, header: l.crowdHeader, body: l.crowd),
-              _InfoRow(icon: Icons.camera_outdoor_outlined, header: l.tripodHeader, body: l.tripod),
-            ]),
+            Text(l.coachLine,
+                style: const TextStyle(fontSize: 14, height: 1.55, color: Wm.ink2)),
+            _PlainSec(icon: Icons.groups_outlined, header: l.crowdHeader, body: l.crowd),
+            _PlainSec(icon: Icons.camera_outdoor_outlined, header: l.tripodHeader, body: l.tripod),
             const SizedBox(height: 16),
             Text(l.avoidHeader.toUpperCase(),
                 style: const TextStyle(
@@ -261,27 +263,6 @@ class FramingTipsPage extends StatelessWidget {
       ),
     );
   }
-}
-
-class _CoachCallout extends StatelessWidget {
-  const _CoachCallout({required this.text});
-  final String text;
-  @override
-  Widget build(BuildContext context) => Container(
-        padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 12),
-        decoration: BoxDecoration(
-          color: Wm.brandTint,
-          border: Border.all(color: const Color(0xFFD6ECB3)),
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          const Icon(Icons.visibility_outlined, size: 18, color: Wm.brandInk),
-          const SizedBox(width: 10),
-          Expanded(
-            child: Text(text, style: const TextStyle(fontSize: 13, height: 1.5, color: Wm.brandInk)),
-          ),
-        ]),
-      );
 }
 
 class _TipsLink extends StatelessWidget {
@@ -340,22 +321,25 @@ class CheckList extends StatelessWidget {
 }
 
 class _InfoRow extends StatelessWidget {
-  const _InfoRow({required this.icon, required this.header, required this.body});
+  const _InfoRow({required this.icon, required this.header, required this.body, this.warn = false});
   final IconData icon;
   final String header;
   final String body;
+  final bool warn;
   @override
   Widget build(BuildContext context) => Padding(
         padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 12),
         child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Icon(icon, size: 18, color: Wm.ink2),
+          Icon(icon, size: 18, color: warn ? Wm.caution : Wm.ink2),
           const SizedBox(width: 10),
           Expanded(
             child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Text(header,
-                  style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w800, color: Wm.ink)),
+                  style: TextStyle(
+                      fontSize: 14, fontWeight: FontWeight.w800, color: warn ? Wm.caution : Wm.ink)),
               const SizedBox(height: 3),
-              Text(body, style: const TextStyle(fontSize: 12, height: 1.45, color: Wm.ink2)),
+              Text(body,
+                  style: TextStyle(fontSize: 12, height: 1.45, color: warn ? Wm.caution : Wm.ink2)),
             ]),
           ),
         ]),
@@ -363,56 +347,137 @@ class _InfoRow extends StatelessWidget {
 }
 
 class _InfoBox extends StatelessWidget {
-  const _InfoBox({required this.icon, required this.header, required this.body});
+  const _InfoBox({required this.icon, required this.header, required this.body, this.warn = false});
+  final IconData icon;
+  final String header;
+  final String body;
+  final bool warn;
+  @override
+  Widget build(BuildContext context) => Container(
+        decoration: BoxDecoration(
+          color: warn ? Wm.cautionBg : Wm.iconBg,
+          border: warn ? Border.all(color: Wm.cautionLine) : null,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: _InfoRow(icon: icon, header: header, body: body, warn: warn),
+      );
+}
+
+/// Plain (box-free) icon-header + body section — keeps the framing-tips page
+/// light instead of a stack of little boxes.
+class _PlainSec extends StatelessWidget {
+  const _PlainSec({required this.icon, required this.header, required this.body});
   final IconData icon;
   final String header;
   final String body;
   @override
-  Widget build(BuildContext context) => Container(
-        decoration: BoxDecoration(color: Wm.iconBg, borderRadius: BorderRadius.circular(12)),
-        child: _InfoRow(icon: icon, header: header, body: body),
-      );
-}
-
-/// One box holding several info rows, separated by hairlines — keeps the
-/// framing-tips page from turning into a stack of tiny boxes.
-class _InfoStack extends StatelessWidget {
-  const _InfoStack({required this.rows});
-  final List<_InfoRow> rows;
-  @override
-  Widget build(BuildContext context) {
-    final children = <Widget>[];
-    for (var i = 0; i < rows.length; i++) {
-      if (i > 0) children.add(const Divider(height: 1, thickness: 1, color: Wm.line));
-      children.add(rows[i]);
-    }
-    return Container(
-      decoration: BoxDecoration(color: Wm.iconBg, borderRadius: BorderRadius.circular(12)),
-      child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: children),
-    );
-  }
-}
-
-/// Placeholder framing diagram.
-/// ⚠️ DESIGNER: replace with the "correct vs wrong" framing illustration.
-class FramingIllustration extends StatelessWidget {
-  const FramingIllustration({super.key});
-  @override
-  Widget build(BuildContext context) => Container(
-        height: 150,
-        decoration: BoxDecoration(
-          color: const Color(0xFFEEF0EC),
-          borderRadius: BorderRadius.circular(14),
-          border: Border.all(color: Wm.line),
-        ),
-        child: Center(
-          child: Column(mainAxisSize: MainAxisSize.min, children: const [
-            Icon(Icons.accessibility_new, size: 54, color: Wm.brandInk),
-            SizedBox(height: 6),
-            Icon(Icons.crop_free, size: 22, color: Wm.ink3),
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.only(top: 16, left: 2, right: 2),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Row(children: [
+            Icon(icon, size: 15, color: Wm.ink2),
+            const SizedBox(width: 7),
+            Text(header,
+                style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w800, color: Wm.ink)),
           ]),
-        ),
+          const SizedBox(height: 3),
+          Text(body, style: const TextStyle(fontSize: 13, height: 1.5, color: Wm.ink2)),
+        ]),
       );
+}
+
+/// Framing illustration — Concept B "side setup scene": ATOM low on the floor
+/// (≈ knee), tilted up; a view cone; the person standing back 0.5–1 m with the
+/// whole body inside the view. Teaches the actual setup (low + stand back).
+///
+/// ⚠️ DESIGNER: placeholder vector — swap for the final art. Labels come in via
+/// [knee] / [dist] so they localize. (Cone lines drawn solid here; the real
+/// asset can dash them.)
+class FramingIllustration extends StatelessWidget {
+  const FramingIllustration({super.key, required this.knee, required this.dist});
+  final String knee;
+  final String dist;
+  @override
+  Widget build(BuildContext context) => AspectRatio(
+        aspectRatio: 360 / 236,
+        child: CustomPaint(painter: _FramingPainter(knee: knee, dist: dist)),
+      );
+}
+
+class _FramingPainter extends CustomPainter {
+  _FramingPainter({required this.knee, required this.dist});
+  final String knee;
+  final String dist;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    canvas.scale(size.width / 360.0); // author in a 360×236 space
+
+    final bg = RRect.fromRectAndRadius(const Rect.fromLTWH(1, 1, 358, 234), const Radius.circular(16));
+    canvas.drawRRect(bg, Paint()..color = const Color(0xFFF6F7F4));
+    canvas.drawRRect(
+        bg, Paint()..color = const Color(0xFFE6E8E2)..style = PaintingStyle.stroke..strokeWidth = 2);
+
+    canvas.drawLine(const Offset(26, 196), const Offset(334, 196),
+        Paint()..color = const Color(0xFFB7BBB0)..strokeWidth = 3..strokeCap = StrokeCap.round);
+
+    final cone = Path()..moveTo(66, 186)..lineTo(300, 36)..lineTo(300, 194)..close();
+    canvas.drawPath(cone, Paint()..color = const Color(0xFF4F7D05).withOpacity(0.06));
+    final coneLine = Paint()
+      ..color = const Color(0xFF9BBF63)
+      ..strokeWidth = 1.6
+      ..style = PaintingStyle.stroke;
+    canvas.drawLine(const Offset(68, 184), const Offset(300, 38), coneLine);
+    canvas.drawLine(const Offset(68, 188), const Offset(300, 192), coneLine);
+
+    // ATOM puck (low, tilted up)
+    canvas.save();
+    canvas.translate(58, 186);
+    canvas.rotate(-20 * 3.1415926535 / 180);
+    canvas.drawRRect(
+        RRect.fromRectAndRadius(const Rect.fromLTWH(-17, -13, 34, 22), const Radius.circular(6)),
+        Paint()..color = const Color(0xFF2B2D2C));
+    canvas.drawCircle(const Offset(12, -2.5), 5,
+        Paint()..color = const Color(0xFFC9EC8F)..style = PaintingStyle.stroke..strokeWidth = 2.6);
+    canvas.restore();
+
+    // figure (whole body inside the cone)
+    final green = Paint()
+      ..color = const Color(0xFF4F7D05)
+      ..strokeWidth = 6
+      ..style = PaintingStyle.stroke
+      ..strokeCap = StrokeCap.round
+      ..strokeJoin = StrokeJoin.round;
+    canvas.drawCircle(const Offset(252, 98), 15, Paint()..color = const Color(0xFFC9EC8F));
+    canvas.drawCircle(const Offset(252, 98), 15, green);
+    canvas.drawLine(const Offset(252, 113), const Offset(252, 162), green);
+    canvas.drawLine(const Offset(252, 126), const Offset(232, 149), green);
+    canvas.drawLine(const Offset(252, 126), const Offset(272, 149), green);
+    canvas.drawLine(const Offset(252, 162), const Offset(236, 194), green);
+    canvas.drawLine(const Offset(252, 162), const Offset(268, 194), green);
+
+    // distance bracket
+    final br = Paint()..color = const Color(0xFF8A8F86)..strokeWidth = 1.6;
+    canvas.drawLine(const Offset(66, 214), const Offset(252, 214), br);
+    canvas.drawLine(const Offset(66, 209), const Offset(66, 219), br);
+    canvas.drawLine(const Offset(252, 209), const Offset(252, 219), br);
+
+    _label(canvas, knee, const Offset(52, 166));
+    _label(canvas, dist, const Offset(159, 224));
+  }
+
+  void _label(Canvas canvas, String text, Offset center) {
+    final tp = TextPainter(
+      text: TextSpan(
+          text: text,
+          style: const TextStyle(color: Color(0xFF6A6F74), fontSize: 13, fontWeight: FontWeight.w700)),
+      textDirection: TextDirection.ltr,
+    )..layout();
+    tp.paint(canvas, Offset(center.dx - tp.width / 2, center.dy - tp.height / 2));
+  }
+
+  @override
+  bool shouldRepaint(_FramingPainter old) => old.knee != knee || old.dist != dist;
 }
 
 // ---------------------------------------------------------------------------
@@ -452,23 +517,17 @@ class _DataSaveLine extends StatelessWidget {
         ),
       );
     }
-    final noSd = controller.dataChoice == DataChoice.local && !controller.hasSdCard;
-    final label = controller.dataChoice == DataChoice.cloud
-        ? l.drCloud
-        : (noSd ? l.drNoSd : l.drLocal);
-    final color = noSd ? Wm.warn : Wm.ink3;
+    // App can't verify the SD card → no "no card" state here; just the choice.
+    final label = controller.dataChoice == DataChoice.cloud ? l.drCloud : l.drLocal;
     return GestureDetector(
       onTap: () => showDataChoiceSheet(context, controller),
       behavior: HitTestBehavior.opaque,
-      child: Container(
-        decoration: const BoxDecoration(border: Border(top: BorderSide(color: Wm.hair))),
-        padding: const EdgeInsets.only(top: 12),
-        child: Row(children: [
-        Icon(noSd ? Icons.warning_amber_rounded : Icons.cloud_outlined, size: 14, color: color),
+      child: Row(children: [
+        const Icon(Icons.cloud_outlined, size: 14, color: Wm.ink3),
         const SizedBox(width: 6),
         Expanded(
           child: Text(label,
-              style: TextStyle(fontSize: 11.5, height: 1.4, color: color),
+              style: const TextStyle(fontSize: 11.5, height: 1.4, color: Wm.ink3),
               maxLines: 1,
               overflow: TextOverflow.ellipsis),
         ),
@@ -476,8 +535,7 @@ class _DataSaveLine extends StatelessWidget {
         Text(l.drChange,
             style: const TextStyle(
                 fontSize: 11.5, fontWeight: FontWeight.w700, color: Wm.ink, decoration: TextDecoration.underline)),
-        ]),
-      ),
+      ]),
     );
   }
 }
@@ -510,23 +568,19 @@ class _DontShowRow extends StatelessWidget {
 Future<void> showDataChoiceSheet(BuildContext context, WorkoutModeController controller) {
   final l = L(controller.lang);
   final invite = !controller.saving; // saving globally off → guide to allow
+  var alwaysOn = false; // invite scope: false = this session only; true = flip global setting
   return showAppSheet(
     context,
     scrollable: true,
     child: StatefulBuilder(
       builder: (context, setSheetState) {
+        // Selecting a card just highlights it now; the commit is the button below.
         void pick(DataChoice c) {
-          if (invite) {
-            controller.setDataChoice(c);
-            controller.setSessionSave(true);
-            Navigator.pop(context);
-          } else {
-            controller.setDataChoice(c);
-            setSheetState(() {});
-          }
+          controller.setDataChoice(c);
+          setSheetState(() {});
         }
 
-        final noSd = controller.dataChoice == DataChoice.local && !controller.hasSdCard;
+        final remind = controller.dataChoice == DataChoice.local; // SD reminder (app can't verify)
         return Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -544,7 +598,7 @@ Future<void> showDataChoiceSheet(BuildContext context, WorkoutModeController con
               tag: l.dRecommended,
               tagGood: true,
               benefits: l.dCloudBenefits,
-              selected: !invite && controller.dataChoice == DataChoice.cloud,
+              selected: controller.dataChoice == DataChoice.cloud,
               onTap: () => pick(DataChoice.cloud),
             ),
             const SizedBox(height: 10),
@@ -554,12 +608,12 @@ Future<void> showDataChoiceSheet(BuildContext context, WorkoutModeController con
               tag: l.dNeedsSd,
               tagGood: false,
               benefits: l.dLocalBenefits,
-              selected: !invite && controller.dataChoice == DataChoice.local,
+              selected: controller.dataChoice == DataChoice.local,
               onTap: () => pick(DataChoice.local),
             ),
-            if (!invite && noSd) ...[
-              const SizedBox(height: 12),
-              BetaCaution(text: l.noSdWarn),
+            if (remind) ...[
+              const SizedBox(height: 10),
+              _SdReminder(text: l.dLocalReminder),
             ],
             const SizedBox(height: 14),
             Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -582,16 +636,79 @@ Future<void> showDataChoiceSheet(BuildContext context, WorkoutModeController con
               ),
             ]),
             const SizedBox(height: 16),
-            SheetButton(
-              label: invite ? l.saveNotNow : l.dDone,
-              primary: !invite,
-              onTap: () => Navigator.pop(context),
-            ),
+            if (invite) ...[
+              // Scope of the enable: this session only (default) vs flip the global setting.
+              _ScopeCheck(
+                value: alwaysOn,
+                label: l.dSaveAlways,
+                onTap: () => setSheetState(() => alwaysOn = !alwaysOn),
+              ),
+              const SizedBox(height: 12),
+              Row(children: [
+                Expanded(child: SheetButton(label: l.saveNotNow, onTap: () => Navigator.pop(context))),
+                const SizedBox(width: 9),
+                Expanded(
+                  child: SheetButton(
+                    label: l.dEnableCta,
+                    primary: true,
+                    onTap: () {
+                      if (alwaysOn) {
+                        controller.setSaveVideosOn(true); // "keep on" → global setting
+                      } else {
+                        controller.setSessionSave(true); // just this session
+                      }
+                      Navigator.pop(context);
+                    },
+                  ),
+                ),
+              ]),
+            ] else
+              SheetButton(label: l.dDone, primary: true, onTap: () => Navigator.pop(context)),
           ],
         );
       },
     ),
   );
+}
+
+/// Neutral SD reminder for "Keep on ATOM" (the app can't verify the card).
+class _SdReminder extends StatelessWidget {
+  const _SdReminder({required this.text});
+  final String text;
+  @override
+  Widget build(BuildContext context) => Container(
+        padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 10),
+        decoration: BoxDecoration(color: Wm.iconBg, borderRadius: BorderRadius.circular(8)),
+        child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          const Icon(Icons.info_outline, size: 15, color: Wm.ink3),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Text(text, style: const TextStyle(fontSize: 12, height: 1.45, color: Wm.ink2)),
+          ),
+        ]),
+      );
+}
+
+/// Checkbox row for the "keep saving on from now on" scope choice.
+class _ScopeCheck extends StatelessWidget {
+  const _ScopeCheck({required this.value, required this.label, required this.onTap});
+  final bool value;
+  final String label;
+  final VoidCallback onTap;
+  @override
+  Widget build(BuildContext context) => InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(8),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 4),
+          child: Row(children: [
+            Icon(value ? Icons.check_box : Icons.check_box_outline_blank,
+                size: 19, color: value ? Wm.brandInk : Wm.ink3),
+            const SizedBox(width: 8),
+            Expanded(child: Text(label, style: const TextStyle(fontSize: 12.5, color: Wm.ink2))),
+          ]),
+        ),
+      );
 }
 
 class _DataOption extends StatelessWidget {
@@ -662,12 +779,14 @@ class _DataTag extends StatelessWidget {
   Widget build(BuildContext context) => Container(
         padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
         decoration: BoxDecoration(
-          color: good ? Wm.brandTint : Wm.plusBg,
-          border: Border.all(color: good ? const Color(0xFFD6ECB3) : Wm.plusLine),
+          // "Recommended" = brand green; "Needs SD card" = neutral gray (not a
+          // premium/positive signal).
+          color: good ? Wm.brandTint : const Color(0xFFF1F2EE),
+          border: Border.all(color: good ? const Color(0xFFD6ECB3) : Wm.line),
           borderRadius: BorderRadius.circular(5),
         ),
         child: Text(text,
             style: TextStyle(
-                fontSize: 12, fontWeight: FontWeight.w700, color: good ? Wm.brandInk : Wm.plus)),
+                fontSize: 12, fontWeight: FontWeight.w700, color: good ? Wm.brandInk : Wm.ink2)),
       );
 }

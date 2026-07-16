@@ -10,6 +10,7 @@ class WorkoutModeController extends ChangeNotifier {
     bool isPlus = false,
     AppLang lang = AppLang.en,
     this.hasSdCard = true,
+    this.hasAiQuota = true,
     this.dataChoice = DataChoice.cloud,
     this.saveVideosOn = true,
     this.sessionSave = false,
@@ -31,8 +32,14 @@ class WorkoutModeController extends ChangeNotifier {
   /// Where recorded video/report is kept (remembered preference).
   DataChoice dataChoice;
 
-  /// Whether the active ATOM has an SD card (needed for "keep on ATOM").
+  /// NOTE: the App does NOT actually know the ATOM's SD-card status (not synced),
+  /// so this no longer gates anything — "Keep on ATOM" is surfaced as a REMINDER,
+  /// not a verified state. Kept for API compatibility; safe to remove.
   bool hasSdCard;
+
+  /// Has Plus, but this billing cycle's AI sessions may be used up. When false
+  /// (and the user has Plus), AI modes lock with GateReason.overQuota.
+  bool hasAiQuota;
 
   /// Global "Save workout videos" setting (Settings). Default on — we do NOT
   /// nudge users away from saving. When off, each session invites them to
@@ -64,12 +71,16 @@ class WorkoutModeController extends ChangeNotifier {
   WorkoutMode get selected => _selected;
 
   bool isLocked(WorkoutMode m) =>
-      m.requiresDevice && (!isPaired || (m.requiresPlus && !_isPlus));
+      m.requiresDevice && (!isPaired || (m.requiresPlus && (!_isPlus || !hasAiQuota)));
 
   List<GateReason> missing(WorkoutMode m) {
     final out = <GateReason>[];
     if (m.requiresDevice && !isPaired) out.add(GateReason.needDevice);
-    if (m.requiresPlus && !_isPlus) out.add(GateReason.needPlus);
+    if (m.requiresPlus && !_isPlus) {
+      out.add(GateReason.needPlus);
+    } else if (m.requiresPlus && !hasAiQuota) {
+      out.add(GateReason.overQuota); // has Plus but AI credits used up
+    }
     return out;
   }
 
@@ -82,7 +93,7 @@ class WorkoutModeController extends ChangeNotifier {
 
   /// AI modes are fully usable (device + Plus + online). Drives whether the
   /// "switch anytime" note is shown — it's misleading when only Manual works.
-  bool get aiUsable => isPaired && isPlus && isOnline;
+  bool get aiUsable => isPaired && isPlus && hasAiQuota && isOnline;
 
   // ---- writes ----
   void selectMode(WorkoutMode m) {
@@ -108,6 +119,7 @@ class WorkoutModeController extends ChangeNotifier {
   void setPlus(bool v) { if (_isPlus != v) { _isPlus = v; _reconcile(); notifyListeners(); } }
   void setLang(AppLang v) { if (_lang != v) { _lang = v; notifyListeners(); } }
   void setHasSdCard(bool v) { if (hasSdCard != v) { hasSdCard = v; notifyListeners(); } }
+  void setHasAiQuota(bool v) { if (hasAiQuota != v) { hasAiQuota = v; _reconcile(); notifyListeners(); } }
   void setDataChoice(DataChoice v) { if (dataChoice != v) { dataChoice = v; notifyListeners(); } }
   void setSaveVideosOn(bool v) { saveVideosOn = v; sessionSave = false; notifyListeners(); }
   void setSessionSave(bool v) { sessionSave = v; notifyListeners(); }

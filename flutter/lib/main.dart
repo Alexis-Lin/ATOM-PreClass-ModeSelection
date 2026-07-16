@@ -130,9 +130,9 @@ class _DemoPageState extends State<DemoPage> {
               _chip('On', controller.isPlus, () => controller.setPlus(true)),
               _chip('Off', !controller.isPlus, () => controller.setPlus(false)),
             ]),
-            _group('SD card', [
-              _chip('In', controller.hasSdCard, () => controller.setHasSdCard(true)),
-              _chip('None', !controller.hasSdCard, () => controller.setHasSdCard(false)),
+            _group('AI quota', [
+              _chip('OK', controller.hasAiQuota, () => controller.setHasAiQuota(true)),
+              _chip('Used up', !controller.hasAiQuota, () => controller.setHasAiQuota(false)),
             ]),
             _group('Save video (Settings)', [
               _chip('On', controller.saveVideosOn, () => controller.setSaveVideosOn(true)),

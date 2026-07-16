@@ -4,6 +4,16 @@
 
 > 对应设计：`../PRD-课前模式选择.md`、`../prototype-课前模式选择.html`
 
+> ⚠️ **本轮已与原型对齐（未编译验证）**：本仓库环境无 Flutter 工具链，以下同步为结构性实现，工程师本地 `flutter run` 若有编译问题请反馈修正。本轮新增/变更：
+> - **额度用尽 gate**（`GateReason.overQuota` + `controller.hasAiQuota`）；gate 按钮文案为**占位**（购买/升级待定）。
+> - **Record & Recap 硬要求保存**：全局关闭时须知显示「需开启保存」，CTA 变「开启保存以继续」（进 `showDataChoiceSheet`），未开启不能 `onStart`。
+> - **开启保存范围**：邀请弹窗加「以后一直开启保存」勾选（勾=`setSaveVideosOn(true)` 全局；不勾=`setSessionSave(true)` 仅本次）。
+> - **SD 卡改「提示」**：App 无法确认 SD 状态 → 移除「未检测到 SD 卡」告警，「仅存 ATOM」选中时给中性提醒；`hasSdCard` 字段保留但不再 gate。
+> - **课前须知**：图在最上；「Change / 下次不再提示」用分隔线分区（Change 属内容、勾选属操作区）。
+> - **拍摄技巧页**：图 → 纯文字 → 无框小节（去掉了卡片框）。
+> - **摆放插画** `FramingIllustration`：换成 B 方向侧视场景（`CustomPainter`，标注走 `l.frKnee/l.frDist`），仍为占位。
+> - **配色**：`Wm.plus` 改绿（琥珀只留给 Beta 警告）；**ATOM 圆屏**字号放大。
+
 ---
 
 ## 1. 如何运行 · Run

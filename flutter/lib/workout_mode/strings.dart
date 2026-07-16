@@ -32,14 +32,24 @@ class L {
   String get ctaBlocked => _t('ATOM must be online', 'ATOM 需在线');
 
   // ---- gate sheet (locked mode tapped) ----
-  String gateTitle(WorkoutMode m, GateReason r) => r == GateReason.needDevice
-      ? _t('${modeName(m)} runs on ATOM', '${modeName(m)} 需要 ATOM')
-      : _t('${modeName(m)} needs Plus', '${modeName(m)} 需要 Plus 会员');
-  String gateBody(GateReason r) => r == GateReason.needDevice
-      ? _t('Pair a nearby ATOM to unlock AI modes.', '连接身边的 ATOM，解锁 AI 模式。')
-      : _t('Get Plus to unlock AI modes.', '开通 Plus，解锁 AI 模式。');
-  String gateButton(GateReason r) =>
-      r == GateReason.needDevice ? addDevice : _t('Get Plus', '开通 Plus');
+  String gateTitle(WorkoutMode m, GateReason r) => switch (r) {
+        GateReason.needDevice => _t('${modeName(m)} runs on ATOM', '${modeName(m)} 需要 ATOM'),
+        GateReason.needPlus => _t('${modeName(m)} needs Plus', '${modeName(m)} 需要 Plus 会员'),
+        GateReason.overQuota => _t('${modeName(m)} — AI limit reached', '${modeName(m)}：AI 额度已用尽'),
+      };
+  String gateBody(GateReason r) => switch (r) {
+        GateReason.needDevice =>
+          _t('Pair a nearby ATOM to unlock AI modes.', '连接身边的 ATOM，解锁 AI 模式。'),
+        GateReason.needPlus => _t('Get Plus to unlock AI modes.', '开通 Plus，解锁 AI 模式。'),
+        GateReason.overQuota => _t('You’ve used up this cycle’s AI sessions. Manual Log still works.',
+            '本期 AI 次数已用完。手动记录仍可使用。'),
+      };
+  String gateButton(GateReason r) => switch (r) {
+        GateReason.needDevice => addDevice,
+        GateReason.needPlus => _t('Get Plus', '开通 Plus'),
+        // PLACEHOLDER — final action (buy add-on / upgrade / just-inform) depends on the business model.
+        GateReason.overQuota => _t('See options', '查看方案'),
+      };
   String get notNow => _t('Not now', '以后再说');
 
   // ---- device picker ----
@@ -89,6 +99,10 @@ class L {
       'Beta — AI may miss or miscount reps. Use your judgment.',
       'Beta——AI 可能漏计或误计，请自行判断。');
 
+  // Framing illustration labels (baked into the drawing but localized).
+  String get frKnee => _t('≈ knee', '≈ 膝盖高');
+  String get frDist => _t('0.5–1 m', '0.5–1 米');
+
   // Record & Recap
   String get recapSub => _t(
       'Stay in frame at any angle — just keep the light good.',
@@ -101,6 +115,12 @@ class L {
       _t('Video is saved — future upgrades re-analyze it.', '视频留存，日后升级可重新分析。');
   String get recapNoSave => _t(
       'This workout won’t be saved, so there’s no recap report.', '本次不保存，将没有复盘报告。');
+  // Record & Recap hard-requires saving (its output IS the saved video + recap).
+  String get recapNeedHeader => _t('Saving required', '需开启保存');
+  String get recapNeed => _t(
+      'Record & Recap keeps the video to build your recap — turn on saving to start.',
+      '录制复盘要保存视频才能生成复盘——开启保存即可开始。');
+  String get recapTurnOnCta => _t('Turn on saving to continue', '开启保存以继续');
 
   // ---- framing tips (extra reading) ----
   String get tipsTitle => _t('Framing tips', '拍摄技巧');
@@ -140,13 +160,20 @@ class L {
   String get dataSheetTitle => _t('Where to save your video?', '视频保存在哪里？');
   String get saveOnTitle => _t('Save this workout’s video?', '保存这次的视频？');
   String get saveOnBody => _t(
-      'Saving is off in your settings. Turn it on for this one to get your recap — and to help ATOM keep improving.',
-      '你已在设置中关闭保存。为本次开启即可获得复盘，也能帮助 ATOM 持续优化。');
+      'Saving is off in your settings. Turn it on for this workout to get your recap.',
+      '你已在设置中关闭保存。为本次开启即可获得复盘。');
   String get saveNotNow => _t('Not this time', '这次不用');
+  String get dEnableCta => _t('Turn on saving', '开启保存');
+  // Scope of the per-session enable: unchecked = this session only; checked = flip the global setting.
+  String get dSaveAlways => _t('Keep saving on from now on', '以后一直开启保存（可在设置关闭）');
   String get dCloudName => _t('Cloud', '云端');
   String get dLocalName => _t('Keep on ATOM', '仅存 ATOM');
   String get dRecommended => _t('Recommended', '推荐');
   String get dNeedsSd => _t('Needs SD card', '需 SD 卡');
+  // App can't verify the ATOM's SD card → a reminder, not a detected state.
+  String get dLocalReminder => _t(
+      'The app can’t check ATOM’s SD card from here — make sure one’s inserted, or this session won’t be saved.',
+      'App 端无法确认 ATOM 的 SD 卡状态——请自行确保已插卡，否则本次不会保存。');
   String get dDone => _t('Done', '完成');
   List<String> get dCloudBenefits => zh
       ? const ['无需 SD 卡', '算法升级后自动重分析']
@@ -157,9 +184,9 @@ class L {
   String get noSdWarn => _t(
       "No SD card — this session won’t be kept. Insert one, or use cloud.",
       '未检测到 SD 卡，本次不会保留。请插卡或改用云端。');
-  String get privacyNote => _t(
-      "We don’t view your videos or use your data to train our AI.",
-      '我们不会查看你的视频，也不用于训练 AI。');
+  // Privacy: "just enough" — no strong promise (don't over-commit / invite worry),
+  // just a light pointer to the policy.
+  String get privacyNote => _t('See our', '详见');
   String get privacyLink => _t('Privacy Policy', '隐私协议');
 
   // ---- Settings (global video-saving toggle) ----

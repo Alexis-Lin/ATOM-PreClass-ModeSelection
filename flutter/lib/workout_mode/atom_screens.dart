@@ -77,7 +77,7 @@ class _AtomRoundScreenState extends State<AtomRoundScreen> {
           child: Center(
             child: Text(l.atomTitle,
                 style: const TextStyle(
-                    fontSize: 16, fontWeight: FontWeight.w800, color: Wm.deviceText)),
+                    fontSize: 18, fontWeight: FontWeight.w800, color: Wm.deviceText)),
           ),
         ),
         Center(
@@ -88,7 +88,7 @@ class _AtomRoundScreenState extends State<AtomRoundScreen> {
                 _AtomTile(
                   mode: m,
                   selected: _sel == m,
-                  width: d * 0.73,
+                  width: d * 0.76,
                   l: l,
                   onTap: () => setState(() => _sel = m),
                 ),
@@ -119,7 +119,7 @@ class _AtomRoundScreenState extends State<AtomRoundScreen> {
           const SizedBox(height: 12),
           Text(l.atomConfirmTitle,
               style: const TextStyle(
-                  fontSize: 16, fontWeight: FontWeight.w800, color: Wm.deviceText)),
+                  fontSize: 18, fontWeight: FontWeight.w800, color: Wm.deviceText)),
           const SizedBox(height: 12),
           for (final b in l.atomBullets(_sel)) ...[
             _bullet(b),
@@ -155,7 +155,7 @@ class _AtomRoundScreenState extends State<AtomRoundScreen> {
           const SizedBox(width: 9),
           Flexible(
             child: Text(text,
-                style: const TextStyle(fontSize: 11.5, height: 1.4, color: Color(0xFFAEB4A8))),
+                style: const TextStyle(fontSize: 13.5, height: 1.4, color: Color(0xFFB7BDB0))),
           ),
         ],
       );
@@ -200,13 +200,13 @@ class _AtomTile extends StatelessWidget {
                 children: [
                   Text(l.modeName(mode),
                       style: const TextStyle(
-                          fontSize: 15.5, fontWeight: FontWeight.w700, color: Wm.deviceText)),
+                          fontSize: 17, fontWeight: FontWeight.w700, color: Wm.deviceText)),
                   // Only the SELECTED tile shows its explanation.
                   if (selected) ...[
                     const SizedBox(height: 3),
                     Text(l.atomSub(mode),
                         style: const TextStyle(
-                            fontSize: 11, height: 1.35, color: Wm.deviceSub)),
+                            fontSize: 12.5, height: 1.35, color: Color(0xFF939A91))),
                   ],
                 ],
               ),
@@ -266,9 +266,9 @@ class _StartPill extends StatelessWidget {
           child: Row(mainAxisSize: MainAxisSize.min, children: [
             Text(label,
                 style: const TextStyle(
-                    fontSize: 13.5, fontWeight: FontWeight.w800, color: Color(0xFF0F1408))),
-            const SizedBox(width: 4),
-            const Icon(Icons.chevron_right, size: 16, color: Color(0xFF0F1408)),
+                    fontSize: 15, fontWeight: FontWeight.w800, color: Color(0xFF0F1408))),
+            const SizedBox(width: 5),
+            const Icon(Icons.chevron_right, size: 17, color: Color(0xFF0F1408)),
           ]),
         ),
       );
@@ -294,7 +294,7 @@ class _DontShowAgain extends StatelessWidget {
             child: value ? const Icon(Icons.check, size: 11, color: Colors.black) : null,
           ),
           const SizedBox(width: 8),
-          Text(label, style: const TextStyle(fontSize: 11.5, color: Color(0xFFC9CDC4))),
+          Text(label, style: const TextStyle(fontSize: 13, color: Color(0xFFC9CDC4))),
         ]),
       );
 }
