@@ -261,6 +261,24 @@ class FramingTipsPage extends StatelessWidget {
           ],
         ),
       ),
+      // Pinned "Got it" dismisses the tips and returns to the notice sheet.
+      bottomNavigationBar: Container(
+        decoration: const BoxDecoration(
+          color: Wm.sheet,
+          border: Border(top: BorderSide(color: Wm.hair)),
+        ),
+        child: SafeArea(
+          top: false,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(18, 12, 18, 18),
+            child: SheetButton(
+              label: l.tipsOk,
+              primary: true,
+              onTap: () => Navigator.of(context).maybePop(),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

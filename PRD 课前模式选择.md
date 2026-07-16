@@ -130,7 +130,7 @@
 **通用**
 - **AI 提示在上**，页面主体是摆位/须知；数据选择**弱化到底部一行小字**——避免用户每次为隐私纠结（产品希望默认更多人上传云端）。
 - **取景示意图**：一个人完整站在 **ATOM 取景框**内、脚踩地面线、四周留安全边距（火柴人为占位，正式版待设计师出「正确 vs 错误」对照插画）。
-- **只放正向、精简**：Live Coach = 一张 OK 图 + 约 5 条「做到」+「查看拍摄技巧」入口；**反例 / 易错移到二级「拍摄技巧」页**（详见下），不在课前堆负面信息。
+- **只放正向、精简**：Live Coach = 一张 OK 图 + 4 条「做到」+「查看拍摄技巧」入口；**反例 / 易错移到二级「拍摄技巧」页**（4 条，详见下），不在课前堆负面信息。
 - **训练数据保存（底部小行 + 二次弹窗）**：
   - 底部只有一行小字显示当前选择（默认「视频同步到云端」）+ 「更改」。点击才弹**二次小弹窗**做选择，降低决策成本。
   - **云端（推荐，默认）**：① 无需 SD 卡；② 算法升级后自动重新分析、结果自动刷新。用正向收益引导。
@@ -153,19 +153,20 @@
 - **视觉（仅 App）**：Action button 与选项卡片用**较小圆角**（锐利风格）；ATOM 设备端维持自身风格。
 - **配色纪律**：强调色收敛为 **品牌绿（主）+ 单一警示色**。`Plus` 标签用**绿色系**（当前为占位，最终以业务设计师素材为准）；**琥珀色只保留给「注意/警告」**（如 Beta 提示），不再兼表「会员/高级」，避免语义打架。
 - **ATOM 圆屏可读性**：圆屏在一两米外看，正文/标题**字号更大、每屏信息更少**（一句话 + 一个动作）。
-- **转场**：拍摄技巧 / 设置等整页从课前须知弹窗**右侧推入**（有意的页面导航），与底部弹窗区分开。
-- **微动效规范（克制、符合 iOS/Material 惯例）**：时长统一 **150–240ms**、标准缓动（`easeOut` / `cubic-bezier(.22,.61,.36,1)`）；弹窗/模态出现用**淡入 + 轻微缩放沉降**（如 ATOM 圆屏「开始前确认」，避免硬蹦）；卡片展开用高度过渡；按钮按压 ~`scale(.97)`。**去掉过度动效**（锁定卡的强抖动已收敛为极轻提示，且不与门槛弹窗重复）。全局**尊重系统「减弱动态效果」**（`prefers-reduced-motion` / `MediaQuery.disableAnimations`）——只保留快速淡入，去掉位移/缩放。
+- **转场**：拍摄技巧 / 设置等整页从课前须知弹窗**右侧推入**（有意的页面导航），与底部弹窗区分开。拍摄技巧页底部固定一个「知道了 / Got it」主按钮，方便直接返回须知（顶部返回箭头保留）。
+- **弹窗即抽屉（关键）**：所有底部弹窗——模式选择、课前须知、门槛/设备/数据保存——都是**从底部整体上滑**的抽屉，**不是淡入**。scrim（暗色遮罩）淡入、卡片 `translateY(100%)→0` 上滑（`cubic-bezier(.22,.61,.36,1)`，~300ms）。Flutter 端由 `showModalBottomSheet` 原生提供；HTML 原型用 `@keyframes sheetrise` 对齐。
+- **微动效规范（克制、符合 iOS/Material 惯例）**：时长统一 **150–320ms**、标准缓动（`easeOut` / `cubic-bezier(.22,.61,.36,1)`）；底部弹窗用**上滑抽屉**（见上）；ATOM 圆屏「开始前确认」等非抽屉浮层用**淡入 + 轻微缩放沉降**；卡片展开用高度过渡；按钮按压 ~`scale(.97)`。**去掉过度动效**（锁定卡的强抖动已收敛为极轻提示，且不与门槛弹窗重复）。全局**尊重系统「减弱动态效果」**（`prefers-reduced-motion` / `MediaQuery.disableAnimations`）——只保留快速淡入，去掉位移/缩放。
 
 > 精简原则：去掉与页面标题重复的小标题；bullet 尽量不折行；只在必要时呈现信息。
 
 **Live Coach（对角度较敏感）**
 - **心智**：把 ATOM 说成**教练的眼睛**——「教练站那儿能看清你的动作，ATOM 就能看清」。副标题用短版「ATOM 就像教练的眼睛，摆好位置让它看清你」。
-- 课前须知只放**正向**：一张「✓ 正确」取景图 + **做到清单**（约 5 条）：
+- 课前须知只放**正向**：一张「✓ 正确」取景图 + **做到清单（精简为 4 条）**：
   - 全身入框、**居中**；
   - **ATOM 放到约膝盖高度**（贴地设备，不可能到胸高——原「chest height」为错误，已改）；
   - 离约 **0.5–1 米**；
-  - 正对或侧对，**别过度仰角**；
   - 周围留空，**别被器械（卧推凳 / 深蹲架 / 杠铃）挡住**。
+  - **角度不再硬性列出**：撤退/拉远的机位通常没问题，而每个动作各有最佳角度——由课中「按动作提示」给出，不在课前清单里写死「正对/侧对」，避免误导。
 - **「拍摄技巧」二级页**（须知上有「查看拍摄技巧」入口，避免课前堆负面信息）。**排版节奏统一为 ① 图 → ② 文字 → ③ 线框提示**，避免碎片感：
   - ① 顶部一张取景 OK 图；
   - ② 图下方是**纯文字**的教练心智（「教练站那儿能看清你的动作，ATOM 就能看清」），不再用绿色小框，减少打断；
@@ -228,8 +229,8 @@ flowchart TD
 | ⑥/⑦ | 门槛弹窗 | 点锁定卡 | 缺设备→添加设备；缺 Plus→开通；或「以后再说」 |
 | ⑧ | 设备列表 | 切换图标 | 选身边设备，回弹窗 |
 | — | Manual Log | 点「开始记录」 | 直接 ▶ 开始（不进须知） |
-| ⑨/⑩ | 课前须知 | AI 模式点 CTA | 自适应底部弹窗，正向引导（Coach 5 条做到 + 拍摄技巧入口；Recap 副标 + 报告/留存）；✕/背景/下拉取消，「准备好了」开始 |
-| ⑳ | 拍摄技巧 | 点「查看拍摄技巧」 | 二级页：教练心智 + OK 图 + 背景有人没关系 + 稳定摆放 + 会影响识别 + 每个动作差异 |
+| ⑨/⑩ | 课前须知 | AI 模式点 CTA | 上滑抽屉，正向引导（Coach 4 条做到 + 拍摄技巧入口；Recap 副标 + 报告/留存）；✕/背景/下拉取消，「准备好了」开始 |
+| ⑳ | 拍摄技巧 | 点「查看拍摄技巧」 | 二级页：教练心智 + OK 图 + 背景有人没关系 + 稳定摆放 + 会影响识别（4 条）；底部「知道了」返回 |
 | ⑪ | 数据保存 | 点「更改」 | 云端(推荐)/仅存 ATOM；无 SD 告警；「下次不再提示」记住偏好 |
 | — | 须知 | I'm ready | ▶ 开始训练 |
 | ⑰→⑱→⑲ | 设置→须知→引导 | 关掉「保存训练视频」 | 须知数据行变引导条「已关闭·开启」→点开正向弹窗引导为本次开启 |
@@ -255,8 +256,8 @@ flowchart TD
 | 门槛·缺会员 | Live Coach needs Plus · Get Plus to unlock AI modes. | Live Coach 需要 Plus · 开通 Plus，解锁 AI 模式。 |
 | 课前须知·标题 | Get set up | 课前须知 |
 | Coach 副标 | ATOM watches like a coach — set it up so it can see you clearly. | ATOM 就像教练的眼睛——摆好位置，让它看清你。 |
-| Coach 做到（5） | Whole body in frame, centered · Set ATOM about knee height · Stand 0.5–1 m back · Face it front-on or side-on · Clear space — nothing blocking you | 全身入框，站在画面中央 · ATOM 放到约膝盖高度 · 离 ATOM 0.5–1 米 · 正对或侧对镜头 · 周围留空，别被器械挡住 |
-| Coach 反例（Tips 页） | Body cut off or off to one side · Too close or too far (0.5–1 m) · ATOM tilted steeply up · Blocked by a bench, rack or barbell · Backlit, too dark, or heavy shadows | 身体被裁切或偏到一边 · 太近或太远（0.5–1 米） · ATOM 过度仰角 · 被卧推凳/深蹲架/杠铃挡住 · 逆光、过暗或阴影很重 |
+| Coach 做到（4） | Whole body in frame, centered · Set ATOM about knee height · Stand 0.5–1 m back · Clear space — nothing blocking you | 全身入框，站在画面中央 · ATOM 放到约膝盖高度 · 离 ATOM 0.5–1 米 · 周围留空，别被器械挡住 |
+| Coach 反例（Tips 页，4） | Body cut off, off-center, or blocked by gear · Too close or too far (0.5–1 m) · ATOM tilted steeply up · Backlit, too dark, or heavy shadows | 身体被裁切、偏到一边或被器械挡住 · 太近或太远（0.5–1 米） · ATOM 过度仰角 · 逆光、过暗或阴影很重 |
 | Tips · 背景有人没关系 | Crowd is fine · ATOM tracks the largest person in view, so background people won't throw it off — just be centred and biggest. | 背景有人没关系 · ATOM 只认画面里最大的那个人，背景有人也不影响——你居中、是最大的主体就行。 |
 | Tips · 稳定摆放 | A compatible ATOM tripod or stand keeps it level at about knee height. | 用配套的 ATOM 三脚架/支架，把它平稳架在约膝盖高度。 |
 | 教练心智 | Think of ATOM as your coach's eyes: if a coach standing there could see your form, so can ATOM. | 把 ATOM 想成教练的眼睛：教练站那儿能看清你，ATOM 就能看清。 |
@@ -321,7 +322,7 @@ flowchart TD
 |---|---|---|
 | pageTitle / psOk / dontShow | Get set up / I'm ready / Don't show this again | 课前须知 / 准备好了 / 下次不再提示 |
 | coachSub | ATOM watches like a coach — set it up so it can see you clearly. | ATOM 就像教练的眼睛——摆好位置，让它看清你。 |
-| coachDo（5）| Whole body in frame, centered · Set ATOM about knee height · Stand 0.5–1 m back · Face it front-on or side-on · Clear space — nothing blocking you | 全身入框，站在画面中央 · ATOM 放到约膝盖高度 · 离 ATOM 0.5–1 米 · 正对或侧对镜头 · 周围留空，别被器械挡住 |
+| coachDo（4）| Whole body in frame, centered · Set ATOM about knee height · Stand 0.5–1 m back · Clear space — nothing blocking you | 全身入框，站在画面中央 · ATOM 放到约膝盖高度 · 离 ATOM 0.5–1 米 · 周围留空，别被器械挡住 |
 | tipsLink | See framing tips | 查看拍摄技巧 |
 | beta | Beta — AI may miss or miscount reps. Use your judgment. | Beta——AI 可能漏计或误计，请自行判断。 |
 | recapSub | Stay in frame at any angle — just keep the light good. | 全程在画面里，角度随意，光线充足就好。 |
@@ -348,13 +349,13 @@ flowchart TD
 ### ⑳ 拍摄技巧 Framing tips
 | 键 | EN | 中文 |
 |---|---|---|
-| tipsTitle | Framing tips | 拍摄技巧 |
+| tipsTitle / tipsOk | Framing tips / Got it | 拍摄技巧 / 知道了 |
 | coachLine | Think of ATOM as your coach's eyes: if a coach standing there could see your form, so can ATOM. | 把 ATOM 想成教练的眼睛：教练站那儿能看清你，ATOM 就能看清。 |
 | coachDoH（OK 标）| Set up | 这样摆 |
 | crowdH / crowd | Crowd is fine / ATOM tracks the largest person in view, so people in the background won't throw it off — just be centred and close enough that you're the biggest. | 背景有人没关系 / ATOM 只认画面里最大的那个人，背景有人也不影响——你居中、离得够近，是画面里最大的主体就行。 |
 | tripodH / tripod | Steady placement / A compatible ATOM tripod or stand keeps it level at about knee height. | 稳定摆放 / 用配套的 ATOM 三脚架/支架，把它平稳架在约膝盖高度。 |
 | coachAvoidH | These hurt accuracy | 这些会影响识别 |
-| coachAvoid（5）| Body cut off or off to one side · Too close or too far — aim for 0.5–1 m · ATOM tilted steeply up at you · Blocked by a bench, rack or barbell · Backlit, too dark, or heavy shadows | 身体被裁切或偏到一边 · 太近或太远——0.5–1 米最好 · ATOM 过度仰角对着你 · 被卧推凳、深蹲架或杠铃挡住 · 逆光、过暗，或阴影很重 |
+| coachAvoid（4）| Body cut off, off-center, or blocked by gear · Too close or too far — aim for 0.5–1 m · ATOM tilted steeply up at you · Backlit, too dark, or heavy shadows | 身体被裁切、偏到一边，或被器械挡住 · 太近或太远——0.5–1 米最好 · ATOM 过度仰角对着你 · 逆光、过暗，或阴影很重 |
 | perExH / perEx | Per exercise / Some moves (floor work, wide stances) need more room — just follow the on-screen guide for each. | 不同动作 / 部分动作（地面动作、大跨步）需要更大画面，按每个动作的屏幕提示调整即可。 |
 
 ### ⑬⑭⑮⑯ ATOM 圆屏 Device

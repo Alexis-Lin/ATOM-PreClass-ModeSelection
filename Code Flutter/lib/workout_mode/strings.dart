@@ -85,13 +85,14 @@ class L {
   String get coachSub => _t(
       'ATOM watches like a coach — set it up so it can see you clearly.',
       'ATOM 就像教练的眼睛——摆好位置，让它看清你。');
+  // Angle is per-exercise and prompted in-workout, so it's intentionally not a
+  // fixed rule here — 4 essentials keep the checklist scannable.
   List<String> get coachDo => zh
-      ? const ['全身入框，站在画面中央', 'ATOM 放到约膝盖高度', '离 ATOM 0.5–1 米', '正对或侧对镜头', '周围留空，别被器械挡住']
+      ? const ['全身入框，站在画面中央', 'ATOM 放到约膝盖高度', '离 ATOM 0.5–1 米', '周围留空，别被器械挡住']
       : const [
           'Whole body in frame, centered',
           'Set ATOM about knee height',
           'Stand 0.5–1 m back',
-          'Face it front-on or side-on',
           'Clear space — nothing blocking you',
         ];
   String get tipsLink => _t('See framing tips', '查看拍摄技巧');
@@ -124,6 +125,7 @@ class L {
 
   // ---- framing tips (extra reading) ----
   String get tipsTitle => _t('Framing tips', '拍摄技巧');
+  String get tipsOk => _t('Got it', '知道了');
   String get coachLine => _t(
       'Think of ATOM as your coach’s eyes: if a coach standing there could see your form, so can ATOM.',
       '把 ATOM 想成教练的眼睛：教练站那儿能看清你的动作，ATOM 就能看清。');
@@ -136,13 +138,13 @@ class L {
       'A compatible ATOM tripod or stand keeps it level at about knee height.',
       '用配套的 ATOM 三脚架/支架，把它平稳架在约膝盖高度。');
   String get avoidHeader => _t('These hurt accuracy', '这些会影响识别');
+  // "Cut off" and "blocked by gear" merged — both mean "not fully visible".
   List<String> get coachAvoid => zh
-      ? const ['身体被裁切或偏到一边', '太近或太远——0.5–1 米最好', 'ATOM 过度仰角对着你', '被卧推凳、深蹲架或杠铃挡住', '逆光、过暗，或阴影很重']
+      ? const ['身体被裁切、偏到一边，或被器械挡住', '太近或太远——0.5–1 米最好', 'ATOM 过度仰角对着你', '逆光、过暗，或阴影很重']
       : const [
-          'Body cut off or off to one side',
+          'Body cut off, off-center, or blocked by gear',
           'Too close or too far — aim for 0.5–1 m',
           'ATOM tilted steeply up at you',
-          'Blocked by a bench, rack or barbell',
           'Backlit, too dark, or heavy shadows',
         ];
 

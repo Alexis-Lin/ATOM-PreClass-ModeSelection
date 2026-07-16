@@ -43,6 +43,9 @@
   .backdrop .status{position:absolute;top:14px;left:0;right:0;display:flex;justify-content:space-between;padding:0 22px;color:#f4f5f2;font-size:13px;font-weight:600;opacity:.9;}
   .backdrop .ttl{position:absolute;left:20px;bottom:38px;color:#fff;font-size:17px;font-weight:800;letter-spacing:-.01em;text-shadow:0 1px 8px rgba(0,0,0,.4);}
   .sheet{flex:none;background:var(--sheet);border-radius:26px 26px 38px 38px;margin-top:-20px;position:relative;padding:8px 18px 18px;display:flex;flex-direction:column;gap:6px;}
+  /* mode-select is a bottom drawer: it slides up from below when the preview is dismissed */
+  @keyframes sheetup{from{transform:translateY(100%)}to{transform:translateY(0)}}
+  .sheet.enter{animation:sheetup .34s cubic-bezier(.22,.61,.36,1);}
   .grab{width:38px;height:5px;border-radius:99px;background:#d7dad3;margin:2px auto 6px;}
   .stitle{font-size:20px;font-weight:800;letter-spacing:-.015em;color:var(--ink);padding:2px 2px 8px;}
 
@@ -108,10 +111,13 @@
   .cta.off{background:var(--cta-off);cursor:not-allowed;}
   .homebar{height:5px;width:120px;background:#d0d5cd;border-radius:99px;margin:12px auto 4px;}
 
-  .pop{position:absolute;inset:0;background:rgba(24,26,24,.42);display:none;align-items:flex-end;justify-content:center;z-index:5;border-radius:38px;}
-  .pop.show{display:flex;}
-  .popcard{background:#fff;width:100%;border-radius:22px 22px 38px 38px;padding:20px 20px 18px;display:flex;flex-direction:column;gap:9px;transform:translateY(8px);animation:rise .22s ease forwards;}
-  @keyframes rise{to{transform:translateY(0)}}
+  .pop{position:absolute;inset:0;background:rgba(24,26,24,.42);display:none;align-items:flex-end;justify-content:center;z-index:5;border-radius:38px;overflow:hidden;}
+  /* scrim fades in (bg only, so the card stays opaque while it slides) */
+  .pop.show{display:flex;animation:scrimin .26s ease;}
+  @keyframes scrimin{from{background-color:rgba(24,26,24,0)}to{background-color:rgba(24,26,24,.42)}}
+  /* card is a true bottom drawer: slides all the way up from the bottom edge */
+  .popcard{background:#fff;width:100%;border-radius:22px 22px 38px 38px;padding:20px 20px 18px;display:flex;flex-direction:column;gap:9px;animation:sheetrise .3s cubic-bezier(.22,.61,.36,1);}
+  @keyframes sheetrise{from{transform:translateY(100%)}to{transform:translateY(0)}}
   .popcard .pic{width:44px;height:44px;border-radius:13px;background:#f3f4f0;color:var(--ink);display:grid;place-items:center;}
   .popcard .pic svg{width:23px;height:23px;}
   .popcard .pt{font-size:16px;font-weight:800;letter-spacing:-.01em;}
@@ -253,7 +259,8 @@
   /* Respect the OS "Reduce Motion" setting — keep only quick fades, drop transforms/shakes. */
   @media (prefers-reduced-motion: reduce){
     .mode.nudge{animation:none;}
-    .popcard{animation:none;transform:none;}
+    .popcard,.pop.show{animation:none;transform:none;}
+    .sheet.enter{animation:none;}
     #tips.page.show,#settings.page.show{animation:none;}
     #roverlay,#roverlay.show{transition:opacity .12s ease;transform:none;}
     .preview,#atomidle{transition:opacity .12s ease;}
@@ -543,6 +550,7 @@
             <div class="ptitle" id="tips-t"></div>
           </div>
           <div class="pagebody" id="tips-body"></div>
+          <div class="pagecta"><button id="tips-ok" data-i18n="tipsOk">Got it</button></div>
         </div>
       </div>
     </div>
@@ -655,11 +663,11 @@
       pickT:'Which ATOM?', pickHint:'Pick the one next to you.',
       coachSub:'ATOM watches like a coach — set it up so it can see you clearly.',
       coachDoH:'Set up', frKnee:'≈ knee', frDist:'0.5–1 m',
-      coachDo:['Whole body in frame, centered','Set ATOM about knee height','Stand 0.5–1 m back','Face it front-on or side-on','Clear space — nothing blocking you'],
+      coachDo:['Whole body in frame, centered','Set ATOM about knee height','Stand 0.5–1 m back','Clear space — nothing blocking you'],
       coachAvoidH:'These hurt accuracy',
-      coachAvoid:['Body cut off or off to one side','Too close or too far — aim for 0.5–1 m','ATOM tilted steeply up at you','Blocked by a bench, rack or barbell','Backlit, too dark, or heavy shadows'],
+      coachAvoid:['Body cut off, off-center, or blocked by gear','Too close or too far — aim for 0.5–1 m','ATOM tilted steeply up at you','Backlit, too dark, or heavy shadows'],
       coachLine:'Think of ATOM as your coach’s eyes: if a coach standing there could see your form, so can ATOM.',
-      tipsLink:'See framing tips', tipsTitle:'Framing tips',
+      tipsLink:'See framing tips', tipsTitle:'Framing tips', tipsOk:'Got it',
       tripodH:'Steady placement', tripod:'A compatible ATOM tripod or stand keeps it level at about knee height.',
       crowdH:'Crowd is fine', crowd:'ATOM tracks the largest person in view, so people in the background won’t throw it off — just be centred and close enough that you’re the biggest.',
       recapSub:'Stay in frame at any angle — just keep the light good.',
@@ -712,11 +720,11 @@
       pickT:'使用哪一台 ATOM？', pickHint:'选择你身边的那台。',
       coachSub:'ATOM 就像教练的眼睛——摆好位置，让它看清你。',
       coachDoH:'这样摆', frKnee:'≈ 膝盖高', frDist:'0.5–1 米',
-      coachDo:['全身入框，站在画面中央','ATOM 放到约膝盖高度','离 ATOM 0.5–1 米','正对或侧对镜头','周围留空，别被器械挡住'],
+      coachDo:['全身入框，站在画面中央','ATOM 放到约膝盖高度','离 ATOM 0.5–1 米','周围留空，别被器械挡住'],
       coachAvoidH:'这些会影响识别',
-      coachAvoid:['身体被裁切或偏到一边','太近或太远——0.5–1 米最好','ATOM 过度仰角对着你','被卧推凳、深蹲架或杠铃挡住','逆光、过暗，或阴影很重'],
+      coachAvoid:['身体被裁切、偏到一边，或被器械挡住','太近或太远——0.5–1 米最好','ATOM 过度仰角对着你','逆光、过暗，或阴影很重'],
       coachLine:'把 ATOM 想成教练的眼睛：教练站那儿能看清你的动作，ATOM 就能看清。',
-      tipsLink:'查看拍摄技巧', tipsTitle:'拍摄技巧',
+      tipsLink:'查看拍摄技巧', tipsTitle:'拍摄技巧', tipsOk:'知道了',
       tripodH:'稳定摆放', tripod:'用配套的 ATOM 三脚架/支架，把它平稳架在约膝盖高度。',
       crowdH:'背景有人没关系', crowd:'ATOM 只认画面里最大的那个人，背景有人也不影响——你居中、离得够近，是画面里最大的主体就行。',
       recapSub:'全程在画面里，角度随意，光线充足就好。',
@@ -887,6 +895,7 @@
     tips.classList.add('show'); tipsBody.scrollTop=0;
   }
   document.getElementById('tips-back').onclick=function(){ tips.classList.remove('show'); };
+  document.getElementById('tips-ok').onclick=function(){ tips.classList.remove('show'); };  // bottom "Got it" → back to the notice
   prestart.addEventListener('click',function(e){ if(e.target===prestart) prestart.classList.remove('show'); });  // tap dimmed backdrop to dismiss
   document.getElementById('ps-x').onclick=function(){ prestart.classList.remove('show'); };  // ✕ close → back to mode select
   psOk.onclick=function(){
@@ -1041,7 +1050,11 @@
   /* preview-first: dismiss the preview / idle screens to reveal the flow */
   var preview=document.getElementById('preview'), atomidle=document.getElementById('atomidle');
   function hideOverlay(el){ el.classList.add('hiding'); setTimeout(function(){ el.classList.remove('show','hiding'); }, 280); }
-  document.getElementById('preview-start').addEventListener('click',function(){ hideOverlay(preview); });
+  document.getElementById('preview-start').addEventListener('click',function(){
+    hideOverlay(preview);
+    // replay the drawer slide-up on the mode-select sheet underneath
+    var sh=document.querySelector('.sheet'); sh.classList.remove('enter'); void sh.offsetWidth; sh.classList.add('enter');
+  });
   document.getElementById('atomidle-start').addEventListener('click',function(){ hideOverlay(atomidle); });
   // Mode select is a bottom sheet over the course preview → tapping the dimmed hero above it dismisses back to preview.
   document.querySelector('.backdrop').addEventListener('click',function(){ preview.classList.remove('hiding'); preview.classList.add('show'); });
