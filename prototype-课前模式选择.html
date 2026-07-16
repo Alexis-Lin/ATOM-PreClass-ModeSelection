@@ -174,6 +174,11 @@
   /* tips page: plain lead paragraph under the image (was a green callout box) */
   .tipslead{font-size:14px;color:var(--ink-2);line-height:1.55;margin:14px 2px 4px;}
   .tipslead b{color:var(--ink);font-weight:700;}
+  /* plain (box-free) text section for the tips page */
+  .txtsec{margin-top:16px;padding:0 2px;}
+  .txtsec .tsh{display:flex;align-items:center;gap:7px;font-size:14px;font-weight:800;color:var(--ink);}
+  .txtsec .tsh svg{width:15px;height:15px;color:var(--ink-2);}
+  .txtsec .tsb{font-size:13px;color:var(--ink-2);line-height:1.5;margin-top:3px;}
   .dataopts{display:flex;gap:8px;margin-bottom:9px;}
   .dataopt{flex:1;display:flex;align-items:center;gap:7px;padding:11px 11px;border:1.5px solid var(--line);border-radius:12px;background:#fff;cursor:pointer;font-size:12px;font-weight:600;color:var(--ink-2);}
   .dataopt svg{width:16px;height:16px;flex:none;}
@@ -634,7 +639,7 @@
       pageTitle:'Get set up', psOk:"I'm ready", reach:'Keep your ATOM within reach.',
       pickT:'Which ATOM?', pickHint:'Pick the one next to you.',
       coachSub:'ATOM watches like a coach — set it up so it can see you clearly.',
-      coachDoH:'Set up',
+      coachDoH:'Set up', frKnee:'≈ knee', frDist:'0.5–1 m',
       coachDo:['Whole body in frame, centered','Set ATOM about knee height','Stand 0.5–1 m back','Face it front-on or side-on','Clear space — nothing blocking you'],
       coachAvoidH:'These hurt accuracy',
       coachAvoid:['Body cut off or off to one side','Too close or too far — aim for 0.5–1 m','ATOM tilted steeply up at you','Blocked by a bench, rack or barbell','Backlit, too dark, or heavy shadows'],
@@ -691,7 +696,7 @@
       pageTitle:'课前须知', psOk:'准备好了', reach:'让 ATOM 就在你的手边。',
       pickT:'使用哪一台 ATOM？', pickHint:'选择你身边的那台。',
       coachSub:'ATOM 就像教练的眼睛——摆好位置，让它看清你。',
-      coachDoH:'这样摆',
+      coachDoH:'这样摆', frKnee:'≈ 膝盖高', frDist:'0.5–1 米',
       coachDo:['全身入框，站在画面中央','ATOM 放到约膝盖高度','离 ATOM 0.5–1 米','正对或侧对镜头','周围留空，别被器械挡住'],
       coachAvoidH:'这些会影响识别',
       coachAvoid:['身体被裁切或偏到一边','太近或太远——0.5–1 米最好','ATOM 过度仰角对着你','被卧推凳、深蹲架或杠铃挡住','逆光、过暗，或阴影很重'],
@@ -779,7 +784,21 @@
   var PINI='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.2 7-11a7 7 0 0 0-14 0c0 4.8 7 11 7 11Z"/><circle cx="12" cy="10" r="2.3"/></svg>';
   var REPORTI='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6M9 16h4"/></svg>';
   var ALGOI='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v3M12 17v3M4 12h3M17 12h3M6.5 6.5l2 2M15.5 15.5l2 2M17.5 6.5l-2 2M8.5 15.5l-2 2"/></svg>';
-  var FRAME_LIGHT='<div class="frmwrap"><svg class="frm" viewBox="0 0 200 130" preserveAspectRatio="xMidYMid meet"><rect x="5" y="5" width="190" height="120" rx="14" fill="#eef0ec" stroke="#c9ccc3" stroke-width="2"/><rect x="18" y="15" width="164" height="100" rx="9" fill="none" stroke="#b7bbb0" stroke-width="1.6" stroke-dasharray="5 5"/><line x1="36" y1="104" x2="164" y2="104" stroke="#b7bbb0" stroke-width="2"/><g stroke="#4f7d05" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="100" cy="34" r="10" fill="#c9ec8f"/><path d="M100 44 V75"/><path d="M100 53 L82 68"/><path d="M100 53 L118 68"/><path d="M100 75 L87 103"/><path d="M100 75 L113 103"/></g></svg></div>';
+  // Framing illustration — Concept B "side setup scene": teaches the actual setup
+  // (ATOM low ≈ knee height, tilted up; view cone; stand back 0.5–1 m; whole body in view).
+  // ⚠️ DESIGNER: placeholder vector — swap the figure/ATOM for final art; labels come from strings (frKnee/frDist), so they localize.
+  function FRAME(t){ return '<div class="frmwrap"><svg class="frm" viewBox="0 0 360 236" preserveAspectRatio="xMidYMid meet">'
+    +'<rect x="2" y="2" width="356" height="232" rx="16" fill="#f6f7f4" stroke="#e6e8e2" stroke-width="2"/>'
+    +'<line x1="26" y1="196" x2="334" y2="196" stroke="#b7bbb0" stroke-width="3"/>'
+    +'<path d="M66 186 L300 48 L300 194 Z" fill="#4f7d05" fill-opacity="0.06"/>'
+    +'<line x1="68" y1="184" x2="300" y2="50" stroke="#9bbf63" stroke-width="1.6" stroke-dasharray="6 5"/>'
+    +'<line x1="68" y1="188" x2="300" y2="192" stroke="#9bbf63" stroke-width="1.6" stroke-dasharray="6 5"/>'
+    +'<g transform="translate(58,186) rotate(-20)"><rect x="-17" y="-13" width="34" height="22" rx="6" fill="#2b2d2c"/><circle cx="12" cy="-2.5" r="5" fill="none" stroke="#c9ec8f" stroke-width="2.6"/></g>'
+    +'<text x="52" y="172" text-anchor="middle" fill="#6a6f74" font-size="12.5" font-weight="700">'+t.frKnee+'</text>'
+    +'<g stroke="#4f7d05" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="252" cy="98" r="15" fill="#c9ec8f"/><path d="M252 113 V162"/><path d="M252 126 L232 149"/><path d="M252 126 L272 149"/><path d="M252 162 L236 194"/><path d="M252 162 L268 194"/></g>'
+    +'<g stroke="#8a8f86" stroke-width="1.6"><line x1="66" y1="214" x2="252" y2="214"/><line x1="66" y1="209" x2="66" y2="219"/><line x1="252" y1="209" x2="252" y2="219"/></g>'
+    +'<text x="159" y="230" text-anchor="middle" fill="#6a6f74" font-size="14" font-weight="700">'+t.frDist+'</text>'
+    +'</svg></div>'; }
   var CLOUDI='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18a4 4 0 0 1-.5-7.97 5 5 0 0 1 9.6-1.3A3.5 3.5 0 0 1 17.5 18H7Z"/></svg>';
   var SDI='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h7l4 4v12a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"/><path d="M10 3v3M12.5 3v3M15 3v3"/></svg>';
   var INFOI='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.5h.01"/></svg>';
@@ -795,6 +814,7 @@
   function _info2(rows){ return '<div class="infobox stack">'+rows.map(function(r){return '<div class="ir"><div class="ih">'+r[0]+'<span>'+r[1]+'</span></div><span>'+r[2]+'</span></div>';}).join('')+'</div>'; }
   function _infoW(icon,h,txt){ return '<div class="infobox warn"><div class="ih">'+icon+'<span>'+h+'</span></div><span>'+txt+'</span></div>'; }
   function _avoidbox(icon,h,items){ return '<div class="infobox"><div class="ih warntone">'+icon+'<span>'+h+'</span></div>'+_avoid(items)+'</div>'; }
+  function _txtsec(icon,h,txt){ return '<div class="txtsec"><div class="tsh">'+icon+'<span>'+h+'</span></div><div class="tsb">'+txt+'</div></div>'; }
   function _datarow(t){
     if(!saving()){
       return '<div class="dataline off" id="ps-datarow"><span>'+t.drSaveOff+'</span><span class="drchange allow">'+t.drTurnOn+'</span></div>';
@@ -818,13 +838,13 @@
     var recapNeedsSave = (mode==='recap' && !saving());
     // Image first → text → boxed hints (consistent rhythm with the tips page).
     if(mode==='coach'){
-      h+=FRAME_LIGHT
+      h+=FRAME(t)
         +'<div class="pagesub">'+t.coachSub+'</div>'
         +_do(t.coachDo)
         +_tipslink(t)
         +'<div class="caution" style="margin-top:14px">'+WARNI+'<span>'+t.beta+'</span></div>';
     } else {
-      h+=FRAME_LIGHT+'<div class="pagesub">'+t.recapSub+'</div>';
+      h+=FRAME(t)+'<div class="pagesub">'+t.recapSub+'</div>';
       if(recapNeedsSave) h+=_infoW(WARNI,t.recapNeedH,t.recapNeed);   // hard requirement, not just "no report"
       else h+=_info(REPORTI,t.reportH,t.report)+_info(ALGOI,t.algoH,t.algo);
     }
@@ -843,11 +863,12 @@
   function showTips(){
     var t=T[LANG];
     tipsT.textContent=t.tipsTitle;
-    // Layout: ① image → ② plain lead text → ③ line-boxed hints (cohesive rhythm).
-    tipsBody.innerHTML=FRAME_LIGHT
+    // Layout: ① image → ② plain lead text → ③ plain text sections (no boxes, keep it light).
+    tipsBody.innerHTML=FRAME(t)
       +'<div class="tipslead">'+t.coachLine+'</div>'
-      +_info2([[PEOPLEI,t.crowdH,t.crowd],[TRIPODI,t.tripodH,t.tripod]])
-      +_avoidbox(WARNI,t.coachAvoidH,t.coachAvoid);
+      +_txtsec(PEOPLEI,t.crowdH,t.crowd)
+      +_txtsec(TRIPODI,t.tripodH,t.tripod)
+      +_sec(t.coachAvoidH,true)+_avoid(t.coachAvoid);
     tips.classList.add('show'); tipsBody.scrollTop=0;
   }
   document.getElementById('tips-back').onclick=function(){ tips.classList.remove('show'); };
