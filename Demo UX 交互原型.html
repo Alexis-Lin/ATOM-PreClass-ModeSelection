@@ -98,7 +98,7 @@
   .mode.sel .expand{grid-template-rows:1fr;opacity:1;}
   .expand>.inner{overflow:hidden;min-height:0;}
   .expand .pad{padding:0 14px 14px;display:flex;flex-direction:column;gap:9px;}
-  .exdesc{font-size:14px;color:var(--ink-2);line-height:1.5;margin:-2px 0 0 55px;}
+  .exdesc{font-size:14px;color:var(--ink-2);line-height:1.5;margin:-2px 0 0 0;}
   .caution{display:flex;gap:8px;align-items:flex-start;font-size:12px;line-height:1.45;color:var(--caution);background:#faf6ea;border:1px solid #efe6cd;border-radius:8px;padding:9px 11px;}
   .caution svg{width:15px;height:15px;flex:none;margin-top:1px;}
 
@@ -420,7 +420,6 @@
               </div>
               <div class="expand"><div class="inner"><div class="pad">
                 <div class="exdesc"></div>
-                <div class="caution"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><path d="M12 17h.01"/><path d="M10.3 4l-7 12A2 2 0 0 0 5 19h14a2 2 0 0 0 1.7-3l-7-12a2 2 0 0 0-3.4 0Z"/></svg><span class="beta-txt"></span></div>
               </div></div></div>
             </div>
 
@@ -990,7 +989,6 @@
     modes.forEach(function(el){ var d=MODES[el.getAttribute('data-mode')][LANG];
       el.querySelector('.name').textContent=d.name;
       el.querySelector('.exdesc').textContent=d.desc; });
-    var betaEl=sheet.querySelector('.beta-txt'); if(betaEl) betaEl.textContent=t.beta;
 
     var first=null, sel=sheet.querySelector('.mode.sel');
     modes.forEach(function(el){ el.classList.toggle('locked',locked(el)); });

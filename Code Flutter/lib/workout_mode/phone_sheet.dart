@@ -330,14 +330,13 @@ class _ModeDetail extends StatelessWidget {
   final L l;
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.fromLTRB(68, 0, 14, 14),
+        // Left indent = head padding (13) so the description aligns with the
+        // icon's left edge, not the title. The beta caution has moved to the
+        // course-notice sheet (shown after a mode is confirmed).
+        padding: const EdgeInsets.fromLTRB(13, 0, 14, 14),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Text(l.modeDesc(mode),
               style: const TextStyle(fontSize: 14, height: 1.5, color: Wm.ink2)),
-          if (mode == WorkoutMode.liveCoach) ...[
-            const SizedBox(height: 8),
-            BetaCaution(text: l.beta),
-          ],
         ]),
       );
 }
