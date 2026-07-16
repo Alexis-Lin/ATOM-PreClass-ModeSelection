@@ -54,3 +54,17 @@ class Wm {
   static const double radiusCard = 15;
   static const double radiusSheet = 26;
 }
+
+/// Motion tokens — one place to tune the phone-side micro-animations.
+/// Durations sit in the 150–240ms iOS/Material sweet spot; easing is standard.
+/// (ATOM round-screen motion lives on the C firmware, not here.)
+class WmMotion {
+  WmMotion._();
+
+  static const Duration fast = Duration(milliseconds: 150); // press / small state
+  static const Duration base = Duration(milliseconds: 220); // expand / settle
+  static const Curve curve = Curves.easeOutCubic; // ≈ cubic-bezier(.22,.61,.36,1)
+  static const Curve expand = Curves.easeOut; // height / size grow
+
+  static const double pressScale = 0.98; // button tap-down scale
+}

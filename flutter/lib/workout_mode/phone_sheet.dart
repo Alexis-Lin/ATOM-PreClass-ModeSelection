@@ -296,8 +296,8 @@ class _ModeCard extends StatelessWidget {
           ),
         ),
         AnimatedSize(
-          duration: const Duration(milliseconds: 220),
-          curve: Curves.easeOut,
+          duration: WmMotion.base,
+          curve: WmMotion.expand,
           alignment: Alignment.topCenter,
           child: selected ? _ModeDetail(mode: mode, l: l) : const SizedBox(width: double.infinity),
         ),

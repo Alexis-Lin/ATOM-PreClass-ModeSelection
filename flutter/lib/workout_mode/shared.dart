@@ -79,6 +79,41 @@ class BetaCaution extends StatelessWidget {
       );
 }
 
+/// iOS-style tap feedback: a subtle scale-down on press (no ripple), and it
+/// respects the OS "Reduce Motion" setting.
+class _PressScale extends StatefulWidget {
+  const _PressScale({required this.child, this.onTap, this.enabled = true});
+  final Widget child;
+  final VoidCallback? onTap;
+  final bool enabled;
+  @override
+  State<_PressScale> createState() => _PressScaleState();
+}
+
+class _PressScaleState extends State<_PressScale> {
+  bool _down = false;
+  void _set(bool v) {
+    if (widget.enabled && _down != v) setState(() => _down = v);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final reduce = MediaQuery.of(context).disableAnimations;
+    return GestureDetector(
+      onTapDown: (_) => _set(true),
+      onTapUp: (_) => _set(false),
+      onTapCancel: () => _set(false),
+      onTap: widget.enabled ? widget.onTap : null,
+      child: AnimatedScale(
+        scale: (_down && !reduce) ? WmMotion.pressScale : 1.0,
+        duration: WmMotion.fast,
+        curve: WmMotion.curve,
+        child: widget.child,
+      ),
+    );
+  }
+}
+
 /// A pill / capsule action button (Action buttons are capsule per spec).
 class PillButton extends StatelessWidget {
   const PillButton({super.key, required this.label, this.onTap, this.enabled = true});
@@ -86,21 +121,16 @@ class PillButton extends StatelessWidget {
   final VoidCallback? onTap;
   final bool enabled;
   @override
-  Widget build(BuildContext context) => SizedBox(
-        width: double.infinity,
-        child: Material(
-          color: enabled ? Wm.cta : Wm.ctaOff,
-          shape: const StadiumBorder(),
-          child: InkWell(
-            customBorder: const StadiumBorder(),
-            onTap: enabled ? onTap : null,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16),
-              child: Center(
-                child: Text(label,
-                    style: const TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w700)),
-              ),
-            ),
+  Widget build(BuildContext context) => _PressScale(
+        enabled: enabled,
+        onTap: onTap,
+        child: Container(
+          width: double.infinity,
+          decoration: ShapeDecoration(color: enabled ? Wm.cta : Wm.ctaOff, shape: const StadiumBorder()),
+          padding: const EdgeInsets.symmetric(vertical: 16),
+          child: Center(
+            child: Text(label,
+                style: const TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w700)),
           ),
         ),
       );
@@ -113,19 +143,19 @@ class SheetButton extends StatelessWidget {
   final VoidCallback onTap;
   final bool primary;
   @override
-  Widget build(BuildContext context) => Material(
-        color: primary ? Wm.cta : Colors.white,
-        shape: StadiumBorder(side: primary ? BorderSide.none : const BorderSide(color: Wm.line, width: 1.5)),
-        child: InkWell(
-          customBorder: const StadiumBorder(),
-          onTap: onTap,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 13),
-            child: Center(
-              child: Text(label,
-                  style: TextStyle(
-                      fontSize: 14, fontWeight: FontWeight.w700, color: primary ? Colors.white : Wm.ink)),
-            ),
+  Widget build(BuildContext context) => _PressScale(
+        onTap: onTap,
+        child: Container(
+          decoration: ShapeDecoration(
+            color: primary ? Wm.cta : Colors.white,
+            shape: StadiumBorder(
+                side: primary ? BorderSide.none : const BorderSide(color: Wm.line, width: 1.5)),
+          ),
+          padding: const EdgeInsets.symmetric(vertical: 13),
+          child: Center(
+            child: Text(label,
+                style: TextStyle(
+                    fontSize: 14, fontWeight: FontWeight.w700, color: primary ? Colors.white : Wm.ink)),
           ),
         ),
       );
