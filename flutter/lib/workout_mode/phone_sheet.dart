@@ -150,8 +150,13 @@ class _DeviceRow extends StatelessWidget {
         _HwBadge(active: paired),
         const SizedBox(width: 9),
         if (paired) ...[
-          Text(controller.activeDevice!.name,
-              style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w800, color: Wm.ink)),
+          // Ellipsize a long device name instead of overflowing the row.
+          Flexible(
+            child: Text(controller.activeDevice!.name,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w800, color: Wm.ink)),
+          ),
           const SizedBox(width: 8),
           _StatusChip(online: controller.isOnline, l: l),
           const Spacer(),
@@ -348,7 +353,9 @@ Future<void> showGateSheet(
   VoidCallback? onGetPlus,
 }) {
   final l = L(controller.lang);
-  final reason = controller.missing(mode).first;
+  final reasons = controller.missing(mode);
+  if (reasons.isEmpty) return Future<void>.value(); // defensive: gate opens only for locked modes
+  final reason = reasons.first;
   return showAppSheet(
     context,
     child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.stretch, children: [
