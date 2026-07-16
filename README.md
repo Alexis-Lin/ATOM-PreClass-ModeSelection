@@ -10,19 +10,19 @@
 
 | 路径 | 内容 |
 |---|---|
-| **`prototype-课前模式选择.html`** | ★ 可交互原型（手机 + ATOM 双端，预览优先）。浏览器打开即可点。 |
-| **`PRD-课前模式选择.md`** | 需求文档 · 交互流程（§4.6）· 逐页文案清单（§5.1）。 |
-| **`TIPS-识别准确度指南.md`** | 拍摄/摆位准确度详版（帮助中心 / 首课引导用）。 |
-| **`flutter/`** | 参考实现（纯 `flutter/material`，零第三方依赖）。见 `flutter/IMPLEMENTATION-代码实现说明.md`。 |
-| **`images/`** | `UI-spec-en/zh.png`（全 24 屏素材）+ `flow-board.png`（交互流程图）。 |
+| **`Demo UX 交互原型.html`** | ★ 可交互原型（手机 + ATOM 双端，预览优先）。浏览器打开即可点。 |
+| **`PRD 课前模式选择.md`** | 需求文档 · 交互流程（§4.6）· 逐页文案清单（§5.1）。 |
+| **`PRD 识别准确度指南.md`** | 拍摄/摆位准确度详版（帮助中心 / 首课引导用）。 |
+| **`Code Flutter/`** | 参考实现（纯 `flutter/material`，零第三方依赖）。见 `Code Flutter/实现说明.md`。 |
+| **`Demo UX 素材图/`** | `UI-spec-en/zh.png`（全 24 屏总览）+ `flow-board.png`（交互流程图）+ `手机端/en·zh/`（iPhone 17 逐屏图）。 |
 | **`backup-history/`** | 早期结构探索、未采用的过程稿（3 选 1 vs 开关式 A/C/D/E/F），存档备查。 |
 
 ---
 
 ## 快速开始 · Quick start
 
-- **看原型**：浏览器打开 `prototype-课前模式选择.html`。顶部开关可切换 配对 / 在线 / Plus / AI 额度 / 保存视频 / 中英；点「开始训练」进入完整流程。
-- **跑代码**：`cd flutter && flutter pub get && flutter run`。
+- **看原型**：浏览器打开 `Demo UX 交互原型.html`。顶部开关可切换 配对 / 在线 / Plus / AI 额度 / 保存视频 / 中英；点「开始训练」进入完整流程。
+- **跑代码**：`cd "Code Flutter" && flutter pub get && flutter run`。
 
 ---
 

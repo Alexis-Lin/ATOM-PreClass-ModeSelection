@@ -7,7 +7,7 @@
 | 版本 Version | v3 (Draft) |
 | 状态 Status | 设计讨论中 · In review |
 | 负责 Owner | Alexis Lin |
-| 关联 | `prototype-课前模式选择.html`（可交互原型 · 手机 + ATOM 双端 · 预览优先）· `flutter/`（代码实现）· `images/`（`UI-spec-en/zh.png` 全 24 屏素材 + `flow-board.png` 流程图）· `TIPS-识别准确度指南.md` · `README.md` |
+| 关联 | `Demo UX 交互原型.html`（可交互原型 · 手机 + ATOM 双端 · 预览优先）· `Code Flutter/`（代码实现）· `Demo UX 素材图/`（`UI-spec-en/zh.png` 全 24 屏素材 + `flow-board.png` 流程图）· `PRD 识别准确度指南.md` · `README.md` |
 | 规格 Spec | iPhone 17 逻辑尺寸 **402×874pt**；App 字号统一 **20 / 16 / 14 / 12**（标题 / 名称·区块·按钮 / 正文 / 标注）；灰阶 + 单一品牌绿点缀（`#7CC00C` 占位）。 |
 
 ---
@@ -172,7 +172,7 @@
   - ③ 最下方是**线框卡片**形式的提示：一个卡片合并「背景有人没关系 + 稳定摆放（三脚架）」，另一个卡片是「✗ 这些会影响识别」清单。
   - **课前须知页**同样改为**图在最上**（图 → 副标文字 → 做到清单 → 「查看拍摄技巧」→ Beta），与 Tips 页节奏一致。
   - **图片策略**：须知放 1 张 OK；Tips 页后续可放 OK vs 若干 Not-OK 对照（当前为占位火柴人）。
-  - **识别主体**：ATOM **自动锁定画面中最大的角色**——所以背景里有其他人一般不影响，关键是你**居中、离得够近，是画面里最大的主体**。（这条也进详版 `TIPS-识别准确度指南.md`。）
+  - **识别主体**：ATOM **自动锁定画面中最大的角色**——所以背景里有其他人一般不影响，关键是你**居中、离得够近，是画面里最大的主体**。（这条也进详版 `PRD 识别准确度指南.md`。）
 - **稳定摆放**（Tips 页）：推荐**配套 ATOM 三脚架/支架**，把设备平稳架在约膝盖高度。
 - 课前要求可**按动作模板化**（地面动作 / 大跨步需要更大画面）。
 - **Beta 提示**：可能漏/误计，请自行判断。
@@ -184,7 +184,7 @@
 
 **ATOM 端**：**独立整屏**（不透明、无蒙层），带取景图 + 按模式的精简两句（Coach：Beta + 完整入框；Recap：全程在画面里 + 报告迭代）。**已去掉 × 关闭按钮**，通过底部 Start 进入、可勾选 **不再显示**。
 
-> 详细版见 [`TIPS-识别准确度指南.md`](TIPS-识别准确度指南.md)，可用于帮助中心 / 首课引导 / 「查看详细 Tips」入口。
+> 详细版见 [`PRD 识别准确度指南.md`](PRD 识别准确度指南.md)，可用于帮助中心 / 首课引导 / 「查看详细 Tips」入口。
 
 ### 4.5 双端同步（对应 G5）
 
@@ -192,7 +192,7 @@
 
 ### 4.6 交互流程 · Interaction flow
 
-编号对应 §5.1 文案清单与 `images/UI-spec-*.png`；整图见 `images/flow-board.png`。
+编号对应 §5.1 文案清单与 `Demo UX 素材图/UI-spec-*.png`；整图见 `Demo UX 素材图/flow-board.png`。
 
 ```mermaid
 flowchart TD
@@ -273,7 +273,7 @@ flowchart TD
 
 ## 5.1 文案清单 · Copy inventory（逐页 / per screen）
 
-> 唯一改文案入口：`prototype-课前模式选择.html` 的 `T`（对应 Flutter `strings.dart`）。标注「占位」的为示例数据，待产品/设计替换。交互流程见 §4.6。
+> 唯一改文案入口：`Demo UX 交互原型.html` 的 `T`（对应 Flutter `strings.dart`）。标注「占位」的为示例数据，待产品/设计替换。交互流程见 §4.6。
 
 ### ① 课程预览 Course preview
 | 键 key | EN | 中文 |
@@ -371,17 +371,17 @@ flowchart TD
 
 ## 6. 最新设计 UI · Latest design
 
-**全界面素材图（24 个界面/状态 × 中英）**——供设计师核对文案与素材。流程编排见 `images/flow-board.png`：
+**全界面素材图（24 个界面/状态 × 中英）**——供设计师核对文案与素材。流程编排见 `Demo UX 素材图/flow-board.png`：
 
 **English**
-![UI spec · EN](images/UI-spec-en.png)
+![UI spec · EN](Demo UX 素材图/UI-spec-en.png)
 
 **中文**
-![UI 素材 · 中文](images/UI-spec-zh.png)
+![UI 素材 · 中文](Demo UX 素材图/UI-spec-zh.png)
 
 > 覆盖：课程预览 / 模式选择（在线·离线·无设备·无 Plus）/ 门槛弹窗（缺设备·缺会员）/ 设备列表 / 课前须知（Coach·Recap）/ 数据保存（云端·无 SD）/ ATOM（待机·模式列表·确认 Coach·确认 Recap）/ 设置 / 保存反向引导（须知条·弹窗）/ 拍摄技巧页。
 > 火柴人取景图、柠檬绿、课程数据（32 分钟 / 12 动作 / 280 千卡 / 动作名）均为**占位**，待设计师替换。
-> 交互版见 `prototype-课前模式选择.html`（手机 + ATOM 双端）。
+> 交互版见 `Demo UX 交互原型.html`（手机 + ATOM 双端）。
 
 ---
 
@@ -432,5 +432,5 @@ flowchart TD
 
 ---
 
-> 说明：以上截图由交互原型 `prototype-课前模式选择.html` 渲染生成。
+> 说明：以上截图由交互原型 `Demo UX 交互原型.html` 渲染生成。
 > Note: screenshots rendered from the interactive prototype.
