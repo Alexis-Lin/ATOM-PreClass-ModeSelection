@@ -91,8 +91,8 @@
   .mode.locked .ic,.mode.locked .name{opacity:.5;}
   .mode.locked .pick{display:none;}
   .mode.locked .lockp{display:grid;}
-  .mode.nudge{animation:nudge .4s;}
-  @keyframes nudge{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+  .mode.nudge{animation:nudge .26s ease;}
+  @keyframes nudge{0%,100%{transform:translateX(0)}35%{transform:translateX(-2.5px)}70%{transform:translateX(2.5px)}}
 
   .expand{display:grid;grid-template-rows:0fr;opacity:0;transition:grid-template-rows .24s ease,opacity .18s;}
   .mode.sel .expand{grid-template-rows:1fr;opacity:1;}
@@ -245,6 +245,19 @@
   /* round-screen confirm — a full, opaque screen (no scrim) */
   .roverlay{position:absolute;inset:0;border-radius:50%;background:#000;display:none;flex-direction:column;align-items:center;justify-content:center;padding:40px 42px 34px;z-index:6;text-align:center;}
   .roverlay.show{display:flex;}
+  /* ATOM confirm: fade + gentle settle-in (standard modal-appear motion), not a hard pop */
+  #roverlay{display:flex;opacity:0;visibility:hidden;pointer-events:none;transform:scale(1.03);
+    transition:opacity .2s ease, transform .24s cubic-bezier(.22,.61,.36,1), visibility 0s .24s;}
+  #roverlay.show{opacity:1;visibility:visible;pointer-events:auto;transform:scale(1);
+    transition:opacity .2s ease, transform .24s cubic-bezier(.22,.61,.36,1);}
+  /* Respect the OS "Reduce Motion" setting — keep only quick fades, drop transforms/shakes. */
+  @media (prefers-reduced-motion: reduce){
+    .mode.nudge{animation:none;}
+    .popcard{animation:none;transform:none;}
+    #tips.page.show,#settings.page.show{animation:none;}
+    #roverlay,#roverlay.show{transition:opacity .12s ease;transform:none;}
+    .preview,#atomidle{transition:opacity .12s ease;}
+  }
   .rx{position:absolute;top:48px;right:54px;width:28px;height:28px;border-radius:50%;background:#1c1f1a;border:1px solid #33362f;color:#c9cdc4;display:grid;place-items:center;cursor:pointer;z-index:2;}
   .rx svg{width:15px;height:15px;}
   .rct{font-size:18px;font-weight:800;color:#f2f4ef;margin-bottom:14px;}

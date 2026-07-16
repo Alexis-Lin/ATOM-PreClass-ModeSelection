@@ -57,7 +57,23 @@ class _AtomRoundScreenState extends State<AtomRoundScreen> {
               child: Stack(
                 children: [
                   _face(l, d),
-                  if (_showConfirm) _confirm(l),
+                  // Confirm appears with a fade + gentle settle-in (standard
+                  // modal-appear motion), not a hard swap.
+                  AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 220),
+                    switchInCurve: Curves.easeOutCubic,
+                    switchOutCurve: Curves.easeIn,
+                    transitionBuilder: (child, anim) => FadeTransition(
+                      opacity: anim,
+                      child: ScaleTransition(
+                        scale: Tween<double>(begin: 1.03, end: 1.0).animate(anim),
+                        child: child,
+                      ),
+                    ),
+                    child: _showConfirm
+                        ? KeyedSubtree(key: const ValueKey('confirm'), child: _confirm(l))
+                        : const SizedBox.shrink(key: ValueKey('none')),
+                  ),
                 ],
               ),
             ),
