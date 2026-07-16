@@ -139,8 +139,6 @@
   .avoidlist{display:flex;flex-direction:column;gap:10px;}
   .avoidlist .av{display:flex;gap:9px;align-items:center;font-size:14px;color:var(--ink-2);line-height:1.4;}
   .avoidlist .av svg{width:15px;height:15px;flex:none;margin-top:1px;color:var(--warn);}
-  .rframe{margin-bottom:10px;}
-  .rfrm{width:132px;height:80px;display:block;}
   /* full-page course notice (replaces the pre-start popup on phone) */
   .page{position:absolute;inset:0;background:#fff;border-radius:38px;display:none;flex-direction:column;z-index:20;overflow:hidden;}
   .page.show{display:flex;}
@@ -268,9 +266,10 @@
   .rx{position:absolute;top:48px;right:54px;width:28px;height:28px;border-radius:50%;background:#1c1f1a;border:1px solid #33362f;color:#c9cdc4;display:grid;place-items:center;cursor:pointer;z-index:2;}
   .rx svg{width:15px;height:15px;}
   .rct{font-size:18px;font-weight:800;color:#f2f4ef;margin-bottom:14px;}
-  .rlist{display:flex;flex-direction:column;gap:11px;margin-bottom:16px;}
-  .rli{display:flex;gap:9px;align-items:flex-start;text-align:left;font-size:13.5px;color:#b7bdb0;line-height:1.4;max-width:222px;}
-  .rli svg{width:16px;height:16px;flex:none;margin-top:1px;color:var(--brand);}
+  .rlist{display:flex;flex-direction:column;gap:12px;margin-bottom:16px;width:100%;max-width:252px;}
+  .rli{display:flex;gap:11px;align-items:center;text-align:left;font-size:14px;color:#c4cabd;line-height:1.32;}
+  .rli .ric{width:30px;height:30px;border-radius:9px;background:#1c1f18;display:grid;place-items:center;flex:none;}
+  .rli .ric svg{width:17px;height:17px;color:var(--brand);}
   .rcheck{display:inline-flex;align-items:center;gap:8px;justify-content:center;font-size:13px;color:#c9cdc4;cursor:pointer;margin-bottom:15px;}
   .rbox{width:19px;height:19px;border-radius:5px;border:1.5px solid #4a4e46;display:grid;place-items:center;}
   .rbox svg{width:12px;height:12px;color:#0f1408;opacity:0;}
@@ -583,20 +582,9 @@
         </div>
 
         <div class="roverlay" id="roverlay">
-          <div class="rframe"><svg class="rfrm" viewBox="0 0 200 130" preserveAspectRatio="xMidYMid meet">
-            <rect x="5" y="5" width="190" height="120" rx="14" fill="#151614" stroke="#3a3d38" stroke-width="2"/>
-            <rect x="18" y="15" width="164" height="100" rx="9" fill="none" stroke="#3a3d38" stroke-width="1.6" stroke-dasharray="5 5"/>
-            <line x1="36" y1="104" x2="164" y2="104" stroke="#3a3d38" stroke-width="2"/>
-            <g stroke="#7cc00c" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="100" cy="34" r="10" fill="#243a10"/>
-              <path d="M100 44 V75"/><path d="M100 53 L82 68"/><path d="M100 53 L118 68"/><path d="M100 75 L87 103"/><path d="M100 75 L113 103"/>
-            </g>
-          </svg></div>
           <div class="rct" id="rc-t"></div>
-          <div class="rlist">
-            <div class="rli"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="3.4"/></svg><span id="rc-1"></span></div>
-            <div class="rli"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="3.4"/></svg><span id="rc-2"></span></div>
-          </div>
+          <!-- icon-led notice (round screen is small → icons, not an illustration) -->
+          <div class="rlist" id="rc-list"></div>
           <span class="rcheck" id="rc-check"><span class="rbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg></span><span id="rc-dont"></span></span>
           <button class="rgo" id="rc-go"></button>
         </div>
@@ -663,7 +651,7 @@
       pickT:'Which ATOM?', pickHint:'Pick the one next to you.',
       coachSub:'ATOM watches like a coach — set it up so it can see you clearly.',
       coachDoH:'Set up', frKnee:'≈ knee', frDist:'0.5–1 m',
-      coachDo:['Whole body in frame, centered','Set ATOM about knee height','Stand 0.5–1 m back','Clear space — nothing blocking you'],
+      coachDo:['Whole body in frame, centered','ATOM at knee height (the floor works too)','Stand 0.5–1 m back','Clear space — nothing blocking you'],
       coachAvoidH:'These hurt accuracy',
       coachAvoid:['Body cut off, off-center, or blocked by gear','Too close or too far — aim for 0.5–1 m','ATOM tilted steeply up at you','Backlit, too dark, or heavy shadows'],
       coachLine:'Think of ATOM as your coach’s eyes: if a coach standing there could see your form, so can ATOM.',
@@ -678,8 +666,8 @@
       algoH:'Nothing is lost',
       algo:'Video is saved — future upgrades re-analyze it.',
       rcT:'Before you start', rcDont:'Don’t show again', rcGo:'Start',
-      rcCoach:['AI is beta — may miss or miscount reps.','Whole body in frame — no blocking or backlight.'],
-      rcRecap:['Stay in frame — angle is flexible.','Deeper recaps coming via OTA.'],
+      rcCoach:['Whole body in frame','ATOM at knee height or on the floor','Beta — use your own judgment'],
+      rcRecap:['Stay in frame — front or side both fine','Good light, just you in view','Deeper recaps coming via OTA'],
       head_phone:'iPhone · in-app modal', head_device:'ATOM device · 466×466 round',
       course:'Back & Legs', course_short:'Back & Legs', selectMode:'Select workout mode', workoutMode:'Workout mode',
       pvKicker:'TODAY’S WORKOUT', pvMeta:'32 min · Strength · Intermediate', pvMetaShort:'32 min · Strength',
@@ -720,7 +708,7 @@
       pickT:'使用哪一台 ATOM？', pickHint:'选择你身边的那台。',
       coachSub:'ATOM 就像教练的眼睛——摆好位置，让它看清你。',
       coachDoH:'这样摆', frKnee:'≈ 膝盖高', frDist:'0.5–1 米',
-      coachDo:['全身入框，站在画面中央','ATOM 放到约膝盖高度','离 ATOM 0.5–1 米','周围留空，别被器械挡住'],
+      coachDo:['全身入框，站在画面中央','ATOM 约膝盖高最好，放地上也行','离 ATOM 0.5–1 米','周围留空，别被器械挡住'],
       coachAvoidH:'这些会影响识别',
       coachAvoid:['身体被裁切、偏到一边，或被器械挡住','太近或太远——0.5–1 米最好','ATOM 过度仰角对着你','逆光、过暗，或阴影很重'],
       coachLine:'把 ATOM 想成教练的眼睛：教练站那儿能看清你的动作，ATOM 就能看清。',
@@ -735,8 +723,8 @@
       algoH:'不用担心',
       algo:'视频留存，日后升级可重新分析。',
       rcT:'开始前请确认', rcDont:'不再显示', rcGo:'开始',
-      rcCoach:['AI 仍是 beta，可能漏记或误记。','全身入框，别遮挡、别逆光。'],
-      rcRecap:['全程在画面里，角度随意。','更深复盘随 OTA 上线。'],
+      rcCoach:['全身入框','ATOM 约膝盖高，或放地上','Beta——请自行判断'],
+      rcRecap:['全程在画面里，正对侧对都行','光线充足，画面里只有你','更深复盘随 OTA 上线'],
       head_phone:'iPhone · 应用内弹窗', head_device:'ATOM 设备 · 466×466 圆屏',
       course:'背部与腿部力量', course_short:'背腿力量', selectMode:'选择上课模式', workoutMode:'上课模式',
       pvKicker:'今日训练', pvMeta:'32 分钟 · 力量 · 进阶', pvMetaShort:'32 分钟 · 力量',
@@ -850,6 +838,10 @@
   var CHEVI='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>';
   var TRIPODI='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="3" width="8" height="6" rx="1.5"/><path d="M12 9v5M12 14l-5 7M12 14l5 7M9.5 17.5h5"/></svg>';
   var PEOPLEI='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3 20a6 6 0 0 1 12 0"/><path d="M16 5.5a3 3 0 0 1 0 5M21 20a5.5 5.5 0 0 0-4-5.3"/></svg>';
+  // icons for the ATOM "before you start" notice (icon-led, no illustration)
+  var FRAMEI='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2.4"/><circle cx="12" cy="10" r="2.3"/><path d="M8.4 17a3.6 3.6 0 0 1 7.2 0"/></svg>';
+  var LOWI='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20h18"/><rect x="9" y="13" width="6" height="4.4" rx="1.2"/><path d="M12 13V7M9.6 9.2 12 6.8l2.4 2.4"/></svg>';
+  var SUNI='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.2 5.2l1.6 1.6M17.2 17.2l1.6 1.6M18.8 5.2l-1.6 1.6M6.8 17.2l-1.6 1.6"/></svg>';
   function _tipslink(t){ return '<div class="tipslink" id="ps-tips"><span class="ti">'+EYEI+'</span><span class="tt">'+t.tipsLink+'</span><span class="tc">'+CHEVI+'</span></div>'; }
   function openPrestart(keep){
     var t=T[LANG];
@@ -983,8 +975,11 @@
   function openRoundConfirm(){
     var t=T[LANG]; var dm=document.querySelector('.dmode.sel'); var m=dm?dm.getAttribute('data-dmode'):'coach';
     var arr=(m==='recap')?t.rcRecap:t.rcCoach;
+    var icons=(m==='recap')?[FRAMEI,SUNI,INFOI]:[FRAMEI,LOWI,WARNI];
     document.getElementById('rc-t').textContent=t.rcT;
-    document.getElementById('rc-1').textContent=arr[0]; document.getElementById('rc-2').textContent=arr[1];
+    document.getElementById('rc-list').innerHTML=arr.map(function(x,i){
+      return '<div class="rli"><span class="ric">'+(icons[i]||INFOI)+'</span><span>'+x+'</span></div>';
+    }).join('');
     document.getElementById('rc-dont').textContent=t.rcDont; rcGo.textContent=t.rcGo;
     rcCheck.classList.toggle('on', rSkip); roverlay.classList.add('show');
   }

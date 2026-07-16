@@ -88,10 +88,10 @@ class L {
   // Angle is per-exercise and prompted in-workout, so it's intentionally not a
   // fixed rule here — 4 essentials keep the checklist scannable.
   List<String> get coachDo => zh
-      ? const ['全身入框，站在画面中央', 'ATOM 放到约膝盖高度', '离 ATOM 0.5–1 米', '周围留空，别被器械挡住']
+      ? const ['全身入框，站在画面中央', 'ATOM 约膝盖高最好，放地上也行', '离 ATOM 0.5–1 米', '周围留空，别被器械挡住']
       : const [
           'Whole body in frame, centered',
-          'Set ATOM about knee height',
+          'ATOM at knee height (the floor works too)',
           'Stand 0.5–1 m back',
           'Clear space — nothing blocking you',
         ];
@@ -214,18 +214,22 @@ class L {
   String get atomTitle => _t('Workout mode', '上课模式');
   String get atomStart => _t('Start', '开始');
   String get atomConfirmTitle => _t('Before you start', '开始前请确认');
+  // Round screen is small → these render as icon-led rows (see _confirm), not
+  // an illustration. Keep each line terse. Order matches the icon list there.
   List<String> atomBullets(WorkoutMode m) => m == WorkoutMode.recordRecap
       ? (zh
-          ? const ['全程在画面里，角度随意。', '更深复盘随 OTA 上线。']
+          ? const ['全程在画面里，正对侧对都行', '光线充足，画面里只有你', '更深复盘随 OTA 上线']
           : const [
-              'Stay in frame — angle is flexible.',
-              'Deeper recaps coming via OTA.',
+              'Stay in frame — front or side both fine',
+              'Good light, just you in view',
+              'Deeper recaps coming via OTA',
             ])
       : (zh
-          ? const ['AI 仍是 beta，可能漏记或误记。', '全身入框，别遮挡、别逆光。']
+          ? const ['全身入框', 'ATOM 约膝盖高，或放地上', 'Beta——请自行判断']
           : const [
-              'AI is beta — may miss or miscount reps.',
-              'Whole body in frame — no blocking or backlight.',
+              'Whole body in frame',
+              'ATOM at knee height or on the floor',
+              'Beta — use your own judgment',
             ]);
   String get dontShowAgain => _t("Don’t show again", '不再显示');
   String atomSub(WorkoutMode m) => switch (m) {

@@ -131,17 +131,24 @@ class _AtomRoundScreenState extends State<AtomRoundScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const _DeviceFrame(),
-          const SizedBox(height: 12),
           Text(l.atomConfirmTitle,
               style: const TextStyle(
                   fontSize: 18, fontWeight: FontWeight.w800, color: Wm.deviceText)),
-          const SizedBox(height: 12),
-          for (final b in l.atomBullets(_sel)) ...[
-            _bullet(b),
-            const SizedBox(height: 10),
-          ],
-          const SizedBox(height: 5),
+          const SizedBox(height: 16),
+          // Icon-led notice — the round screen is too small for an illustration.
+          SizedBox(
+            width: 250,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                for (final row in _noticeRows(l)) ...[
+                  _NoticeRow(icon: row.$1, text: row.$2),
+                  const SizedBox(height: 12),
+                ],
+              ],
+            ),
+          ),
+          const SizedBox(height: 3),
           _DontShowAgain(
             label: l.dontShowAgain,
             value: skip,
@@ -160,18 +167,38 @@ class _AtomRoundScreenState extends State<AtomRoundScreen> {
     );
   }
 
-  Widget _bullet(String text) => Row(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
+  // Pair each terse notice line with an icon. Order matches L.atomBullets.
+  List<(IconData, String)> _noticeRows(L l) {
+    final icons = _sel == WorkoutMode.recordRecap
+        ? const [Icons.person_outline, Icons.light_mode_outlined, Icons.info_outline]
+        : const [Icons.person_outline, Icons.height, Icons.warning_amber_rounded];
+    final lines = l.atomBullets(_sel);
+    return [
+      for (var i = 0; i < lines.length; i++)
+        (icons[i < icons.length ? i : icons.length - 1], lines[i]),
+    ];
+  }
+}
+
+/// Icon-chip + text row for the ATOM "before you start" notice.
+class _NoticeRow extends StatelessWidget {
+  const _NoticeRow({required this.icon, required this.text});
+  final IconData icon;
+  final String text;
+  @override
+  Widget build(BuildContext context) => Row(
         children: [
-          const Padding(
-            padding: EdgeInsets.only(top: 5),
-            child: Icon(Icons.circle, size: 6, color: Wm.brand),
+          Container(
+            width: 30,
+            height: 30,
+            decoration: BoxDecoration(
+                color: const Color(0xFF1C1F18), borderRadius: BorderRadius.circular(9)),
+            child: Icon(icon, size: 17, color: Wm.brand),
           ),
-          const SizedBox(width: 9),
-          Flexible(
+          const SizedBox(width: 11),
+          Expanded(
             child: Text(text,
-                style: const TextStyle(fontSize: 13.5, height: 1.4, color: Color(0xFFB7BDB0))),
+                style: const TextStyle(fontSize: 14, height: 1.32, color: Color(0xFFC4CABD))),
           ),
         ],
       );
@@ -234,23 +261,6 @@ class _AtomTile extends StatelessWidget {
       ),
     );
   }
-}
-
-/// Compact framing hint for the round confirm.
-/// ⚠️ DESIGNER: placeholder — replace with the framing illustration.
-class _DeviceFrame extends StatelessWidget {
-  const _DeviceFrame();
-  @override
-  Widget build(BuildContext context) => Container(
-        width: 122,
-        height: 58,
-        decoration: BoxDecoration(
-          color: Wm.deviceCard,
-          border: Border.all(color: Wm.deviceCardLine, width: 1.5),
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: const Icon(Icons.accessibility_new, size: 30, color: Wm.brand),
-      );
 }
 
 class _DeviceRadio extends StatelessWidget {

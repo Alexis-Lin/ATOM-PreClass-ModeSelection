@@ -163,10 +163,10 @@
 - **心智**：把 ATOM 说成**教练的眼睛**——「教练站那儿能看清你的动作，ATOM 就能看清」。副标题用短版「ATOM 就像教练的眼睛，摆好位置让它看清你」。
 - 课前须知只放**正向**：一张「✓ 正确」取景图 + **做到清单（精简为 4 条）**：
   - 全身入框、**居中**；
-  - **ATOM 放到约膝盖高度**（贴地设备，不可能到胸高——原「chest height」为错误，已改）；
+  - **ATOM 约膝盖高度最好**，但**放地面或你顺手的位置也行**（贴地广角设备，不会到胸高——原「chest height」为错误，已改）；
   - 离约 **0.5–1 米**；
   - 周围留空，**别被器械（卧推凳 / 深蹲架 / 杠铃）挡住**。
-  - **角度不再硬性列出**：撤退/拉远的机位通常没问题，而每个动作各有最佳角度——由课中「按动作提示」给出，不在课前清单里写死「正对/侧对」，避免误导。
+  - **角度不硬性列出**：正对、侧对**都 OK，不影响识别**；每个动作有个更「清爽」的角度，跟课中「按动作提示」摆即可，拉远/撤退的机位通常也没问题——不在课前清单里写死「正对/侧对」，避免让人以为选错角度会出问题。
 - **「拍摄技巧」二级页**（须知上有「查看拍摄技巧」入口，避免课前堆负面信息）。**排版节奏统一为 ① 图 → ② 文字 → ③ 线框提示**，避免碎片感：
   - ① 顶部一张取景 OK 图；
   - ② 图下方是**纯文字**的教练心智（「教练站那儿能看清你的动作，ATOM 就能看清」），不再用绿色小框，减少打断；
@@ -256,7 +256,7 @@ flowchart TD
 | 门槛·缺会员 | Live Coach needs Plus · Get Plus to unlock AI modes. | Live Coach 需要 Plus · 开通 Plus，解锁 AI 模式。 |
 | 课前须知·标题 | Get set up | 课前须知 |
 | Coach 副标 | ATOM watches like a coach — set it up so it can see you clearly. | ATOM 就像教练的眼睛——摆好位置，让它看清你。 |
-| Coach 做到（4） | Whole body in frame, centered · Set ATOM about knee height · Stand 0.5–1 m back · Clear space — nothing blocking you | 全身入框，站在画面中央 · ATOM 放到约膝盖高度 · 离 ATOM 0.5–1 米 · 周围留空，别被器械挡住 |
+| Coach 做到（4） | Whole body in frame, centered · ATOM at knee height (the floor works too) · Stand 0.5–1 m back · Clear space — nothing blocking you | 全身入框，站在画面中央 · ATOM 约膝盖高最好，放地上也行 · 离 ATOM 0.5–1 米 · 周围留空，别被器械挡住 |
 | Coach 反例（Tips 页，4） | Body cut off, off-center, or blocked by gear · Too close or too far (0.5–1 m) · ATOM tilted steeply up · Backlit, too dark, or heavy shadows | 身体被裁切、偏到一边或被器械挡住 · 太近或太远（0.5–1 米） · ATOM 过度仰角 · 逆光、过暗或阴影很重 |
 | Tips · 背景有人没关系 | Crowd is fine · ATOM tracks the largest person in view, so background people won't throw it off — just be centred and biggest. | 背景有人没关系 · ATOM 只认画面里最大的那个人，背景有人也不影响——你居中、是最大的主体就行。 |
 | Tips · 稳定摆放 | A compatible ATOM tripod or stand keeps it level at about knee height. | 用配套的 ATOM 三脚架/支架，把它平稳架在约膝盖高度。 |
@@ -322,7 +322,7 @@ flowchart TD
 |---|---|---|
 | pageTitle / psOk / dontShow | Get set up / I'm ready / Don't show this again | 课前须知 / 准备好了 / 下次不再提示 |
 | coachSub | ATOM watches like a coach — set it up so it can see you clearly. | ATOM 就像教练的眼睛——摆好位置，让它看清你。 |
-| coachDo（4）| Whole body in frame, centered · Set ATOM about knee height · Stand 0.5–1 m back · Clear space — nothing blocking you | 全身入框，站在画面中央 · ATOM 放到约膝盖高度 · 离 ATOM 0.5–1 米 · 周围留空，别被器械挡住 |
+| coachDo（4）| Whole body in frame, centered · ATOM at knee height (the floor works too) · Stand 0.5–1 m back · Clear space — nothing blocking you | 全身入框，站在画面中央 · ATOM 约膝盖高最好，放地上也行 · 离 ATOM 0.5–1 米 · 周围留空，别被器械挡住 |
 | tipsLink | See framing tips | 查看拍摄技巧 |
 | beta | Beta — AI may miss or miscount reps. Use your judgment. | Beta——AI 可能漏计或误计，请自行判断。 |
 | recapSub | Stay in frame at any angle — just keep the light good. | 全程在画面里，角度随意，光线充足就好。 |
@@ -364,8 +364,9 @@ flowchart TD
 | workoutMode | Workout mode | 上课模式 |
 | atomCoachSub / atomRecapSub | Live counting and cues. / Records quietly, reports after. | 实时计数、动作提示。 / 安静录制，练后出报告。 |
 | rstart / rcT / rcDont / rcGo | Start / Before you start / Don't show again / Start | 开始 / 开始前 / 不再显示 / 开始 |
-| rcCoach（2）| AI is beta — may miss or miscount reps. / Whole body in frame — no blocking or backlight. | AI 仍是 beta，可能漏记或误记。 / 全身入框，别遮挡、别逆光。 |
-| rcRecap（2）| Stay in frame — angle is flexible. / Deeper recaps coming via OTA. | 全程在画面里，角度随意。 / 更深复盘随 OTA 上线。 |
+| rcCoach（3，图标行）| Whole body in frame · ATOM at knee height or on the floor · Beta — use your own judgment | 全身入框 · ATOM 约膝盖高，或放地上 · Beta——请自行判断 |
+| rcRecap（3，图标行）| Stay in frame — front or side both fine · Good light, just you in view · Deeper recaps coming via OTA | 全程在画面里，正对侧对都行 · 光线充足，画面里只有你 · 更深复盘随 OTA 上线 |
+| ATOM「开始前请确认」布局 | 圆屏太小，**不放取景插画**，改用 **3 条图标须知行**（图标：入框 person / 摆位 height / Beta warn；Recap 为 person / 光线 sun / 信息 info）| — |
 | 待机 Idle | 复用预览的 pvKicker / course / pvMetaShort(32 min · Strength) / pvStart | 复用：今日训练 / 背部与腿部力量 / 32 分钟 · 力量 / 开始训练 |
 
 ---
