@@ -148,19 +148,21 @@ class _AtomRoundScreenState extends State<AtomRoundScreen> {
               ],
             ),
           ),
-          const SizedBox(height: 3),
-          _DontShowAgain(
-            label: l.dontShowAgain,
-            value: skip,
-            onTap: () => widget.controller.setSkipAtomConfirm(!skip),
-          ),
-          const SizedBox(height: 14),
+          const SizedBox(height: 10),
           _StartPill(
             label: l.atomStart,
             onTap: () {
               setState(() => _showConfirm = false);
               widget.onStart(_sel);
             },
+          ),
+          const SizedBox(height: 12),
+          // "Don't show again" demoted to a light footnote under Start (was a
+          // full-width row above it — costly on the small round screen).
+          _DontShowAgain(
+            label: l.dontShowAgain,
+            value: skip,
+            onTap: () => widget.controller.setSkipAtomConfirm(!skip),
           ),
         ],
       ),
@@ -308,19 +310,23 @@ class _DontShowAgain extends StatelessWidget {
   @override
   Widget build(BuildContext context) => GestureDetector(
         onTap: onTap,
+        behavior: HitTestBehavior.opaque,
         child: Row(mainAxisSize: MainAxisSize.min, children: [
           Container(
-            width: 18,
-            height: 18,
+            width: 16,
+            height: 16,
             decoration: BoxDecoration(
               color: value ? Wm.brand : Colors.transparent,
               border: Border.all(color: value ? Wm.brand : const Color(0xFF4A4E46), width: 1.5),
-              borderRadius: BorderRadius.circular(5),
+              borderRadius: BorderRadius.circular(4),
             ),
-            child: value ? const Icon(Icons.check, size: 11, color: Colors.black) : null,
+            child: value ? const Icon(Icons.check, size: 10, color: Colors.black) : null,
           ),
-          const SizedBox(width: 8),
-          Text(label, style: const TextStyle(fontSize: 13, color: Color(0xFFC9CDC4))),
+          const SizedBox(width: 7),
+          // Footnote weight: smaller + muted, brighter only when checked.
+          Text(label,
+              style: TextStyle(
+                  fontSize: 12, color: value ? const Color(0xFFC4CABD) : const Color(0xFF8A9086))),
         ]),
       );
 }
