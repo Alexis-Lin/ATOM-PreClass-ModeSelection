@@ -13,7 +13,8 @@
 | **`Demo UX 交互原型.html`** | ★ 可交互原型（手机 + ATOM 双端，预览优先）。浏览器打开即可点。 |
 | **`PRD 课前模式选择.md`** | 需求文档 · 交互流程（§4.6）· 逐页文案清单（§5.1）。 |
 | **`Tips 识别准确度指南.md`** | 拍摄/摆位准确度详版（帮助中心 / 首课引导用）。 |
-| **`Code Flutter/`** | 参考实现（纯 `flutter/material`，零第三方依赖）。见 `Code Flutter/实现说明.md`。 |
+| **`Code Flutter/`** | 手机端参考实现（纯 `flutter/material`，零第三方依赖）。见 `Code Flutter/实现说明.md`。 |
+| **`Code C ATOM/`** | ATOM 圆屏设备端参考实现（LVGL，嵌入式 C）。见 `Code C ATOM/README.md`。 |
 | **`Demo UX 素材图/`** | `UI-spec-en/zh.png`（全 24 屏总览）+ `flow-board.png`（交互流程图）+ `手机端/en·zh/`（iPhone 17 逐屏图）。 |
 
 ---

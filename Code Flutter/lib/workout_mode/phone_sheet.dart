@@ -9,6 +9,22 @@ import 'tokens.dart';
 
 /// The pre-workout "Select workout mode" bottom sheet (direction F: named
 /// 3-choice + a "you can switch anytime" note).
+///
+/// ── INTEGRATION (front-end) ────────────────────────────────────────────────
+/// • Present with `showModalBottomSheet(isScrollControlled: true,
+///   backgroundColor: Colors.transparent, builder: (_) => WorkoutModeSheet(…))`
+///   — see [CoursePreviewPage._openSheet] for the reference call.
+/// • Callbacks are your host hooks: [onStart] begins the session (the ONLY
+///   forward exit); [onAddDevice] / [onGetPlus] are the gate CTAs. All are
+///   optional except onStart. The sheet never navigates on its own.
+/// • The sheet dismisses itself on nothing — starting is the host's job. If you
+///   present the flow modally, pop these sheets in your onStart (e.g.
+///   `Navigator.popUntil`) before routing to the workout screen.
+/// • Robustness: the sheet is height-adaptive and **caps at 90% of the screen,
+///   scrolling the mode list internally** with the CTA pinned — so it never
+///   overflows on short devices or at large text scales. Empty/edge states are
+///   handled by the controller predicates (no device → gate + "Add"; offline →
+///   blocked CTA; over quota → gate).
 class WorkoutModeSheet extends StatelessWidget {
   const WorkoutModeSheet({
     super.key,
@@ -23,57 +39,80 @@ class WorkoutModeSheet extends StatelessWidget {
   final VoidCallback? onAddDevice;
   final VoidCallback? onGetPlus;
 
+  /// Cap the sheet at 90% of the screen; taller content scrolls internally.
+  static const double _kMaxSheetFraction = 0.9;
+
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
       animation: controller,
       builder: (context, _) {
         final l = L(controller.lang);
+        final media = MediaQuery.of(context);
         return Container(
+          constraints: BoxConstraints(maxHeight: media.size.height * _kMaxSheetFraction),
           decoration: const BoxDecoration(
             color: Wm.sheet,
             borderRadius: BorderRadius.vertical(top: Radius.circular(26)),
           ),
-          padding: const EdgeInsets.fromLTRB(18, 8, 18, 18),
           child: Column(
-            mainAxisSize: MainAxisSize.min,
+            mainAxisSize: MainAxisSize.min, // hug content → height-adaptive
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Center(
-                child: Container(
-                  width: 38,
-                  height: 5,
-                  margin: const EdgeInsets.only(bottom: 8),
-                  decoration: BoxDecoration(
-                      color: const Color(0xFFD7DAD3), borderRadius: BorderRadius.circular(99)),
-                ),
-              ),
+              // Fixed header: grab handle, title, device row, offline warning.
               Padding(
-                padding: const EdgeInsets.fromLTRB(2, 2, 2, 8),
-                child: Text(l.title,
-                    style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w800, color: Wm.ink)),
-              ),
-              _DeviceRow(controller: controller, onAddDevice: onAddDevice),
-              if (controller.showOfflineWarning) ...[
-                const SizedBox(height: 8),
-                _WarningStrip(text: _offlineWarn(controller, l)),
-              ],
-              const SizedBox(height: 10),
-              for (final m in WorkoutMode.values)
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 10),
-                  child: _ModeCard(
-                    controller: controller,
-                    mode: m,
-                    onTap: () => _onModeTap(context, m),
+                padding: const EdgeInsets.fromLTRB(18, 8, 18, 0),
+                child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+                  Center(
+                    child: Container(
+                      width: 38,
+                      height: 5,
+                      margin: const EdgeInsets.only(bottom: 8),
+                      decoration: BoxDecoration(
+                          color: const Color(0xFFD7DAD3), borderRadius: BorderRadius.circular(99)),
+                    ),
                   ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(2, 2, 2, 8),
+                    child: Text(l.title,
+                        style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w800, color: Wm.ink)),
+                  ),
+                  _DeviceRow(controller: controller, onAddDevice: onAddDevice),
+                  if (controller.showOfflineWarning) ...[
+                    const SizedBox(height: 8),
+                    _WarningStrip(text: _offlineWarn(controller, l)),
+                  ],
+                ]),
+              ),
+              // Scrollable middle: the mode cards (+ "switch anytime" note).
+              // shrinkWrap keeps the sheet short when content fits; it scrolls
+              // only once it would exceed the height cap.
+              Flexible(
+                child: ListView(
+                  shrinkWrap: true,
+                  padding: const EdgeInsets.fromLTRB(18, 10, 18, 0),
+                  children: [
+                    for (final m in WorkoutMode.values)
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: _ModeCard(
+                          controller: controller,
+                          mode: m,
+                          onTap: () => _onModeTap(context, m),
+                        ),
+                      ),
+                    // "Switch anytime" note: plain green text, below the cards.
+                    // Shown only when the AI modes are actually usable (device +
+                    // Plus + online); otherwise only Manual works and it'd mislead.
+                    if (controller.aiUsable) _FlexNote(text: l.flexNote),
+                  ],
                 ),
-              // "Switch anytime" note: plain green text, below the cards.
-              // Shown only when the AI modes are actually usable (device +
-              // Plus + online); otherwise only Manual works and it'd mislead.
-              if (controller.aiUsable) _FlexNote(text: l.flexNote),
-              const SizedBox(height: 2),
-              _cta(context, l),
+              ),
+              // Pinned CTA (+ home-indicator safe-area inset).
+              Padding(
+                padding: EdgeInsets.fromLTRB(18, 8, 18, 18 + media.viewPadding.bottom),
+                child: _cta(context, l),
+              ),
             ],
           ),
         );
@@ -399,6 +438,7 @@ Future<void> showDevicePicker(BuildContext context, WorkoutModeController contro
   final l = L(controller.lang);
   return showAppSheet(
     context,
+    scrollable: true, // a long paired-device list / large text scale can scroll
     child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.stretch, children: [
       Text(l.pickTitle, style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w800, color: Wm.ink)),
       const SizedBox(height: 4),

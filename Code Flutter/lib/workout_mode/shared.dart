@@ -162,6 +162,10 @@ class SheetButton extends StatelessWidget {
 }
 
 /// Rounded-top modal bottom sheet used for gate / picker / data choice.
+///
+/// When [scrollable] is true the sheet may grow past the default ~50% cap AND
+/// its content scrolls internally (so a long device list or large text scale
+/// can't overflow). Short sheets still hug their content.
 Future<void> showAppSheet(BuildContext context,
     {required Widget child, bool scrollable = false}) {
   return showModalBottomSheet(
@@ -171,9 +175,15 @@ Future<void> showAppSheet(BuildContext context,
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(top: Radius.circular(22)),
     ),
-    builder: (context) => Padding(
-      padding: const EdgeInsets.fromLTRB(20, 18, 20, 20),
-      child: SafeArea(top: false, child: child),
-    ),
+    builder: (context) {
+      final content = Padding(
+        padding: const EdgeInsets.fromLTRB(20, 18, 20, 20),
+        child: child,
+      );
+      return SafeArea(
+        top: false,
+        child: scrollable ? SingleChildScrollView(child: content) : content,
+      );
+    },
   );
 }
