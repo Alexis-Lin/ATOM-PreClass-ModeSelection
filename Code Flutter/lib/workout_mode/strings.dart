@@ -65,9 +65,9 @@ class L {
       };
   String modeDesc(WorkoutMode m) => switch (m) {
         WorkoutMode.liveCoach =>
-          _t('Live counting & cues — plus a recap after.', '实时计数与提示，练后同样有复盘。'),
+          _t('Live counting & form cues — plus a recap after.', '实时计数与动作提示，练后同样有复盘。'),
         WorkoutMode.recordRecap =>
-          _t('Records quietly, recap after — no live cues.', '安静录制、无实时提示，练后出复盘。'),
+          _t('Records quietly, recap after — no live form cues.', '安静录制、无实时动作提示，练后出复盘。'),
         WorkoutMode.manualLog =>
           _t('Log sets & reps yourself. No camera.', '自己记录，不开摄像头。'),
       };
@@ -234,7 +234,7 @@ class L {
             ]);
   String get dontShowAgain => _t("Don’t show again", '不再显示');
   String atomSub(WorkoutMode m) => switch (m) {
-        WorkoutMode.liveCoach => _t('Live counting and cues.', '实时计数、动作提示。'),
+        WorkoutMode.liveCoach => _t('Live counting and form cues.', '实时计数、动作提示。'),
         WorkoutMode.recordRecap => _t('Records quietly, reports after.', '安静录制，练后出报告。'),
         WorkoutMode.manualLog => '',
       };

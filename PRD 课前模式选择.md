@@ -48,7 +48,7 @@
 
 | 场景 | 诉求 | 推荐模式 |
 |---|---|---|
-| 新手 / 想被带着练 | 每一下都要实时计数、提示、反馈 | **Live Coach** |
+| 新手 / 想被带着练 | 每一下都要实时计数、动作提示、反馈 | **Live Coach** |
 | 进阶 / 不想被打扰 | 只管练，练完看影像、数据与报告 | **Record & Recap** |
 | 纯记账 / 无设备 | 手动记录组数次数重量即可 | **Manual Log** |
 
@@ -92,11 +92,11 @@
 
 | 模式 | 一句话 | 依赖 | 图标 |
 |---|---|---|---|
-| **Live Coach** 实时教练 | 实时计数与提示，**练后同样有复盘报告** | ATOM + Plus | 线形·声波 |
-| **Record & Recap** 录制复盘 | 安静录制、**无实时提示**，练后出复盘报告 | ATOM + Plus | 线形·摄像机 |
+| **Live Coach** 实时教练 | 实时计数与动作提示，**练后同样有复盘报告** | ATOM + Plus | 线形·声波 |
+| **Record & Recap** 录制复盘 | 安静录制、**无实时动作提示**，练后出复盘报告 | ATOM + Plus | 线形·摄像机 |
 | **Manual Log** 手动记录 | 手动记录组数、次数与重量 | 免费 | 线形·手+笔 |
 
-> **重要（避免误解）**：Live Coach **是 Record & Recap 的超集**——它既有实时带练，**也包含**课后的录制与复盘报告。两者都出复盘；差别只在**有没有实时提示**（Live Coach 有，Record & Recap 无）。文案必须让用户明白「选 Live Coach 不会失去复盘」。因此模式说明写成对比式：Live Coach =「实时 + 练后复盘」，Record & Recap =「只录制、无实时提示，练后复盘」。
+> **重要（避免误解）**：Live Coach **是 Record & Recap 的超集**——它既有实时带练，**也包含**课后的录制与复盘报告。两者都出复盘；差别只在**有没有实时动作提示**（Live Coach 有，Record & Recap 无）。文案必须让用户明白「选 Live Coach 不会失去复盘」。因此模式说明写成对比式：Live Coach =「实时 + 练后复盘」，Record & Recap =「只录制、无实时动作提示，练后复盘」。
 
 **交互（降低认知负载）**：未选中的卡片**只显示标题**（图标 + 名称 + `Plus` 标签），不带说明；**选中后才展开**一行说明，Live Coach 另在其下展示 `Beta` 提示。（原「Best for 适合谁」已删除，避免与说明重复。）
 
@@ -246,8 +246,8 @@ flowchart TD
 |---|---|---|
 | 标题 | Select workout mode | 选择上课模式 |
 | 切换心智提示 | Not sure? Switch modes anytime, even mid-workout. | 不确定？课中随时能切换，先选一个。 |
-| Live Coach 说明 | Live counting & cues — plus a recap after. | 实时计数与提示，练后同样有复盘。 |
-| Record & Recap 说明 | Records quietly, recap after — no live cues. | 安静录制、无实时提示，练后出复盘。 |
+| Live Coach 说明 | Live counting & form cues — plus a recap after. | 实时计数与动作提示，练后同样有复盘。 |
+| Record & Recap 说明 | Records quietly, recap after — no live form cues. | 安静录制、无实时动作提示，练后出复盘。 |
 | Manual Log 说明 | Log sets & reps yourself. No camera. | 自己记录，不开摄像头。 |
 | Beta 提示 | Beta — AI may miss or miscount reps. Use your judgment. | Beta——AI 可能漏计或误计，请自行判断。 |
 | 无网拦截 | ATOM is offline — connect it to start AI modes. | ATOM 未联网，连网后才能启动 AI 模式。 |
@@ -301,8 +301,8 @@ flowchart TD
 | selectMode | Select workout mode | 选择上课模式 |
 | connected / nonet / add | Connected / No network / Add device | 已连接 / 无网络 / 添加设备 |
 | flexNote（绿色小字）| Not sure? Switch modes anytime, even mid-workout. | 不确定？课中随时能切换，先选一个。 |
-| Live Coach（名/说明/CTA）| Live Coach / Live counting & cues — plus a recap after. / Start Coaching | 实时教练 / 实时计数与提示，练后同样有复盘。 / 开始指导 |
-| Record & Recap | Record & Recap / Records quietly, recap after — no live cues. / Start Recording | 录制复盘 / 安静录制、无实时提示，练后出复盘。 / 开始录制 |
+| Live Coach（名/说明/CTA）| Live Coach / Live counting & form cues — plus a recap after. / Start Coaching | 实时教练 / 实时计数与动作提示，练后同样有复盘。 / 开始指导 |
+| Record & Recap | Record & Recap / Records quietly, recap after — no live form cues. / Start Recording | 录制复盘 / 安静录制、无实时动作提示，练后出复盘。 / 开始录制 |
 | Manual Log | Manual Log / Log sets & reps yourself. No camera. / Start Logging | 手动记录 / 自己记录，不开摄像头。 / 开始记录 |
 | plus tag | Plus | Plus |
 | warnNonet（离线告警）| ATOM is offline — connect it to start AI modes. | ATOM 未联网，连网后才能启动 AI 模式。 |
@@ -362,7 +362,7 @@ flowchart TD
 | 键 | EN | 中文 |
 |---|---|---|
 | workoutMode | Workout mode | 上课模式 |
-| atomCoachSub / atomRecapSub | Live counting and cues. / Records quietly, reports after. | 实时计数、动作提示。 / 安静录制，练后出报告。 |
+| atomCoachSub / atomRecapSub | Live counting and form cues. / Records quietly, reports after. | 实时计数、动作提示。 / 安静录制，练后出报告。 |
 | rstart / rcT / rcDont / rcGo | Start / Before you start / Don't show again / Start | 开始 / 开始前 / 不再显示 / 开始 |
 | rcCoach（3，图标行）| Whole body in frame · ATOM at knee height or on the floor · Beta — use your own judgment | 全身入框 · ATOM 约膝盖高，或放地上 · Beta——请自行判断 |
 | rcRecap（3，图标行）| Stay in frame — front or side both fine · Good light, just you in view · Deeper recaps coming via OTA | 全程在画面里，正对侧对都行 · 光线充足，画面里只有你 · 更深复盘随 OTA 上线 |

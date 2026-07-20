@@ -614,10 +614,10 @@
   // NOTE: the App does NOT know ATOM's SD-card status (not synced) → "Keep on ATOM" is a REMINDER, not a verified state.
 
   var MODES={
-    coach:{ en:{name:'Live Coach',desc:'Live counting & cues — plus a recap after.',cta:'Start Coaching'},
-            zh:{name:'实时教练',desc:'实时计数与提示，练后同样有复盘。',cta:'开始指导'} },
-    recap:{ en:{name:'Record & Recap',desc:'Records quietly, recap after — no live cues.',cta:'Start Recording'},
-            zh:{name:'录制复盘',desc:'安静录制、无实时提示，练后出复盘。',cta:'开始录制'} },
+    coach:{ en:{name:'Live Coach',desc:'Live counting & form cues — plus a recap after.',cta:'Start Coaching'},
+            zh:{name:'实时教练',desc:'实时计数与动作提示，练后同样有复盘。',cta:'开始指导'} },
+    recap:{ en:{name:'Record & Recap',desc:'Records quietly, recap after — no live form cues.',cta:'Start Recording'},
+            zh:{name:'录制复盘',desc:'安静录制、无实时动作提示，练后出复盘。',cta:'开始录制'} },
     log:{   en:{name:'Manual Log',desc:'Log sets & reps yourself. No camera.',cta:'Start Logging'},
             zh:{name:'手动记录',desc:'自己记录，不开摄像头。',cta:'开始记录'} }
   };
@@ -677,7 +677,7 @@
       pvStart:'Start workout', pvStatMin:'min', pvStatEx:'exercises', pvStatKcal:'kcal',
       pvInc:'In this session', pvEx1:'Goblet squat', pvEx2:'Romanian deadlift', pvEx3:'Walking lunge', pvEx4:'Back extension',
       flexNote:'Not sure? Switch modes anytime, even mid-workout.',
-      rstart:'Start', atomCoachSub:'Live counting and cues.', atomRecapSub:'Records quietly, reports after.',
+      rstart:'Start', atomCoachSub:'Live counting and form cues.', atomRecapSub:'Records quietly, reports after.',
       devcap:'Title is just “Workout mode”. Selected card shows its one-line explanation; the others show only their title. Manual Log stays on the phone.' },
     zh:{ bestLabel:'适合', beta:'Beta——AI 可能漏计或误计，请自行判断。',
       connected:'已连接', nonet:'无网络', add:'添加设备',
