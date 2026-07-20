@@ -82,7 +82,7 @@
 
 **结构决策**：保留**具名 3 选 1**（而非"AI + 能力开关"的排列组合式）。理由——课前是"营销/第一印象"时刻，具名卡片**决策与理解成本最低**，Record & Recap 也能独立曝光；开关式更灵活但偏"高阶用户配置"，理解成本更高。3 选 1 唯一的短板"像选了改不了"，用**一句心智提示**补齐：
 
-> 「**不确定？课中随时能切换，先选一个。**」
+> 「**不确定？先选一个——课中随时能切换。**」
 
 **位置与样式**：放在**三张卡片下方、主按钮上方**；为**友好的绿色小字**（不加色块/描边/图标），弱化存在感。**只在 AI 模式真正可用时才展示**（配对 + Plus + 在线）；无设备 / 无 Plus / 离线时**自动隐藏**——此时只有 Manual Log 可选，「随时切换三种模式」会自相矛盾。
 
@@ -106,7 +106,7 @@
 - 未满足门槛 → 该模式**置灰锁定**，点击弹**说明弹窗**，**页面不放常驻横幅**，保持干净。门槛有三档原因：
   - **无设备** → 引导添加设备；
   - **无 Plus** → 引导开通 Plus；
-  - **有 Plus 但 AI 额度用尽**（新增状态）→ 弹窗「{模式}：AI 额度已用尽 · 本期 Plus 的 AI 次数已用完，手动记录仍可使用」+ CTA **「升级 Pro」**（额度用尽引导升级到 Pro 会员；Pro 的具体价格/额度上限待商业确定）。
+  - **有 Plus 但 AI 额度用尽**（新增状态）→ 弹窗「{模式}：AI 额度已用尽 · 本期 Plus 的 AI 次数已用完，升级 Pro 获得更多；手动记录仍可用」+ CTA **「升级 Pro」**（额度用尽引导升级到 Pro 会员；Pro 的具体价格/额度上限待商业确定）。
 - Manual Log 永远可用（无门槛、无额度）。
 
 ### 4.3 设备与网络状态（对应 G2）
@@ -245,7 +245,7 @@ flowchart TD
 | 位置 | EN | 中文 |
 |---|---|---|
 | 标题 | Select workout mode | 选择上课模式 |
-| 切换心智提示 | Not sure? Switch modes anytime, even mid-workout. | 不确定？课中随时能切换，先选一个。 |
+| 切换心智提示 | Not sure? Pick one — switch anytime, even mid-workout. | 不确定？先选一个——课中随时能切换。 |
 | Live Coach 说明 | Live counting & form cues — plus a recap after. | 实时计数与动作提示，练后同样有复盘。 |
 | Record & Recap 说明 | Records quietly, recap after — no live form cues. | 安静录制、无实时动作提示，练后出复盘。 |
 | Manual Log 说明 | Log sets & reps yourself. No camera. | 自己记录，不开摄像头。 |
@@ -299,8 +299,8 @@ flowchart TD
 | 键 | EN | 中文 |
 |---|---|---|
 | selectMode | Select workout mode | 选择上课模式 |
-| connected / nonet / add | Connected / No network / Add device | 已连接 / 无网络 / 添加设备 |
-| flexNote（绿色小字）| Not sure? Switch modes anytime, even mid-workout. | 不确定？课中随时能切换，先选一个。 |
+| connected / nonet / add / noDevice | Connected / No network / Add device / No ATOM | 已连接 / 无网络 / 添加设备 / 未连接 ATOM |
+| flexNote（绿色小字）| Not sure? Pick one — switch anytime, even mid-workout. | 不确定？先选一个——课中随时能切换。 |
 | Live Coach（名/说明/CTA）| Live Coach / Live counting & form cues — plus a recap after. / Start Coaching | 实时教练 / 实时计数与动作提示，练后同样有复盘。 / 开始指导 |
 | Record & Recap | Record & Recap / Records quietly, recap after — no live form cues. / Start Recording | 录制复盘 / 安静录制、无实时动作提示，练后出复盘。 / 开始录制 |
 | Manual Log | Manual Log / Log sets & reps yourself. No camera. / Start Logging | 手动记录 / 自己记录，不开摄像头。 / 开始记录 |
@@ -343,7 +343,7 @@ flowchart TD
 | saveOnT / saveOnBody / saveNotNow | Save this workout's video? / Saving is off in your settings. Turn it on for this workout to get your recap. / Not this time | 保存这次的视频？ / 你已在设置中关闭保存。为本次开启即可获得复盘。 / 这次不用 |
 | dSaveAlways / dEnableCta（开启范围） | Keep saving on from now on / Turn on saving | 以后一直开启保存（可在设置关闭）/ 开启保存 |
 | privacyNote / privacyLink | See our / Privacy Policy | 详见 / 隐私协议 |
-| 额度用尽 gate（升级 Pro）| {mode} — AI limit reached / You've used up this cycle's Plus AI sessions — upgrade to Pro for more. Manual Log still works. / Upgrade to Pro | {模式}：AI 额度已用尽 / 本期 Plus 的 AI 次数已用完——升级 Pro 可获得更多。手动记录仍可使用。 / 升级 Pro |
+| 额度用尽 gate（升级 Pro）| {mode} — AI limit reached / This cycle's Plus AI sessions are used up. Upgrade to Pro for more — Manual Log still works. / Upgrade to Pro | {模式}：AI 额度已用尽 / 本期 Plus 的 AI 次数已用完。升级 Pro 可获得更多——手动记录仍可用。 / 升级 Pro |
 | Recap 需保存（硬要求）| Saving required / Record & Recap keeps the video to build your recap — turn on saving to start. / Turn on saving to continue | 需开启保存 / 录制复盘要保存视频才能生成复盘——开启保存即可开始。 / 开启保存以继续 |
 
 ### ⑳ 拍摄技巧 Framing tips
@@ -400,7 +400,7 @@ flowchart TD
 ### 7.2 空 / 0 状态 · Empty & zero states
 | 场景 | 现状 | 处理 / 待办 |
 |---|---|---|
-| **无设备**（0 台） | 设备行显示「ATOM」+ 添加设备；两个 AI 模式灰化锁定；只有 Manual Log 可用 | ✓ **「课中随时能切」小字自动隐藏**（只有 Manual 时切换提示无意义）|
+| **无设备**（0 台） | 设备行显示「未连接 ATOM」+ 添加设备；两个 AI 模式灰化锁定；只有 Manual Log 可用 | ✓ **「课中随时能切」小字自动隐藏**（只有 Manual 时切换提示无意义）|
 | **无 Plus** | AI 模式灰化，点击弹开通；只有 Manual | ✓ 同上，切换小字隐藏 |
 | **无 SD 卡 + 选「仅存 ATOM」** | 须知数据行 + 弹窗告警「本次不会保留」 | ✓；**边界**：全局关保存→引导弹窗里选「仅存 ATOM」且无 SD，当前是选完即收起、告警落在须知那行（用户仍被告知）|
 | **全局关闭保存视频** | 须知数据行变绿色引导条「已关闭·开启」 | ✓ 反向引导 |

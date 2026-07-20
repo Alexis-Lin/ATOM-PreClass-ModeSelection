@@ -15,14 +15,14 @@ class L {
   // ---- mode sheet chrome ----
   String get title => _t('Select workout mode', '选择上课模式');
   String get flexNote => _t(
-      'Not sure? Switch modes anytime, even mid-workout.',
-      '不确定？课中随时能切换，先选一个。');
+      'Not sure? Pick one — switch anytime, even mid-workout.',
+      '不确定？先选一个——课中随时能切换。');
   String get plusTag => 'Plus';
 
   // ---- device row ----
   String get connected => _t('Connected', '已连接');
   String get noNetwork => _t('No network', '无网络');
-  String get noDevice => _t('ATOM', 'ATOM');
+  String get noDevice => _t('No ATOM', '未连接 ATOM');
   String get addDevice => _t('Add device', '添加设备');
 
   // ---- blocking warning + CTA ----
@@ -42,8 +42,8 @@ class L {
           _t('Pair a nearby ATOM to unlock AI modes.', '连接身边的 ATOM，解锁 AI 模式。'),
         GateReason.needPlus => _t('Get Plus to unlock AI modes.', '开通 Plus，解锁 AI 模式。'),
         GateReason.overQuota => _t(
-            'You’ve used up this cycle’s Plus AI sessions — upgrade to Pro for more. Manual Log still works.',
-            '本期 Plus 的 AI 次数已用完——升级 Pro 可获得更多。手动记录仍可使用。'),
+            'This cycle’s Plus AI sessions are used up. Upgrade to Pro for more — Manual Log still works.',
+            '本期 Plus 的 AI 次数已用完。升级 Pro 可获得更多——手动记录仍可用。'),
       };
   String gateButton(GateReason r) => switch (r) {
         GateReason.needDevice => addDevice,

@@ -623,13 +623,13 @@
   };
   var T={
     en:{ bestLabel:'Best for', beta:'Beta — AI may miss or miscount reps. Use your judgment.',
-      connected:'Connected', nonet:'No network', add:'Add device',
+      connected:'Connected', nonet:'No network', add:'Add device', noDevice:'No ATOM',
       warnNonet:'ATOM is offline — connect it to start AI modes.',
       switchHint:' Or switch to an online device.',
       ctaBlocked:'ATOM must be online', cancel:'Not now',
       popDevT:'{n} runs on ATOM', popDevS:'Pair a nearby ATOM to unlock AI modes.', popDevBtn:'Add device',
       popPlusT:'{n} needs Plus', popPlusS:'Get Plus to unlock AI modes.', popPlusBtn:'Get Plus',
-      popQuotaT:'{n} — AI limit reached', popQuotaS:'You’ve used up this cycle’s Plus AI sessions — upgrade to Pro for more. Manual Log still works.', popQuotaBtn:'Upgrade to Pro',
+      popQuotaT:'{n} — AI limit reached', popQuotaS:'This cycle’s Plus AI sessions are used up. Upgrade to Pro for more — Manual Log still works.', popQuotaBtn:'Upgrade to Pro',
       recapNeedH:'Saving required', recapNeed:'Record & Recap keeps the video to build your recap — turn on saving to start.',
       recapTurnOnCta:'Turn on saving to continue', dEnableCta:'Turn on saving', dSaveAlways:'Keep saving on from now on',
       dataSheetT:'Where to save your video?',
@@ -676,17 +676,17 @@
       pvDesc:'A lower-body strength session — squats, hinges and lunges for stronger legs and back.',
       pvStart:'Start workout', pvStatMin:'min', pvStatEx:'exercises', pvStatKcal:'kcal',
       pvInc:'In this session', pvEx1:'Goblet squat', pvEx2:'Romanian deadlift', pvEx3:'Walking lunge', pvEx4:'Back extension',
-      flexNote:'Not sure? Switch modes anytime, even mid-workout.',
+      flexNote:'Not sure? Pick one — switch anytime, even mid-workout.',
       rstart:'Start', atomCoachSub:'Live counting and form cues.', atomRecapSub:'Records quietly, reports after.',
       devcap:'Title is just “Workout mode”. Selected card shows its one-line explanation; the others show only their title. Manual Log stays on the phone.' },
     zh:{ bestLabel:'适合', beta:'Beta——AI 可能漏计或误计，请自行判断。',
-      connected:'已连接', nonet:'无网络', add:'添加设备',
+      connected:'已连接', nonet:'无网络', add:'添加设备', noDevice:'未连接 ATOM',
       warnNonet:'ATOM 未联网，连网后才能启动 AI 模式。',
       switchHint:' 也可切换到在线的设备。',
       ctaBlocked:'ATOM 需在线', cancel:'以后再说',
       popDevT:'{n} 需要 ATOM', popDevS:'连接身边的 ATOM，解锁 AI 模式。', popDevBtn:'添加设备',
       popPlusT:'{n} 需要 Plus 会员', popPlusS:'开通 Plus，解锁 AI 模式。', popPlusBtn:'开通 Plus',
-      popQuotaT:'{n}：AI 额度已用尽', popQuotaS:'本期 Plus 的 AI 次数已用完——升级 Pro 可获得更多。手动记录仍可使用。', popQuotaBtn:'升级 Pro',
+      popQuotaT:'{n}：AI 额度已用尽', popQuotaS:'本期 Plus 的 AI 次数已用完。升级 Pro 可获得更多——手动记录仍可用。', popQuotaBtn:'升级 Pro',
       recapNeedH:'需开启保存', recapNeed:'录制复盘要保存视频才能生成复盘——开启保存即可开始。',
       recapTurnOnCta:'开启保存以继续', dEnableCta:'开启保存', dSaveAlways:'以后一直开启保存（可在设置关闭）',
       dataSheetT:'视频保存在哪里？',
@@ -733,7 +733,7 @@
       pvDesc:'下肢力量训练——深蹲、髋铰链与弓步，练强腿部和背部。',
       pvStart:'开始训练', pvStatMin:'分钟', pvStatEx:'个动作', pvStatKcal:'千卡',
       pvInc:'本节包含', pvEx1:'高脚杯深蹲', pvEx2:'罗马尼亚硬拉', pvEx3:'行走弓步', pvEx4:'背部伸展',
-      flexNote:'不确定？课中随时能切换，先选一个。',
+      flexNote:'不确定？先选一个——课中随时能切换。',
       rstart:'开始', atomCoachSub:'实时计数、动作提示。', atomRecapSub:'安静录制，练后出报告。',
       devcap:'标题就是「上课模式」。选中的卡片显示一行说明，其余只显示标题。手动记录留在手机端。' }
   };
@@ -1004,7 +1004,7 @@
     dev.classList.toggle('off', DEVCOUNT==='nodev');
     dev.classList.toggle('multi', DEVCOUNT==='two');
     devAdd.hidden = DEVCOUNT!=='nodev'; devAdd.textContent=t.add;
-    if(DEVCOUNT==='nodev'){ devName.textContent='ATOM'; devState.style.display='none'; }
+    if(DEVCOUNT==='nodev'){ devName.textContent=t.noDevice; devState.style.display='none'; }
     else { var a=active(); devName.textContent=a.name; devState.style.display='';
       devState.classList.toggle('warn', a.status!=='conn');
       devState.innerHTML=(a.status==='conn'?WIFI:NONETIC)+'<span>'+(a.status==='conn'?t.connected:t.nonet)+'</span>'; }
