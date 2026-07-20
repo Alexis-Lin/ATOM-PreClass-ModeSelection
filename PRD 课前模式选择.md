@@ -88,7 +88,7 @@
 
 **模式心智原则（易懂优先）**：目标是让用户快速建立「实时带练 / 只录制看报告 / 纯手动」这个**三档心智**，但**不做成复杂配置**。落地手法：① 具名卡片、一句话说明；② 未选中只留标题，选中才展开一行（信息渐进）；③「课中随时能切」降低决策压力；④ 命名沿一条**直觉光谱**：实时驱动 → 自动 → 全手动。**不引入**开关矩阵 / 多层设置，避免"配置感"。
 
-> 备选结构（已探索、暂不采用）见 `backup-history/`：D 能力开关、E 两开关+独立手动、C 具名+开关、A 单开关。若未来能力增多或跟练课上线，可再评估切换到开关式。
+> 备选结构（已探索、暂不采用）：D 能力开关、E 两开关+独立手动、C 具名+开关、A 单开关。若未来能力增多或跟练课上线，可再评估切换到开关式。
 
 | 模式 | 一句话 | 依赖 | 图标 |
 |---|---|---|---|
@@ -106,7 +106,7 @@
 - 未满足门槛 → 该模式**置灰锁定**，点击弹**说明弹窗**，**页面不放常驻横幅**，保持干净。门槛有三档原因：
   - **无设备** → 引导添加设备；
   - **无 Plus** → 引导开通 Plus；
-  - **有 Plus 但 AI 额度用尽**（新增状态）→ 弹窗「{模式}：AI 额度已用尽 · 本期 AI 次数已用完，手动记录仍可使用」+ CTA。**CTA 为占位**（购买加量 / 升级档位 / 仅提示重置时间——待商业模式确定后替换）。
+  - **有 Plus 但 AI 额度用尽**（新增状态）→ 弹窗「{模式}：AI 额度已用尽 · 本期 Plus 的 AI 次数已用完，手动记录仍可使用」+ CTA **「升级 Pro」**（额度用尽引导升级到 Pro 会员；Pro 的具体价格/额度上限待商业确定）。
 - Manual Log 永远可用（无门槛、无额度）。
 
 ### 4.3 设备与网络状态（对应 G2）
@@ -129,7 +129,7 @@
 
 **通用**
 - **AI 提示在上**，页面主体是摆位/须知；数据选择**弱化到底部一行小字**——避免用户每次为隐私纠结（产品希望默认更多人上传云端）。
-- **取景示意图**：一个人完整站在 **ATOM 取景框**内、脚踩地面线、四周留安全边距（火柴人为占位，正式版待设计师出「正确 vs 错误」对照插画）。
+- **取景示意图**：一个人完整站在 **ATOM 取景框**内、脚踩地面线、四周留安全边距（火柴人为占位，**正式版用矢量插画**——非实拍照片，由设计师出一套「正确 vs 错误」矢量对照图）。
 - **只放正向、精简**：Live Coach = 一张 OK 图 + 4 条「做到」+「查看拍摄技巧」入口；**反例 / 易错移到二级「拍摄技巧」页**（4 条，详见下），不在课前堆负面信息。
 - **训练数据保存（底部小行 + 二次弹窗）**：
   - 底部只有一行小字显示当前选择（默认「视频同步到云端」）+ 「更改」。点击才弹**二次小弹窗**做选择，降低决策成本。
@@ -201,7 +201,7 @@ flowchart TD
   M -->|点已锁定的 AI 模式| G{"门槛 Gate"}
   G -->|缺设备| G1["⑥ 需要 ATOM → 添加设备"]
   G -->|缺 Plus| G2["⑦ 需要 Plus → 开通"]
-  G -->|额度用尽| G3["㉒ AI 额度已用尽 → 查看方案（占位）"]
+  G -->|额度用尽| G3["㉒ AI 额度已用尽 → 升级 Pro"]
   M -->|切换图标（多台）| DP["⑧ 设备列表 Picker"]
   M -.->|ATOM 离线| OFF["③ 顶部告警 · CTA 置灰"]
   M -->|选 Manual Log · Start Logging| START(("▶ 开始训练"))
@@ -256,10 +256,10 @@ flowchart TD
 | 门槛·缺会员 | Live Coach needs Plus · Get Plus to unlock AI modes. | Live Coach 需要 Plus · 开通 Plus，解锁 AI 模式。 |
 | 课前须知·标题 | Get set up | 课前须知 |
 | Coach 副标 | ATOM watches like a coach — set it up so it can see you clearly. | ATOM 就像教练的眼睛——摆好位置，让它看清你。 |
-| Coach 做到（4） | Whole body in frame, centered · ATOM at knee height (the floor works too) · Stand 0.5–1 m back · Clear space — nothing blocking you | 全身入框，站在画面中央 · ATOM 约膝盖高最好，放地上也行 · 离 ATOM 0.5–1 米 · 周围留空，别被器械挡住 |
+| Coach 做到（4） | Whole body in frame, centered · ATOM at knee height — a tripod helps (floor's fine too) · Stand 0.5–1 m back · Clear space — nothing blocking you | 全身入框，站在画面中央 · ATOM 约膝盖高——用配套三脚架更省事（放地上也行）· 离 ATOM 0.5–1 米 · 周围留空，别被器械挡住 |
 | Coach 反例（Tips 页，4） | Body cut off, off-center, or blocked by gear · Too close or too far (0.5–1 m) · ATOM tilted steeply up · Backlit, too dark, or heavy shadows | 身体被裁切、偏到一边或被器械挡住 · 太近或太远（0.5–1 米） · ATOM 过度仰角 · 逆光、过暗或阴影很重 |
 | Tips · 背景有人没关系 | Crowd is fine · ATOM tracks the largest person in view, so background people won't throw it off — just be centred and biggest. | 背景有人没关系 · ATOM 只认画面里最大的那个人，背景有人也不影响——你居中、是最大的主体就行。 |
-| Tips · 稳定摆放 | A compatible ATOM tripod or stand keeps it level at about knee height. | 用配套的 ATOM 三脚架/支架，把它平稳架在约膝盖高度。 |
+| Tips · 稳定摆放 | The ATOM tripod is the easy way to get it level at about knee height — recommended. A stand or box works too. | 推荐用配套的 ATOM 三脚架，最省事地把它平稳架到约膝盖高度；用支架或垫高也行。 |
 | 教练心智 | Think of ATOM as your coach's eyes: if a coach standing there could see your form, so can ATOM. | 把 ATOM 想成教练的眼睛：教练站那儿能看清你，ATOM 就能看清。 |
 | Recap 副标 | Stay in frame at any angle — just keep the light good. | 全程在画面里，角度随意，光线充足就好。 |
 | 报告预期 | Deeper recaps coming via OTA. Today's is basic. | 更深复盘将随 OTA 上线，当前报告较简单。 |
@@ -322,7 +322,7 @@ flowchart TD
 |---|---|---|
 | pageTitle / psOk / dontShow | Get set up / I'm ready / Don't show this again | 课前须知 / 准备好了 / 下次不再提示 |
 | coachSub | ATOM watches like a coach — set it up so it can see you clearly. | ATOM 就像教练的眼睛——摆好位置，让它看清你。 |
-| coachDo（4）| Whole body in frame, centered · ATOM at knee height (the floor works too) · Stand 0.5–1 m back · Clear space — nothing blocking you | 全身入框，站在画面中央 · ATOM 约膝盖高最好，放地上也行 · 离 ATOM 0.5–1 米 · 周围留空，别被器械挡住 |
+| coachDo（4）| Whole body in frame, centered · ATOM at knee height — a tripod helps (floor's fine too) · Stand 0.5–1 m back · Clear space — nothing blocking you | 全身入框，站在画面中央 · ATOM 约膝盖高——用配套三脚架更省事（放地上也行）· 离 ATOM 0.5–1 米 · 周围留空，别被器械挡住 |
 | tipsLink | See framing tips | 查看拍摄技巧 |
 | beta | Beta — AI may miss or miscount reps. Use your judgment. | Beta——AI 可能漏计或误计，请自行判断。 |
 | recapSub | Stay in frame at any angle — just keep the light good. | 全程在画面里，角度随意，光线充足就好。 |
@@ -343,7 +343,7 @@ flowchart TD
 | saveOnT / saveOnBody / saveNotNow | Save this workout's video? / Saving is off in your settings. Turn it on for this workout to get your recap. / Not this time | 保存这次的视频？ / 你已在设置中关闭保存。为本次开启即可获得复盘。 / 这次不用 |
 | dSaveAlways / dEnableCta（开启范围） | Keep saving on from now on / Turn on saving | 以后一直开启保存（可在设置关闭）/ 开启保存 |
 | privacyNote / privacyLink | See our / Privacy Policy | 详见 / 隐私协议 |
-| 额度用尽 gate（占位 CTA）| {mode} — AI limit reached / You've used up this cycle's AI sessions. Manual Log still works. / See options | {模式}：AI 额度已用尽 / 本期 AI 次数已用完。手动记录仍可使用。 / 查看方案 |
+| 额度用尽 gate（升级 Pro）| {mode} — AI limit reached / You've used up this cycle's Plus AI sessions — upgrade to Pro for more. Manual Log still works. / Upgrade to Pro | {模式}：AI 额度已用尽 / 本期 Plus 的 AI 次数已用完——升级 Pro 可获得更多。手动记录仍可使用。 / 升级 Pro |
 | Recap 需保存（硬要求）| Saving required / Record & Recap keeps the video to build your recap — turn on saving to start. / Turn on saving to continue | 需开启保存 / 录制复盘要保存视频才能生成复盘——开启保存即可开始。 / 开启保存以继续 |
 
 ### ⑳ 拍摄技巧 Framing tips
@@ -353,7 +353,7 @@ flowchart TD
 | coachLine | Think of ATOM as your coach's eyes: if a coach standing there could see your form, so can ATOM. | 把 ATOM 想成教练的眼睛：教练站那儿能看清你，ATOM 就能看清。 |
 | coachDoH（OK 标）| Set up | 这样摆 |
 | crowdH / crowd | Crowd is fine / ATOM tracks the largest person in view, so people in the background won't throw it off — just be centred and close enough that you're the biggest. | 背景有人没关系 / ATOM 只认画面里最大的那个人，背景有人也不影响——你居中、离得够近，是画面里最大的主体就行。 |
-| tripodH / tripod | Steady placement / A compatible ATOM tripod or stand keeps it level at about knee height. | 稳定摆放 / 用配套的 ATOM 三脚架/支架，把它平稳架在约膝盖高度。 |
+| tripodH / tripod | Steady placement / The ATOM tripod is the easy way to get it level at about knee height — recommended. A stand or box works too. | 稳定摆放 / 推荐用配套的 ATOM 三脚架，最省事地把它平稳架到约膝盖高度；用支架或垫高也行。 |
 | coachAvoidH | These hurt accuracy | 这些会影响识别 |
 | coachAvoid（4）| Body cut off, off-center, or blocked by gear · Too close or too far — aim for 0.5–1 m · ATOM tilted steeply up at you · Backlit, too dark, or heavy shadows | 身体被裁切、偏到一边，或被器械挡住 · 太近或太远——0.5–1 米最好 · ATOM 过度仰角对着你 · 逆光、过暗，或阴影很重 |
 | perExH / perEx | Per exercise / Some moves (floor work, wide stances) need more room — just follow the on-screen guide for each. | 不同动作 / 部分动作（地面动作、大跨步）需要更大画面，按每个动作的屏幕提示调整即可。 |

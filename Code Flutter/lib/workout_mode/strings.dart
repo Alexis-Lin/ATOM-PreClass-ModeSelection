@@ -41,14 +41,15 @@ class L {
         GateReason.needDevice =>
           _t('Pair a nearby ATOM to unlock AI modes.', '连接身边的 ATOM，解锁 AI 模式。'),
         GateReason.needPlus => _t('Get Plus to unlock AI modes.', '开通 Plus，解锁 AI 模式。'),
-        GateReason.overQuota => _t('You’ve used up this cycle’s AI sessions. Manual Log still works.',
-            '本期 AI 次数已用完。手动记录仍可使用。'),
+        GateReason.overQuota => _t(
+            'You’ve used up this cycle’s Plus AI sessions — upgrade to Pro for more. Manual Log still works.',
+            '本期 Plus 的 AI 次数已用完——升级 Pro 可获得更多。手动记录仍可使用。'),
       };
   String gateButton(GateReason r) => switch (r) {
         GateReason.needDevice => addDevice,
         GateReason.needPlus => _t('Get Plus', '开通 Plus'),
-        // PLACEHOLDER — final action (buy add-on / upgrade / just-inform) depends on the business model.
-        GateReason.overQuota => _t('See options', '查看方案'),
+        // Quota exhausted → upsell to Pro. (Exact Pro pricing/limits TBD by business.)
+        GateReason.overQuota => _t('Upgrade to Pro', '升级 Pro'),
       };
   String get notNow => _t('Not now', '以后再说');
 
@@ -88,10 +89,10 @@ class L {
   // Angle is per-exercise and prompted in-workout, so it's intentionally not a
   // fixed rule here — 4 essentials keep the checklist scannable.
   List<String> get coachDo => zh
-      ? const ['全身入框，站在画面中央', 'ATOM 约膝盖高最好，放地上也行', '离 ATOM 0.5–1 米', '周围留空，别被器械挡住']
+      ? const ['全身入框，站在画面中央', 'ATOM 约膝盖高——用配套三脚架更省事（放地上也行）', '离 ATOM 0.5–1 米', '周围留空，别被器械挡住']
       : const [
           'Whole body in frame, centered',
-          'ATOM at knee height (the floor works too)',
+          'ATOM at knee height — a tripod helps (floor’s fine too)',
           'Stand 0.5–1 m back',
           'Clear space — nothing blocking you',
         ];
@@ -135,8 +136,8 @@ class L {
       'ATOM 只认画面里最大的那个人，背景有人也不影响——你居中、离得够近，是画面里最大的主体就行。');
   String get tripodHeader => _t('Steady placement', '稳定摆放');
   String get tripod => _t(
-      'A compatible ATOM tripod or stand keeps it level at about knee height.',
-      '用配套的 ATOM 三脚架/支架，把它平稳架在约膝盖高度。');
+      'The ATOM tripod is the easy way to get it level at about knee height — recommended. A stand or box works too.',
+      '推荐用配套的 ATOM 三脚架，最省事地把它平稳架到约膝盖高度；用支架或垫高也行。');
   String get avoidHeader => _t('These hurt accuracy', '这些会影响识别');
   // "Cut off" and "blocked by gear" merged — both mean "not fully visible".
   List<String> get coachAvoid => zh
