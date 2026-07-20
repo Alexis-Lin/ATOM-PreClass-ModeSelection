@@ -256,7 +256,7 @@ flowchart TD
 | 门槛·缺会员 | Live Coach needs Plus · Get Plus to unlock AI modes. | Live Coach 需要 Plus · 开通 Plus，解锁 AI 模式。 |
 | 课前须知·标题 | Get set up | 课前须知 |
 | Coach 副标 | ATOM watches like a coach — set it up so it can see you clearly. | ATOM 就像教练的眼睛——摆好位置，让它看清你。 |
-| Coach 做到（4） | Whole body in frame, centered · ATOM at knee height — a tripod helps (floor's fine too) · Stand 0.5–1 m back · Clear space — nothing blocking you | 全身入框，站在画面中央 · ATOM 约膝盖高——用配套三脚架更省事（放地上也行）· 离 ATOM 0.5–1 米 · 周围留空，别被器械挡住 |
+| Coach 做到（4） | Whole body in frame, centered · ATOM at knee height, or the floor · Stand 0.5–1 m back · Clear space — nothing blocking you | 全身入框，站在画面中央 · ATOM 约膝盖高，或放地上· 离 ATOM 0.5–1 米 · 周围留空，别被器械挡住 |
 | Coach 反例（Tips 页，4） | Body cut off, off-center, or blocked by gear · Too close or too far (0.5–1 m) · ATOM tilted steeply up · Backlit, too dark, or heavy shadows | 身体被裁切、偏到一边或被器械挡住 · 太近或太远（0.5–1 米） · ATOM 过度仰角 · 逆光、过暗或阴影很重 |
 | Tips · 背景有人没关系 | Crowd is fine · ATOM tracks the largest person in view, so background people won't throw it off — just be centred and biggest. | 背景有人没关系 · ATOM 只认画面里最大的那个人，背景有人也不影响——你居中、是最大的主体就行。 |
 | Tips · 稳定摆放 | The ATOM tripod is the easy way to get it level at about knee height — recommended. A stand or box works too. | 推荐用配套的 ATOM 三脚架，最省事地把它平稳架到约膝盖高度；用支架或垫高也行。 |
@@ -322,7 +322,7 @@ flowchart TD
 |---|---|---|
 | pageTitle / psOk / dontShow | Get set up / I'm ready / Don't show this again | 课前须知 / 准备好了 / 下次不再提示 |
 | coachSub | ATOM watches like a coach — set it up so it can see you clearly. | ATOM 就像教练的眼睛——摆好位置，让它看清你。 |
-| coachDo（4）| Whole body in frame, centered · ATOM at knee height — a tripod helps (floor's fine too) · Stand 0.5–1 m back · Clear space — nothing blocking you | 全身入框，站在画面中央 · ATOM 约膝盖高——用配套三脚架更省事（放地上也行）· 离 ATOM 0.5–1 米 · 周围留空，别被器械挡住 |
+| coachDo（4）| Whole body in frame, centered · ATOM at knee height, or the floor · Stand 0.5–1 m back · Clear space — nothing blocking you | 全身入框，站在画面中央 · ATOM 约膝盖高，或放地上· 离 ATOM 0.5–1 米 · 周围留空，别被器械挡住 |
 | tipsLink | See framing tips | 查看拍摄技巧 |
 | beta | Beta — AI may miss or miscount reps. Use your judgment. | Beta——AI 可能漏计或误计，请自行判断。 |
 | recapSub | Stay in frame at any angle — just keep the light good. | 全程在画面里，角度随意，光线充足就好。 |

@@ -89,10 +89,10 @@ class L {
   // Angle is per-exercise and prompted in-workout, so it's intentionally not a
   // fixed rule here — 4 essentials keep the checklist scannable.
   List<String> get coachDo => zh
-      ? const ['全身入框，站在画面中央', 'ATOM 约膝盖高——用配套三脚架更省事（放地上也行）', '离 ATOM 0.5–1 米', '周围留空，别被器械挡住']
+      ? const ['全身入框，站在画面中央', 'ATOM 约膝盖高，或放地上', '离 ATOM 0.5–1 米', '周围留空，别被器械挡住']
       : const [
           'Whole body in frame, centered',
-          'ATOM at knee height — a tripod helps (floor’s fine too)',
+          'ATOM at knee height, or the floor',
           'Stand 0.5–1 m back',
           'Clear space — nothing blocking you',
         ];
