@@ -124,9 +124,6 @@ class L {
   // ---- cloud notice (course notice) — inform only, no storage choice ----
   // Smart modes must upload to the cloud for their report; local SD is the
   // ATOM's own decoupled setting, not surfaced here.
-  // ⚠️ PLACEHOLDER: "encrypted" is a factual/security claim — only ship this
-  // wording once engineering/security has confirmed encryption at rest and/or
-  // in transit. Do not treat this as verified copy.
   String get cloudNoticeBody => _t(
       'Video encrypted and saved to your cloud account — review your workout anytime.',
       '视频加密存到您的云端账户，练后随时回看复盘。');
