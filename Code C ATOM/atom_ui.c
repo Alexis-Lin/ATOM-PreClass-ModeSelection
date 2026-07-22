@@ -48,7 +48,7 @@ static const atom_strings_t STR[2] = {
     /* EN */ {
         .kicker = "TODAY'S WORKOUT", .start_workout = "Start workout", .start = "Start",
         .modes_title = "Workout mode",
-        .coach_name = "Live Coach", .coach_sub = "Live counting and cues.",
+        .coach_name = "Live Coach", .coach_sub = "Live counting and form cues.",
         .recap_name = "Record & Recap", .recap_sub = "Records quietly, reports after.",
         .confirm_title = "Before you start", .dont_show = "Don't show again",
         .coach_notice = { "Whole body in frame",
