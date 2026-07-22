@@ -10,9 +10,7 @@ class WorkoutModeController extends ChangeNotifier {
     bool isPlus = false,
     AppLang lang = AppLang.en,
     this.hasAiQuota = true,
-    this.dataChoice = DataChoice.cloud,
     this.saveVideosOn = true,
-    this.sessionSave = false,
     this.skipNotice = false,
     this.skipAtomConfirm = false,
   })  : _devices = List.of(devices),
@@ -28,27 +26,18 @@ class WorkoutModeController extends ChangeNotifier {
   AppLang _lang;
   late WorkoutMode _selected;
 
-  /// Where recorded video/report is kept (remembered preference).
-  DataChoice dataChoice;
-
-  // NOTE: the App does NOT know the ATOM's SD-card status (not synced), so it is
-  // NOT modelled here — "Keep on ATOM" is surfaced as a reminder, not a state.
+  // NOTE: the App does NOT know the ATOM's SD-card status (not synced). Local SD
+  // recording is the ATOM's own setting (decoupled) — not modelled here.
 
   /// Has Plus, but this billing cycle's AI sessions may be used up. When false
   /// (and the user has Plus), AI modes lock with GateReason.overQuota.
   bool hasAiQuota;
 
-  /// Global "Save workout videos" setting (Settings). Default on — we do NOT
-  /// nudge users away from saving. When off, each session invites them to
-  /// allow saving instead.
+  /// Global "Video storage" (privacy) setting. Default on. The smart modes must
+  /// upload video to the cloud for their report, so there is NO per-session or
+  /// per-destination choice on the pre-class page — just a cloud notice. When a
+  /// user turns this OFF, the AI modes gray out (GateReason.storageOff).
   bool saveVideosOn;
-
-  /// Per-session opt-in to save when [saveVideosOn] is off.
-  bool sessionSave;
-
-  /// Whether this workout's video is being saved (destination applies only
-  /// when true). Report/recap needs this.
-  bool get saving => saveVideosOn || sessionSave;
 
   /// "Don't show again" for the phone course-notice page.
   bool skipNotice;
@@ -67,17 +56,22 @@ class WorkoutModeController extends ChangeNotifier {
   AppLang get lang => _lang;
   WorkoutMode get selected => _selected;
 
-  bool isLocked(WorkoutMode m) =>
-      m.requiresDevice && (!isPaired || (m.requiresPlus && (!_isPlus || !hasAiQuota)));
+  bool isLocked(WorkoutMode m) {
+    if (!m.isAi) return false;
+    return !isPaired || !_isPlus || !hasAiQuota || !saveVideosOn;
+  }
 
+  /// Gate reasons for a locked AI mode, in display priority order.
   List<GateReason> missing(WorkoutMode m) {
+    if (!m.isAi) return const [];
     final out = <GateReason>[];
-    if (m.requiresDevice && !isPaired) out.add(GateReason.needDevice);
-    if (m.requiresPlus && !_isPlus) {
+    if (!isPaired) out.add(GateReason.needDevice);
+    if (!_isPlus) {
       out.add(GateReason.needPlus);
-    } else if (m.requiresPlus && !hasAiQuota) {
+    } else if (!hasAiQuota) {
       out.add(GateReason.overQuota); // has Plus but AI credits used up
     }
+    if (!saveVideosOn) out.add(GateReason.storageOff); // video storage turned off
     return out;
   }
 
@@ -90,7 +84,7 @@ class WorkoutModeController extends ChangeNotifier {
 
   /// AI modes are fully usable (device + Plus + online). Drives whether the
   /// "switch anytime" note is shown — it's misleading when only Manual works.
-  bool get aiUsable => isPaired && isPlus && hasAiQuota && isOnline;
+  bool get aiUsable => isPaired && isPlus && hasAiQuota && isOnline && saveVideosOn;
 
   // ---- writes ----
   void selectMode(WorkoutMode m) {
@@ -116,11 +110,7 @@ class WorkoutModeController extends ChangeNotifier {
   void setPlus(bool v) { if (_isPlus != v) { _isPlus = v; _reconcile(); notifyListeners(); } }
   void setLang(AppLang v) { if (_lang != v) { _lang = v; notifyListeners(); } }
   void setHasAiQuota(bool v) { if (hasAiQuota != v) { hasAiQuota = v; _reconcile(); notifyListeners(); } }
-  void setDataChoice(DataChoice v) { if (dataChoice != v) { dataChoice = v; notifyListeners(); } }
-  void setSaveVideosOn(bool v) { saveVideosOn = v; sessionSave = false; notifyListeners(); }
-  void setSessionSave(bool v) { sessionSave = v; notifyListeners(); }
-  /// Reset per-session opt-in (call when starting a fresh pre-workout flow).
-  void resetSession() { sessionSave = false; notifyListeners(); }
+  void setSaveVideosOn(bool v) { if (saveVideosOn != v) { saveVideosOn = v; _reconcile(); notifyListeners(); } }
   void setSkipNotice(bool v) { skipNotice = v; notifyListeners(); }
   void setSkipAtomConfirm(bool v) { skipAtomConfirm = v; notifyListeners(); }
 

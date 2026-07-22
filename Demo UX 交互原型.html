@@ -228,7 +228,11 @@
   .privacy{font-size:12px;color:var(--ink-3);line-height:1.5;margin:4px 2px 12px;}
   .privacy a{color:var(--brand-ink);font-weight:700;text-decoration:underline;cursor:pointer;}
   .dataline{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:14px;font-size:12px;color:var(--ink-3);}
-  .ps-actionfoot{margin-top:16px;padding-top:14px;border-top:1px solid var(--hair);}  /* action zone: don't-show + CTA, split off from content+Change */
+  /* cloud upload notice (告知 only, no change entry) */
+  .cloudnote{display:flex;gap:8px;align-items:flex-start;margin-top:14px;font-size:12px;color:var(--ink-3);line-height:1.5;}
+  .cloudnote svg{width:15px;height:15px;flex:none;margin-top:1px;color:var(--ink-3);}
+  .cloudnote a{color:var(--ink-2);font-weight:700;text-decoration:underline;white-space:nowrap;}
+  .ps-actionfoot{margin-top:16px;padding-top:14px;border-top:1px solid var(--hair);}  /* action zone: don't-show + CTA, split off from content+cloud notice */
   .ps-actionfoot .dontrow{margin-top:0;}
   .dataline .drchange{color:var(--brand-ink);font-weight:700;flex:none;}
   .dataline.warn{color:var(--warn);}
@@ -384,7 +388,7 @@
     <div class="seg" id="atomstat"><span class="cap">ATOM</span><button data-st="conn" aria-pressed="true">Online</button><button data-st="nonet" aria-pressed="false">No network</button></div>
     <div class="ctl"><button class="sw" id="sw-plus" role="switch" aria-checked="true"></button><span class="lab">Plus</span></div>
     <div class="ctl"><button class="sw" id="sw-quota" role="switch" aria-checked="true"></button><span class="lab">AI quota</span></div>
-    <div class="ctl"><button class="sw" id="sw-save" role="switch" aria-checked="true"></button><span class="lab">Save video (Settings)</span></div>
+    <div class="ctl"><button class="sw" id="sw-save" role="switch" aria-checked="true"></button><span class="lab">Video storage (Settings)</span></div>
     <button class="reset" id="reset"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 4v4h4"/></svg>Reset</button>
   </div>
 
@@ -492,9 +496,6 @@
             <button class="nsheet-cta" id="ps-ok"></button>
           </div>
         </div>
-
-        <!-- secondary data-save sheet (opened from the small entry on the notice) -->
-        <div class="pop" id="datasheet"><div class="popcard" id="datasheet-card"></div></div>
 
         <!-- course preview (shown first; the bottom button opens the modal) -->
         <div class="page preview show" id="preview">
@@ -629,6 +630,8 @@
       ctaBlocked:'ATOM must be online', cancel:'Not now',
       popDevT:'{n} runs on ATOM', popDevS:'Pair a nearby ATOM to unlock AI modes.', popDevBtn:'Add device',
       popPlusT:'{n} needs Plus', popPlusS:'Get Plus to unlock AI modes.', popPlusBtn:'Get Plus',
+      popStorageT:'{n} needs video storage', popStorageS:'Smart modes upload your video to the cloud for the report. Turn on video storage to use them.', popStorageBtn:'Turn on video storage',
+      cloudBody:'Your video syncs to the cloud for the recap report — review it anytime in the app.',
       popQuotaT:'{n} — AI limit reached', popQuotaS:'This cycle’s Plus AI sessions are used up. Upgrade to Pro for more — Manual Log still works.', popQuotaBtn:'Upgrade to Pro',
       recapNeedH:'Saving required', recapNeed:'Record & Recap keeps the video to build your recap — turn on saving to start.',
       recapTurnOnCta:'Turn on saving to continue', dEnableCta:'Turn on saving', dSaveAlways:'Keep saving on from now on',
@@ -642,8 +645,8 @@
       saveOnT:'Save this workout’s video?',
       saveOnBody:'Saving is off in your settings. Turn it on for this workout to get your recap.',
       saveNotNow:'Not this time', recapNoSave:'This workout won’t be saved, so there’s no recap report.',
-      settingsTitle:'Settings', setSaveTitle:'Save workout videos',
-      setSaveBody:'On by default. Turn off and no video is recorded or uploaded — your reps and stats are still logged, and you’ll be asked each time whether to allow saving.',
+      settingsTitle:'Settings', setSaveTitle:'Video storage',
+      setSaveBody:'On by default. The smart modes (Live Coach, Record & Recap) upload your video to the cloud to build your report. Turn this off and those modes become unavailable — Manual Log still works.',
       privacyNote:'See our',
       privacyLink:'Privacy Policy',
       drCloud:'Saved to your cloud', drLocal:'Saved on ATOM (SD card)', drNoSd:"Won't be saved — no SD card",
@@ -686,6 +689,8 @@
       ctaBlocked:'ATOM 需在线', cancel:'以后再说',
       popDevT:'{n} 需要 ATOM', popDevS:'连接身边的 ATOM，解锁 AI 模式。', popDevBtn:'添加设备',
       popPlusT:'{n} 需要 Plus 会员', popPlusS:'开通 Plus，解锁 AI 模式。', popPlusBtn:'开通 Plus',
+      popStorageT:'{n} 需要视频存储', popStorageS:'智能模式会把视频上传云端以生成报告。开启视频存储即可使用。', popStorageBtn:'开启视频存储',
+      cloudBody:'视频将同步到云端用于生成课后报告——可随时在 App 里回看。',
       popQuotaT:'{n}：AI 额度已用尽', popQuotaS:'本期 Plus 的 AI 次数已用完。升级 Pro 可获得更多——手动记录仍可用。', popQuotaBtn:'升级 Pro',
       recapNeedH:'需开启保存', recapNeed:'录制复盘要保存视频才能生成复盘——开启保存即可开始。',
       recapTurnOnCta:'开启保存以继续', dEnableCta:'开启保存', dSaveAlways:'以后一直开启保存（可在设置关闭）',
@@ -699,8 +704,8 @@
       saveOnT:'保存这次的视频？',
       saveOnBody:'你已在设置中关闭保存。为本次开启即可获得复盘。',
       saveNotNow:'这次不用', recapNoSave:'本次不保存，将没有复盘报告。',
-      settingsTitle:'设置', setSaveTitle:'保存训练视频',
-      setSaveBody:'默认开启。关闭后不再录制或上传任何视频——组数、数据仍会记录；每次训练会询问是否允许保存。',
+      settingsTitle:'设置', setSaveTitle:'视频存储',
+      setSaveBody:'默认开启。智能模式（实时教练、录制复盘）会把视频上传云端以生成报告。关闭后这两个模式将不可用——手动记录仍可用。',
       privacyNote:'详见',
       privacyLink:'隐私协议',
       drCloud:'视频同步到云端', drLocal:'视频存于 ATOM（SD 卡）', drNoSd:'不会保存——无 SD 卡',
@@ -758,7 +763,7 @@
   function active(){ var l=deviceList(); if(!l.length) return null; if(ACTIVE>=l.length)ACTIVE=0; return l[ACTIVE]; }
   var paired=function(){return DEVCOUNT!=='nodev';};
   var online=function(){ var a=active(); return a && a.status==='conn'; };
-  function missing(req){ if(req==='none')return[]; var m=[]; if(!paired())m.push('device'); if(!PLUS)m.push('plus'); else if(!AIQUOTA)m.push('quota'); return m; }
+  function missing(req){ if(req==='none')return[]; var m=[]; if(!paired())m.push('device'); if(!PLUS)m.push('plus'); else if(!AIQUOTA)m.push('quota'); if(STORAGEOFF)m.push('storage'); return m; }
   function locked(el){ return missing(el.getAttribute('data-req')).length>0; }
 
   function select(el){ modes.forEach(function(m){m.classList.remove('sel');}); el.classList.add('sel'); updateCTA(); }
@@ -778,11 +783,14 @@
     var m=missing(el.getAttribute('data-req')), name=MODES[el.getAttribute('data-mode')][LANG].name, t=T[LANG];
     if(m.indexOf('device')>-1){ popIc.innerHTML=HWIC; popT.textContent=t.popDevT.replace('{n}',name); popS.textContent=t.popDevS;
       popOk.textContent=t.popDevBtn; popOk.onclick=function(){ setDC('one'); closePop(); }; }
+    else if(m.indexOf('plus')>-1){ popIc.innerHTML=GEM; popT.textContent=t.popPlusT.replace('{n}',name); popS.textContent=t.popPlusS;
+      popOk.textContent=t.popPlusBtn; popOk.onclick=function(){ PLUS=true; document.getElementById('sw-plus').setAttribute('aria-checked','true'); render(); closePop(); }; }
     else if(m.indexOf('quota')>-1){ popIc.innerHTML=GEM; popT.textContent=t.popQuotaT.replace('{n}',name); popS.textContent=t.popQuotaS;
       // PLACEHOLDER CTA — final action (buy add-on / upgrade / view plans) depends on the business model.
       popOk.textContent=t.popQuotaBtn; popOk.onclick=function(){ AIQUOTA=true; document.getElementById('sw-quota').setAttribute('aria-checked','true'); render(); closePop(); }; }
-    else { popIc.innerHTML=GEM; popT.textContent=t.popPlusT.replace('{n}',name); popS.textContent=t.popPlusS;
-      popOk.textContent=t.popPlusBtn; popOk.onclick=function(){ PLUS=true; document.getElementById('sw-plus').setAttribute('aria-checked','true'); render(); closePop(); }; }
+    else { popIc.innerHTML=CLOUDI; popT.textContent=t.popStorageT.replace('{n}',name); popS.textContent=t.popStorageS;
+      // Video storage off (future global privacy setting) → turning it on unlocks the smart modes.
+      popOk.textContent=t.popStorageBtn; popOk.onclick=function(){ setSaveOff(false); closePop(); }; }
     popCancel.textContent=t.cancel; pop.classList.add('show');
   }
   function closePop(){ pop.classList.remove('show'); }
@@ -816,9 +824,13 @@
   var SDI='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h7l4 4v12a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z"/><path d="M10 3v3M12.5 3v3M15 3v3"/></svg>';
   var INFOI='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.5h.01"/></svg>';
   var CHKM='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>';
-  var dataChoice='cloud', psSkip=false;
-  var SAVEOFF=false, sessionSave=false, inviteAlways=false;   // global "don't save videos" setting + per-session opt-in (+ "keep on" scope in the invite)
-  function saving(){ return !SAVEOFF || sessionSave; }
+  var psSkip=false;
+  // Cloud upload is REQUIRED for the smart modes (their reports depend on it), so the
+  // pre-class page no longer offers a storage choice — just a cloud notice. Local SD
+  // recording is the ATOM's own setting (decoupled, not managed here).
+  // STORAGEOFF = a global "video storage" privacy setting (future): when off, the two
+  // AI modes gray out at mode select.
+  var STORAGEOFF=false;
   function _sec(txt,warn){ return '<div class="ps-sec'+(warn?' warn':'')+'">'+txt+'</div>'; }
   function _do(items){ return '<div class="checklist">'+items.map(function(x){return '<div class="it">'+CHK+'<span>'+x+'</span></div>';}).join('')+'</div>'; }
   function _avoid(items){ return '<div class="avoidlist">'+items.map(function(x){return '<div class="av">'+AVX+'<span>'+x+'</span></div>';}).join('')+'</div>'; }
@@ -828,13 +840,8 @@
   function _infoW(icon,h,txt){ return '<div class="infobox warn"><div class="ih">'+icon+'<span>'+h+'</span></div><span>'+txt+'</span></div>'; }
   function _avoidbox(icon,h,items){ return '<div class="infobox"><div class="ih warntone">'+icon+'<span>'+h+'</span></div>'+_avoid(items)+'</div>'; }
   function _txtsec(icon,h,txt){ return '<div class="txtsec"><div class="tsh">'+icon+'<span>'+h+'</span></div><div class="tsb">'+txt+'</div></div>'; }
-  function _datarow(t){
-    if(!saving()){
-      return '<div class="dataline off" id="ps-datarow"><span>'+t.drSaveOff+'</span><span class="drchange allow">'+t.drTurnOn+'</span></div>';
-    }
-    var txt = dataChoice==='cloud'?t.drCloud:t.drLocal;   // App can't verify SD → no "no card" state here
-    return '<div class="dataline" id="ps-datarow"><span>'+txt+'</span><span class="drchange">'+t.drChange+'</span></div>';
-  }
+  // Cloud upload is required for the report → we only INFORM (no change entry).
+  function _cloudnote(t){ return '<div class="cloudnote">'+CLOUDI+'<span>'+t.cloudBody+' <a>'+t.privacyLink+'</a></span></div>'; }
   function _dontrow(t){ return '<div class="dontrow'+(psSkip?' on':'')+'" id="ps-dont"><span class="box">'+CHKM+'</span><span>'+t.dontShow+'</span></div>'; }
   var EYEI='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>';
   var CHEVI='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>';
@@ -851,8 +858,6 @@
     var mode=selEl.getAttribute('data-mode');
     psT.textContent=t.pageTitle;
     var h='';
-    // Record & Recap's whole output is the saved video + recap → saving is REQUIRED for it.
-    var recapNeedsSave = (mode==='recap' && !saving());
     // Image first → text → boxed hints (consistent rhythm with the tips page).
     if(mode==='coach'){
       h+=FRAME(t)
@@ -861,17 +866,14 @@
         +_tipslink(t)
         +'<div class="caution" style="margin-top:14px">'+WARNI+'<span>'+t.beta+'</span></div>';
     } else {
-      h+=FRAME(t)+'<div class="pagesub">'+t.recapSub+'</div>';
-      if(recapNeedsSave) h+=_infoW(WARNI,t.recapNeedH,t.recapNeed);   // hard requirement, not just "no report"
-      else h+=_info(REPORTI,t.reportH,t.report)+_info(ALGOI,t.algoH,t.algo);
+      // Cloud is forced now → Record & Recap always has its report; no "needs saving".
+      h+=FRAME(t)+'<div class="pagesub">'+t.recapSub+'</div>'
+        +_info(REPORTI,t.reportH,t.report)+_info(ALGOI,t.algoH,t.algo);
     }
-    // "Change" (save destination) belongs with the content above; "don't show" belongs with the CTA below.
-    // A hairline zone separates the two so they don't read as one group.
-    h+=_datarow(t)+'<div class="ps-actionfoot">'+_dontrow(t)+'</div>';
-    // CTA: recap without saving can't proceed → button turns into "turn on saving to continue".
-    psOk.textContent = recapNeedsSave ? t.recapTurnOnCta : t.psOk;
+    // Cloud notice (告知, no change entry) with the content; "don't show" with the CTA below.
+    h+=_cloudnote(t)+'<div class="ps-actionfoot">'+_dontrow(t)+'</div>';
+    psOk.textContent = t.psOk;
     psBody.innerHTML=h; prestart.classList.add('show'); if(!keep) psBody.scrollTop=0;
-    document.getElementById('ps-datarow').onclick=openDataSheet;
     document.getElementById('ps-dont').onclick=function(){ psSkip=!psSkip; var st=psBody.scrollTop; openPrestart(true); psBody.scrollTop=st; };
     var tl=document.getElementById('ps-tips'); if(tl) tl.onclick=showTips;
   }
@@ -893,50 +895,8 @@
   prestart.addEventListener('click',function(e){ if(e.target===prestart) prestart.classList.remove('show'); });  // tap dimmed backdrop to dismiss
   document.getElementById('ps-x').onclick=function(){ prestart.classList.remove('show'); };  // ✕ close → back to mode select
   psOk.onclick=function(){
-    var selEl=sheet.querySelector('.mode.sel'), mode=selEl?selEl.getAttribute('data-mode'):'';
-    if(mode==='recap' && !saving()){ openDataSheet(); return; }   // hard-require saving → open the enable flow, don't start
     prestart.classList.remove('show');   // "I'm ready" → proceed (would start the workout)
   };
-
-  /* secondary data-save sheet (opened from the small entry on the notice) */
-  var datasheet=document.getElementById('datasheet'), dsCard=document.getElementById('datasheet-card');
-  function reopenNotice(){ datasheet.classList.remove('show'); var st=psBody.scrollTop; openPrestart(true); psBody.scrollTop=st; }
-  function openDataSheet(){
-    var t=T[LANG]; var remind=dataChoice==='local';   // "Keep on ATOM" → remind about the SD card (App can't verify it)
-    var allow = SAVEOFF && !sessionSave;   // saving is globally off → invite the user to allow it
-    function card(key,name,rec,badge,benefits){
-      var s=dataChoice===key;
-      var lis=benefits.map(function(x){return '<li>'+CHKM+'<span>'+x+'</span></li>';}).join('');
-      var tag=rec?'<span class="rec">'+t.dRecommended+'</span>':(badge?'<span class="needsd">'+badge+'</span>':'');
-      return '<div class="dcard'+(s?' sel':'')+'" data-d="'+key+'"><div class="dtop"><span class="dn2">'+name+'</span>'+tag+'<span class="dradio">'+CHKM+'</span></div><ul>'+lis+'</ul></div>';
-    }
-    var head = allow
-      ? '<div class="pt">'+t.saveOnT+'</div><div class="pagesub" style="margin:-2px 0 12px">'+t.saveOnBody+'</div>'
-      : '<div class="pt">'+t.dataSheetT+'</div>';
-    dsCard.innerHTML=head
-      +card('cloud',t.dCloudName,true,null,t.dCloudBenefits)
-      +card('local',t.dLocalName,false,t.dLocalNeedsSd,t.dLocalBenefits)
-      +(remind?'<div class="datanote ok" style="margin-bottom:10px">'+INFOI+'<span>'+t.dLocalReminder+'</span></div>':'')
-      +'<div class="privacy">'+t.privacyNote+' <a>'+t.privacyLink+'</a></div>'
-      +(allow
-        ? '<div class="dontrow'+(inviteAlways?' on':'')+'" id="ds-always" style="margin-top:12px"><span class="box">'+CHKM+'</span><span>'+t.dSaveAlways+'</span></div>'
-          +'<div class="pbtns"><div class="pb" id="ds-skip">'+t.saveNotNow+'</div><div class="pb primary" id="ds-enable">'+t.dEnableCta+'</div></div>'
-        : '<div class="pbtns"><div class="pb primary" id="ds-done">'+t.dDone+'</div></div>');
-    dsCard.querySelectorAll('.dcard').forEach(function(c){ c.onclick=function(){
-      dataChoice=c.getAttribute('data-d');
-      openDataSheet();   // just re-highlight; in invite mode the confirm is the button below
-    }; });
-    var always=document.getElementById('ds-always'); if(always) always.onclick=function(){ inviteAlways=!inviteAlways; openDataSheet(); };
-    var enable=document.getElementById('ds-enable'); if(enable) enable.onclick=function(){
-      if(inviteAlways){ inviteAlways=false; setSaveOff(false); }  // "keep on" → flip the GLOBAL setting
-      else { sessionSave=true; }                                  // otherwise just this one session
-      reopenNotice();
-    };
-    var done=document.getElementById('ds-done'); if(done) done.onclick=reopenNotice;
-    var skip=document.getElementById('ds-skip'); if(skip) skip.onclick=reopenNotice;
-    datasheet.classList.add('show');
-  }
-  datasheet.addEventListener('click',function(e){ if(e.target===datasheet) datasheet.classList.remove('show'); });
 
   modes.forEach(function(el){ el.querySelector('.head').addEventListener('click',function(){
     if(locked(el)){ nudge(el); openPop(el); return; } select(el);
@@ -1056,26 +1016,25 @@
   // Mode select is a bottom sheet over the course preview → tapping the dimmed hero above it dismisses back to preview.
   document.querySelector('.backdrop').addEventListener('click',function(){ preview.classList.remove('hiding'); preview.classList.add('show'); });
 
-  /* global "Save workout videos" setting (default on) */
+  /* global "Video storage" (privacy) setting — default on. Off → smart modes gray out. */
   var settings=document.getElementById('settings');
   function setSaveOff(off){
-    SAVEOFF=off; sessionSave=false; inviteAlways=false;
+    STORAGEOFF=off;
     var a=String(!off);
     var s1=document.getElementById('sw-save'); if(s1)s1.setAttribute('aria-checked',a);
     var s2=document.getElementById('set-save-sw'); if(s2)s2.setAttribute('aria-checked',a);
+    render();   // re-lock / unlock the AI modes
     if(prestart.classList.contains('show')){ var st=psBody.scrollTop; openPrestart(true); psBody.scrollTop=st; }
-    if(datasheet.classList.contains('show')) openDataSheet();
   }
   document.getElementById('pv-gear').addEventListener('click',function(){ settings.classList.add('show'); });
   document.getElementById('set-back').addEventListener('click',function(){ settings.classList.remove('show'); });
-  document.getElementById('set-save-sw').addEventListener('click',function(){ setSaveOff(!SAVEOFF); });
-  document.getElementById('sw-save').addEventListener('click',function(){ setSaveOff(!SAVEOFF); });
+  document.getElementById('set-save-sw').addEventListener('click',function(){ setSaveOff(!STORAGEOFF); });
+  document.getElementById('sw-save').addEventListener('click',function(){ setSaveOff(!STORAGEOFF); });
 
   /* reset the whole demo back to the preview screens */
   document.getElementById('reset').addEventListener('click',function(){
     closePop(); dpick.classList.remove('show'); roverlay.classList.remove('show');
-    prestart.classList.remove('show'); datasheet.classList.remove('show'); settings.classList.remove('show'); tips.classList.remove('show');
-    sessionSave=false; inviteAlways=false;
+    prestart.classList.remove('show'); settings.classList.remove('show'); tips.classList.remove('show');
     preview.classList.remove('hiding'); preview.classList.add('show');
     atomidle.classList.remove('hiding'); atomidle.classList.add('show');
   });

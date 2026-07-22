@@ -10,9 +10,10 @@ import 'tokens.dart';
 ///
 /// Positive-only framing guidance. Live Coach shows a coach mental model +
 /// a short "do" checklist + a link to the Framing tips page (the don'ts live
-/// there). Record & Recap sets report / algorithm expectations. The data-save
-/// choice is a subtle line under the content; when global saving is off it
-/// flips to an invite to allow saving for this workout.
+/// there). Record & Recap sets report / algorithm expectations. Below the
+/// content is a small CLOUD NOTICE ([_CloudNotice]) — smart modes must upload
+/// to the cloud for their report, so it only informs (no storage choice). Local
+/// SD recording is the ATOM's own setting, decoupled and not surfaced here.
 ///
 /// ── INTEGRATION (front-end) ────────────────────────────────────────────────
 /// • Present it with [showCourseNoticeSheet] from the mode-select CTA, only for
@@ -24,9 +25,8 @@ import 'tokens.dart';
 ///   `onStart(mode)`. Wire this to real navigation / a BLoC/Riverpod event.
 /// • Dismissing (✕ button, drag-down, or scrim tap) just closes the sheet and
 ///   returns to mode select — NOTHING starts. This is the "防呆" back-out.
-/// • "Change" opens the data-destination sheet (`showDataChoiceSheet`); "See
-///   framing tips" pushes [FramingTipsPage] as a full page. Both compose fine
-///   on top of this sheet.
+/// • "See framing tips" pushes [FramingTipsPage] as a full page. It composes
+///   fine on top of this sheet.
 ///
 /// ── COPY & ASSETS (for UX writing / design) ────────────────────────────────
 /// • All strings come from [L] (strings.dart) — no copy is hard-coded here, so
@@ -78,8 +78,6 @@ class _CourseNoticeSheet extends StatelessWidget {
       builder: (context, _) {
         final l = L(controller.lang);
         final media = MediaQuery.of(context);
-        // Record & Recap's output IS the saved video + recap → saving is required.
-        final recapNeedsSave = mode == WorkoutMode.recordRecap && !controller.saving;
         return Container(
           constraints: BoxConstraints(maxHeight: media.size.height * _kMaxSheetFraction),
           decoration: const BoxDecoration(
@@ -115,7 +113,7 @@ class _CourseNoticeSheet extends StatelessWidget {
                     const SizedBox(height: 16),
                     ..._body(context, l),
                     const SizedBox(height: 16),
-                    _DataSaveLine(controller: controller), // "Change" stays with the content
+                    _CloudNotice(l: l), // cloud upload is required → inform only, no choice
                   ],
                 ),
               ),
@@ -129,15 +127,12 @@ class _CourseNoticeSheet extends StatelessWidget {
                   children: [
                     _DontShowRow(controller: controller),
                     const SizedBox(height: 12),
-                    // Recap without saving can't proceed → CTA opens the enable flow instead.
                     PillButton(
-                      label: recapNeedsSave ? l.recapTurnOnCta : l.ready,
-                      onTap: recapNeedsSave
-                          ? () => showDataChoiceSheet(context, controller)
-                          : () {
-                              Navigator.of(context).maybePop(); // close the sheet first…
-                              onStart(mode); // …then start the workout (host hook)
-                            },
+                      label: l.ready,
+                      onTap: () {
+                        Navigator.of(context).maybePop(); // close the sheet first…
+                        onStart(mode); // …then start the workout (host hook)
+                      },
                     ),
                   ],
                 ),
@@ -151,15 +146,7 @@ class _CourseNoticeSheet extends StatelessWidget {
 
   List<Widget> _body(BuildContext context, L l) {
     if (mode == WorkoutMode.recordRecap) {
-      if (!controller.saving) {
-        return [
-          _InfoBox(
-              icon: Icons.warning_amber_rounded,
-              header: l.recapNeedHeader,
-              body: l.recapNeed,
-              warn: true), // hard requirement, not just "no report"
-        ];
-      }
+      // Cloud is forced now → Record & Recap always uploads and has its report.
       return [
         _InfoBox(icon: Icons.auto_awesome_outlined, header: l.reportHeader, body: l.report),
         const SizedBox(height: 10),
@@ -499,63 +486,35 @@ class _FramingPainter extends CustomPainter {
 }
 
 // ---------------------------------------------------------------------------
-/// Subtle data-destination line. When global saving is off, it flips to a
-/// green invite ("Video saving is off — this workout won't be saved · Turn on").
-class _DataSaveLine extends StatelessWidget {
-  const _DataSaveLine({required this.controller});
-  final WorkoutModeController controller;
-
+/// Cloud upload notice. Smart modes must upload to the cloud for their report,
+/// so this is INFORM-ONLY — no storage choice, no "Change". Local SD recording
+/// is the ATOM's own setting (decoupled), not surfaced here.
+class _CloudNotice extends StatelessWidget {
+  const _CloudNotice({required this.l});
+  final L l;
   @override
-  Widget build(BuildContext context) {
-    final l = L(controller.lang);
-    if (!controller.saving) {
-      return InkWell(
-        borderRadius: BorderRadius.circular(10),
-        onTap: () => showDataChoiceSheet(context, controller),
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 10),
-          decoration: BoxDecoration(
-            color: Wm.brandTint,
-            border: Border.all(color: const Color(0xFFD6ECB3)),
-            borderRadius: BorderRadius.circular(10),
+  Widget build(BuildContext context) => Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Icon(Icons.cloud_outlined, size: 15, color: Wm.ink3),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Text.rich(TextSpan(children: [
+              TextSpan(
+                  text: '${l.cloudNoticeBody} ',
+                  style: const TextStyle(fontSize: 11.5, height: 1.5, color: Wm.ink3)),
+              TextSpan(
+                  text: l.privacyLink,
+                  style: const TextStyle(
+                      fontSize: 11.5,
+                      height: 1.5,
+                      color: Wm.ink2,
+                      fontWeight: FontWeight.w700,
+                      decoration: TextDecoration.underline)),
+            ])),
           ),
-          child: Row(children: [
-            Expanded(
-              child: Text(l.drSaveOff,
-                  style: const TextStyle(fontSize: 11.5, height: 1.4, color: Wm.brandInk)),
-            ),
-            const SizedBox(width: 8),
-            Text(l.drTurnOn,
-                style: const TextStyle(
-                    fontSize: 11.5,
-                    fontWeight: FontWeight.w700,
-                    color: Wm.brandInk,
-                    decoration: TextDecoration.underline)),
-          ]),
-        ),
+        ],
       );
-    }
-    // App can't verify the SD card → no "no card" state here; just the choice.
-    final label = controller.dataChoice == DataChoice.cloud ? l.drCloud : l.drLocal;
-    return GestureDetector(
-      onTap: () => showDataChoiceSheet(context, controller),
-      behavior: HitTestBehavior.opaque,
-      child: Row(children: [
-        const Icon(Icons.cloud_outlined, size: 14, color: Wm.ink3),
-        const SizedBox(width: 6),
-        Expanded(
-          child: Text(label,
-              style: const TextStyle(fontSize: 11.5, height: 1.4, color: Wm.ink3),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis),
-        ),
-        const SizedBox(width: 6),
-        Text(l.drChange,
-            style: const TextStyle(
-                fontSize: 11.5, fontWeight: FontWeight.w700, color: Wm.ink, decoration: TextDecoration.underline)),
-      ]),
-    );
-  }
 }
 
 class _DontShowRow extends StatelessWidget {
@@ -578,233 +537,4 @@ class _DontShowRow extends StatelessWidget {
       ),
     );
   }
-}
-
-// ---------------------------------------------------------------------------
-// Data-choice secondary sheet (normal "where to save" vs invite-to-save)
-// ---------------------------------------------------------------------------
-Future<void> showDataChoiceSheet(BuildContext context, WorkoutModeController controller) {
-  final l = L(controller.lang);
-  final invite = !controller.saving; // saving globally off → guide to allow
-  var alwaysOn = false; // invite scope: false = this session only; true = flip global setting
-  return showAppSheet(
-    context,
-    scrollable: true,
-    child: StatefulBuilder(
-      builder: (context, setSheetState) {
-        // Selecting a card just highlights it now; the commit is the button below.
-        void pick(DataChoice c) {
-          controller.setDataChoice(c);
-          setSheetState(() {});
-        }
-
-        final remind = controller.dataChoice == DataChoice.local; // SD reminder (app can't verify)
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Text(invite ? l.saveOnTitle : l.dataSheetTitle,
-                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: Wm.ink)),
-            if (invite) ...[
-              const SizedBox(height: 4),
-              Text(l.saveOnBody, style: const TextStyle(fontSize: 12.5, height: 1.5, color: Wm.ink2)),
-            ],
-            const SizedBox(height: 12),
-            _DataOption(
-              icon: Icons.cloud_outlined,
-              name: l.dCloudName,
-              tag: l.dRecommended,
-              tagGood: true,
-              benefits: l.dCloudBenefits,
-              selected: controller.dataChoice == DataChoice.cloud,
-              onTap: () => pick(DataChoice.cloud),
-            ),
-            const SizedBox(height: 10),
-            _DataOption(
-              icon: Icons.sd_card_outlined,
-              name: l.dLocalName,
-              tag: l.dNeedsSd,
-              tagGood: false,
-              benefits: l.dLocalBenefits,
-              selected: controller.dataChoice == DataChoice.local,
-              onTap: () => pick(DataChoice.local),
-            ),
-            if (remind) ...[
-              const SizedBox(height: 10),
-              _SdReminder(text: l.dLocalReminder),
-            ],
-            const SizedBox(height: 14),
-            Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              const Icon(Icons.lock_outline, size: 14, color: Wm.ink3),
-              const SizedBox(width: 7),
-              Expanded(
-                child: Text.rich(TextSpan(children: [
-                  TextSpan(
-                      text: '${l.privacyNote} ',
-                      style: const TextStyle(fontSize: 11.5, height: 1.5, color: Wm.ink3)),
-                  TextSpan(
-                      text: l.privacyLink,
-                      style: const TextStyle(
-                          fontSize: 11.5,
-                          height: 1.5,
-                          color: Wm.ink2,
-                          fontWeight: FontWeight.w700,
-                          decoration: TextDecoration.underline)),
-                ])),
-              ),
-            ]),
-            const SizedBox(height: 16),
-            if (invite) ...[
-              // Scope of the enable: this session only (default) vs flip the global setting.
-              _ScopeCheck(
-                value: alwaysOn,
-                label: l.dSaveAlways,
-                onTap: () => setSheetState(() => alwaysOn = !alwaysOn),
-              ),
-              const SizedBox(height: 12),
-              Row(children: [
-                Expanded(child: SheetButton(label: l.saveNotNow, onTap: () => Navigator.pop(context))),
-                const SizedBox(width: 9),
-                Expanded(
-                  child: SheetButton(
-                    label: l.dEnableCta,
-                    primary: true,
-                    onTap: () {
-                      if (alwaysOn) {
-                        controller.setSaveVideosOn(true); // "keep on" → global setting
-                      } else {
-                        controller.setSessionSave(true); // just this session
-                      }
-                      Navigator.pop(context);
-                    },
-                  ),
-                ),
-              ]),
-            ] else
-              SheetButton(label: l.dDone, primary: true, onTap: () => Navigator.pop(context)),
-          ],
-        );
-      },
-    ),
-  );
-}
-
-/// Neutral SD reminder for "Keep on ATOM" (the app can't verify the card).
-class _SdReminder extends StatelessWidget {
-  const _SdReminder({required this.text});
-  final String text;
-  @override
-  Widget build(BuildContext context) => Container(
-        padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 10),
-        decoration: BoxDecoration(color: Wm.iconBg, borderRadius: BorderRadius.circular(8)),
-        child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          const Icon(Icons.info_outline, size: 15, color: Wm.ink3),
-          const SizedBox(width: 8),
-          Expanded(
-            child: Text(text, style: const TextStyle(fontSize: 12, height: 1.45, color: Wm.ink2)),
-          ),
-        ]),
-      );
-}
-
-/// Checkbox row for the "keep saving on from now on" scope choice.
-class _ScopeCheck extends StatelessWidget {
-  const _ScopeCheck({required this.value, required this.label, required this.onTap});
-  final bool value;
-  final String label;
-  final VoidCallback onTap;
-  @override
-  Widget build(BuildContext context) => InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(8),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 4),
-          child: Row(children: [
-            Icon(value ? Icons.check_box : Icons.check_box_outline_blank,
-                size: 19, color: value ? Wm.brandInk : Wm.ink3),
-            const SizedBox(width: 8),
-            Expanded(child: Text(label, style: const TextStyle(fontSize: 12.5, color: Wm.ink2))),
-          ]),
-        ),
-      );
-}
-
-class _DataOption extends StatelessWidget {
-  const _DataOption({
-    required this.icon,
-    required this.name,
-    required this.tag,
-    required this.tagGood,
-    required this.benefits,
-    required this.selected,
-    required this.onTap,
-  });
-  final IconData icon;
-  final String name;
-  final String tag;
-  final bool tagGood;
-  final List<String> benefits;
-  final bool selected;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) => InkWell(
-        borderRadius: BorderRadius.circular(12),
-        onTap: onTap,
-        child: Container(
-          padding: const EdgeInsets.all(13),
-          decoration: BoxDecoration(
-            color: selected ? Wm.brandTint : Wm.card,
-            border: Border.all(color: selected ? Wm.brandInk : Wm.line, width: 1.5),
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Row(children: [
-              Icon(icon, size: 20, color: selected ? Wm.brandInk : Wm.ink2),
-              const SizedBox(width: 10),
-              Text(name,
-                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: Wm.ink)),
-              const SizedBox(width: 8),
-              _DataTag(text: tag, good: tagGood),
-              const Spacer(),
-              WmRadio(selected: selected, size: 22),
-            ]),
-            const SizedBox(height: 9),
-            for (final b in benefits)
-              Padding(
-                padding: const EdgeInsets.only(bottom: 4, left: 30),
-                child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  const Padding(
-                    padding: EdgeInsets.only(top: 2),
-                    child: Icon(Icons.check, size: 13, color: Wm.ink3),
-                  ),
-                  const SizedBox(width: 7),
-                  Expanded(
-                    child: Text(b, style: const TextStyle(fontSize: 12, height: 1.4, color: Wm.ink2)),
-                  ),
-                ]),
-              ),
-          ]),
-        ),
-      );
-}
-
-class _DataTag extends StatelessWidget {
-  const _DataTag({required this.text, required this.good});
-  final String text;
-  final bool good;
-  @override
-  Widget build(BuildContext context) => Container(
-        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-        decoration: BoxDecoration(
-          // "Recommended" = brand green; "Needs SD card" = neutral gray (not a
-          // premium/positive signal).
-          color: good ? Wm.brandTint : const Color(0xFFF1F2EE),
-          border: Border.all(color: good ? const Color(0xFFD6ECB3) : Wm.line),
-          borderRadius: BorderRadius.circular(5),
-        ),
-        child: Text(text,
-            style: TextStyle(
-                fontSize: 12, fontWeight: FontWeight.w700, color: good ? Wm.brandInk : Wm.ink2)),
-      );
 }

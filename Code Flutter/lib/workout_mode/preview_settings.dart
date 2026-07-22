@@ -28,7 +28,6 @@ class CoursePreviewPage extends StatelessWidget {
   final double height;
 
   void _openSheet(BuildContext context) {
-    controller.resetSession();
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,

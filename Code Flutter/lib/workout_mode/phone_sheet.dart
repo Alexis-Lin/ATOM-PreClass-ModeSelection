@@ -401,7 +401,7 @@ Future<void> showGateSheet(
         width: 44,
         height: 44,
         decoration: BoxDecoration(color: Wm.iconBg, borderRadius: BorderRadius.circular(13)),
-        child: Icon(reason == GateReason.needDevice ? kAtomIcon : kPlusIcon,
+        child: Icon(_gateIcon(reason),
             size: 23, color: reason == GateReason.needDevice ? Wm.ink : Wm.plus),
       ),
       const SizedBox(height: 9),
@@ -423,6 +423,8 @@ Future<void> showGateSheet(
                 onAddDevice?.call();
               } else if (reason == GateReason.needPlus) {
                 onGetPlus?.call();
+              } else if (reason == GateReason.storageOff) {
+                controller.setSaveVideosOn(true); // turn video storage back on
               }
               // GateReason.overQuota: PLACEHOLDER — wire to buy-credits / upgrade
               // once the business model is set.
@@ -433,6 +435,12 @@ Future<void> showGateSheet(
     ]),
   );
 }
+
+IconData _gateIcon(GateReason r) => switch (r) {
+      GateReason.needDevice => kAtomIcon,
+      GateReason.storageOff => Icons.cloud_outlined,
+      _ => kPlusIcon, // needPlus / overQuota
+    };
 
 Future<void> showDevicePicker(BuildContext context, WorkoutModeController controller) {
   final l = L(controller.lang);

@@ -36,6 +36,8 @@ class L {
         GateReason.needDevice => _t('${modeName(m)} runs on ATOM', '${modeName(m)} 需要 ATOM'),
         GateReason.needPlus => _t('${modeName(m)} needs Plus', '${modeName(m)} 需要 Plus 会员'),
         GateReason.overQuota => _t('${modeName(m)} — AI limit reached', '${modeName(m)}：AI 额度已用尽'),
+        GateReason.storageOff =>
+          _t('${modeName(m)} needs video storage', '${modeName(m)} 需要视频存储'),
       };
   String gateBody(GateReason r) => switch (r) {
         GateReason.needDevice =>
@@ -44,12 +46,16 @@ class L {
         GateReason.overQuota => _t(
             'This cycle’s Plus AI sessions are used up. Upgrade to Pro for more — Manual Log still works.',
             '本期 Plus 的 AI 次数已用完。升级 Pro 可获得更多——手动记录仍可用。'),
+        GateReason.storageOff => _t(
+            'Smart modes upload your video to the cloud for the report. Turn on video storage to use them.',
+            '智能模式会把视频上传云端以生成报告。开启视频存储即可使用。'),
       };
   String gateButton(GateReason r) => switch (r) {
         GateReason.needDevice => addDevice,
         GateReason.needPlus => _t('Get Plus', '开通 Plus'),
         // Quota exhausted → upsell to Pro. (Exact Pro pricing/limits TBD by business.)
         GateReason.overQuota => _t('Upgrade to Pro', '升级 Pro'),
+        GateReason.storageOff => _t('Turn on video storage', '开启视频存储'),
       };
   String get notNow => _t('Not now', '以后再说');
 
@@ -115,14 +121,13 @@ class L {
   String get algoHeader => _t('Nothing is lost', '不用担心');
   String get algo =>
       _t('Video is saved — future upgrades re-analyze it.', '视频留存，日后升级可重新分析。');
-  String get recapNoSave => _t(
-      'This workout won’t be saved, so there’s no recap report.', '本次不保存，将没有复盘报告。');
-  // Record & Recap hard-requires saving (its output IS the saved video + recap).
-  String get recapNeedHeader => _t('Saving required', '需开启保存');
-  String get recapNeed => _t(
-      'Record & Recap keeps the video to build your recap — turn on saving to start.',
-      '录制复盘要保存视频才能生成复盘——开启保存即可开始。');
-  String get recapTurnOnCta => _t('Turn on saving to continue', '开启保存以继续');
+  // ---- cloud notice (course notice) — inform only, no storage choice ----
+  // Smart modes must upload to the cloud for their report; local SD is the
+  // ATOM's own decoupled setting, not surfaced here.
+  String get cloudNoticeBody => _t(
+      'Your video syncs to the cloud for the recap report — review it anytime in the app.',
+      '视频将同步到云端用于生成课后报告——可随时在 App 里回看。');
+  String get privacyLink => _t('Privacy Policy', '隐私协议');
 
   // ---- framing tips (extra reading) ----
   String get tipsTitle => _t('Framing tips', '拍摄技巧');
@@ -149,50 +154,12 @@ class L {
           'Backlit, too dark, or heavy shadows',
         ];
 
-  // ---- data-save (bottom line) ----
-  String get drCloud => _t('Saved to your cloud', '视频同步到云端');
-  String get drLocal => _t('Saved on ATOM (SD card)', '视频存于 ATOM（SD 卡）');
-  String get drSaveOff =>
-      _t('Video saving is off — this workout won’t be saved.', '视频保存已关闭，本次不会保存。');
-  String get drTurnOn => _t('Turn on', '开启保存');
-  String get drChange => _t('Change', '更改');
-
-  // ---- data-save sheet (normal + invite-to-save) ----
-  String get dataSheetTitle => _t('Where to save your video?', '视频保存在哪里？');
-  String get saveOnTitle => _t('Save this workout’s video?', '保存这次的视频？');
-  String get saveOnBody => _t(
-      'Saving is off in your settings. Turn it on for this workout to get your recap.',
-      '你已在设置中关闭保存。为本次开启即可获得复盘。');
-  String get saveNotNow => _t('Not this time', '这次不用');
-  String get dEnableCta => _t('Turn on saving', '开启保存');
-  // Scope of the per-session enable: unchecked = this session only; checked = flip the global setting.
-  String get dSaveAlways => _t('Keep saving on from now on', '以后一直开启保存（可在设置关闭）');
-  String get dCloudName => _t('Cloud', '云端');
-  String get dLocalName => _t('Keep on ATOM', '仅存 ATOM');
-  String get dRecommended => _t('Recommended', '推荐');
-  String get dNeedsSd => _t('Needs SD card', '需 SD 卡');
-  // App can't verify the ATOM's SD card → a reminder, not a detected state.
-  String get dLocalReminder => _t(
-      'The app can’t check ATOM’s SD card from here — make sure one’s inserted, or this session won’t be saved.',
-      'App 端无法确认 ATOM 的 SD 卡状态——请自行确保已插卡，否则本次不会保存。');
-  String get dDone => _t('Done', '完成');
-  List<String> get dCloudBenefits => zh
-      ? const ['无需 SD 卡', '算法升级后自动重分析']
-      : const ['No SD card needed', 'Auto re-analyzed as AI improves'];
-  List<String> get dLocalBenefits => zh
-      ? const ['存 SD 卡，随时自取', '不上传云端']
-      : const ['On the SD card — copy off anytime', 'Not uploaded'];
-  // Privacy: "just enough" — no strong promise (don't over-commit / invite worry),
-  // just a light pointer to the policy.
-  String get privacyNote => _t('See our', '详见');
-  String get privacyLink => _t('Privacy Policy', '隐私协议');
-
-  // ---- Settings (global video-saving toggle) ----
+  // ---- Settings (global video-storage / privacy toggle) ----
   String get settingsTitle => _t('Settings', '设置');
-  String get setSaveTitle => _t('Save workout videos', '保存训练视频');
+  String get setSaveTitle => _t('Video storage', '视频存储');
   String get setSaveBody => _t(
-      'On by default. Turn off and no video is recorded or uploaded — your reps and stats are still logged, and you’ll be asked each time whether to allow saving.',
-      '默认开启。关闭后不再录制或上传任何视频——组数、数据仍会记录；每次训练会询问是否允许保存。');
+      'On by default. The smart modes (Live Coach, Record & Recap) upload your video to the cloud to build your report. Turn this off and those modes become unavailable — Manual Log still works.',
+      '默认开启。智能模式（实时教练、录制复盘）会把视频上传云端以生成报告。关闭后这两个模式将不可用——手动记录仍可用。');
 
   // ---- course preview (placeholders) ----
   String get pvKicker => _t('TODAY’S WORKOUT', '今日训练');

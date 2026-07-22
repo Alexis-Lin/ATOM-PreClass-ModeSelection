@@ -134,7 +134,7 @@ class _DemoPageState extends State<DemoPage> {
               _chip('OK', controller.hasAiQuota, () => controller.setHasAiQuota(true)),
               _chip('Used up', !controller.hasAiQuota, () => controller.setHasAiQuota(false)),
             ]),
-            _group('Save video (Settings)', [
+            _group('Video storage', [
               _chip('On', controller.saveVideosOn, () => controller.setSaveVideosOn(true)),
               _chip('Off', !controller.saveVideosOn, () => controller.setSaveVideosOn(false)),
             ]),

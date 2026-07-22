@@ -29,9 +29,6 @@ enum AppLang { en, zh }
 
 /// Why an AI mode is locked (drives the gate sheet).
 /// - overQuota: has Plus, but this cycle's AI sessions are used up.
-enum GateReason { needDevice, needPlus, overQuota }
-
-/// Where the recorded video / report is kept.
-/// - cloud: uploaded, report available (report needs cloud).
-/// - local: kept on the ATOM's SD card, not uploaded, no cloud report.
-enum DataChoice { cloud, local }
+/// - storageOff: the global video-storage (privacy) setting is off; smart modes
+///   need cloud upload, so they gray out until it's turned back on.
+enum GateReason { needDevice, needPlus, overQuota, storageOff }
