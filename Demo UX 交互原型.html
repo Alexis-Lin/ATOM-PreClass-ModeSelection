@@ -366,6 +366,8 @@
   .settext{flex:1;min-width:0;}
   .sett{font-size:16px;font-weight:700;color:var(--ink);}
   .setb{font-size:12px;color:var(--ink-2);line-height:1.55;margin-top:5px;}
+  /* read-only status pill (video storage has no user switch this version) */
+  .setstate{flex:none;align-self:center;font-size:12px;font-weight:700;color:var(--brand-ink);background:var(--brand-tint,#eef7df);border:1px solid #d6ecb3;border-radius:999px;padding:4px 11px;}
   /* framing-tips link on the notice */
   .tipslink{display:flex;align-items:center;gap:10px;margin-top:14px;padding:12px 13px;border:1px solid var(--line);border-radius:12px;cursor:pointer;background:#fff;}
   .tipslink .ti,.tipslink .ti svg{width:20px;height:20px;color:var(--ink-2);flex:none;}
@@ -388,7 +390,7 @@
     <div class="seg" id="atomstat"><span class="cap">ATOM</span><button data-st="conn" aria-pressed="true">Online</button><button data-st="nonet" aria-pressed="false">No network</button></div>
     <div class="ctl"><button class="sw" id="sw-plus" role="switch" aria-checked="true"></button><span class="lab">Plus</span></div>
     <div class="ctl"><button class="sw" id="sw-quota" role="switch" aria-checked="true"></button><span class="lab">AI quota</span></div>
-    <div class="ctl"><button class="sw" id="sw-save" role="switch" aria-checked="true"></button><span class="lab">Video storage (Settings)</span></div>
+    <div class="ctl"><button class="sw" id="sw-save" role="switch" aria-checked="true"></button><span class="lab">Video storage (dev · future off)</span></div>
     <button class="reset" id="reset"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 4v4h4"/></svg>Reset</button>
   </div>
 
@@ -525,7 +527,7 @@
           <div class="pvcta"><button id="preview-start" data-i18n="pvStart">Start workout</button></div>
         </div>
 
-        <!-- Settings (global video-saving toggle lives here) -->
+        <!-- Settings · Video storage is READ-ONLY this version (interface kept, no off switch). -->
         <div class="page" id="settings">
           <div class="pagestatus"><span>20:33</span><span class="sigbars"><i></i><i></i><i></i><i></i></span></div>
           <div class="pagebar">
@@ -535,10 +537,10 @@
           <div class="pagebody">
             <div class="setrow">
               <div class="settext">
-                <div class="sett" data-i18n="setSaveTitle">Save workout videos</div>
+                <div class="sett" data-i18n="setSaveTitle">Video storage</div>
                 <div class="setb" data-i18n="setSaveBody"></div>
               </div>
-              <button class="sw" id="set-save-sw" role="switch" aria-checked="true"></button>
+              <span class="setstate" id="set-save-state" data-i18n="setStateOn">On</span>
             </div>
           </div>
         </div>
@@ -631,7 +633,7 @@
       popDevT:'{n} runs on ATOM', popDevS:'Pair a nearby ATOM to unlock AI modes.', popDevBtn:'Add device',
       popPlusT:'{n} needs Plus', popPlusS:'Get Plus to unlock AI modes.', popPlusBtn:'Get Plus',
       popStorageT:'{n} needs video storage', popStorageS:'Smart modes upload your video to the cloud for the report. Turn on video storage to use them.', popStorageBtn:'Turn on video storage',
-      cloudBody:'Your video syncs to the cloud for the recap report — review it anytime in the app.',
+      cloudBody:'Video syncs to the cloud for your recap report.',
       popQuotaT:'{n} — AI limit reached', popQuotaS:'This cycle’s Plus AI sessions are used up. Upgrade to Pro for more — Manual Log still works.', popQuotaBtn:'Upgrade to Pro',
       recapNeedH:'Saving required', recapNeed:'Record & Recap keeps the video to build your recap — turn on saving to start.',
       recapTurnOnCta:'Turn on saving to continue', dEnableCta:'Turn on saving', dSaveAlways:'Keep saving on from now on',
@@ -645,8 +647,8 @@
       saveOnT:'Save this workout’s video?',
       saveOnBody:'Saving is off in your settings. Turn it on for this workout to get your recap.',
       saveNotNow:'Not this time', recapNoSave:'This workout won’t be saved, so there’s no recap report.',
-      settingsTitle:'Settings', setSaveTitle:'Video storage',
-      setSaveBody:'On by default. The smart modes (Live Coach, Record & Recap) upload your video to the cloud to build your report. Turn this off and those modes become unavailable — Manual Log still works.',
+      settingsTitle:'Settings', setSaveTitle:'Video storage', setStateOn:'On', setStateOff:'Off',
+      setSaveBody:'The smart modes (Live Coach, Record & Recap) upload your video to the cloud to build your report — so it stays on. Manual Log uses no video.',
       privacyNote:'See our',
       privacyLink:'Privacy Policy',
       drCloud:'Saved to your cloud', drLocal:'Saved on ATOM (SD card)', drNoSd:"Won't be saved — no SD card",
@@ -690,7 +692,7 @@
       popDevT:'{n} 需要 ATOM', popDevS:'连接身边的 ATOM，解锁 AI 模式。', popDevBtn:'添加设备',
       popPlusT:'{n} 需要 Plus 会员', popPlusS:'开通 Plus，解锁 AI 模式。', popPlusBtn:'开通 Plus',
       popStorageT:'{n} 需要视频存储', popStorageS:'智能模式会把视频上传云端以生成报告。开启视频存储即可使用。', popStorageBtn:'开启视频存储',
-      cloudBody:'视频将同步到云端用于生成课后报告——可随时在 App 里回看。',
+      cloudBody:'视频会同步到云端，用于生成复盘报告。',
       popQuotaT:'{n}：AI 额度已用尽', popQuotaS:'本期 Plus 的 AI 次数已用完。升级 Pro 可获得更多——手动记录仍可用。', popQuotaBtn:'升级 Pro',
       recapNeedH:'需开启保存', recapNeed:'录制复盘要保存视频才能生成复盘——开启保存即可开始。',
       recapTurnOnCta:'开启保存以继续', dEnableCta:'开启保存', dSaveAlways:'以后一直开启保存（可在设置关闭）',
@@ -704,8 +706,8 @@
       saveOnT:'保存这次的视频？',
       saveOnBody:'你已在设置中关闭保存。为本次开启即可获得复盘。',
       saveNotNow:'这次不用', recapNoSave:'本次不保存，将没有复盘报告。',
-      settingsTitle:'设置', setSaveTitle:'视频存储',
-      setSaveBody:'默认开启。智能模式（实时教练、录制复盘）会把视频上传云端以生成报告。关闭后这两个模式将不可用——手动记录仍可用。',
+      settingsTitle:'设置', setSaveTitle:'视频存储', setStateOn:'已开启', setStateOff:'已关闭',
+      setSaveBody:'智能模式（实时教练、录制复盘）会把视频上传云端以生成报告，因此保持开启。手动记录不涉及视频。',
       privacyNote:'详见',
       privacyLink:'隐私协议',
       drCloud:'视频同步到云端', drLocal:'视频存于 ATOM（SD 卡）', drNoSd:'不会保存——无 SD 卡',
@@ -1020,16 +1022,16 @@
   var settings=document.getElementById('settings');
   function setSaveOff(off){
     STORAGEOFF=off;
-    var a=String(!off);
-    var s1=document.getElementById('sw-save'); if(s1)s1.setAttribute('aria-checked',a);
-    var s2=document.getElementById('set-save-sw'); if(s2)s2.setAttribute('aria-checked',a);
+    // Settings shows a READ-ONLY status (no user off-switch this version); the
+    // control-bar toggle below is the demo/dev harness that exercises the flag.
+    var s1=document.getElementById('sw-save'); if(s1)s1.setAttribute('aria-checked',String(!off));
+    var st2=document.getElementById('set-save-state'); if(st2){ var tt=T[LANG]; st2.textContent = off ? tt.setStateOff : tt.setStateOn; }
     render();   // re-lock / unlock the AI modes
     if(prestart.classList.contains('show')){ var st=psBody.scrollTop; openPrestart(true); psBody.scrollTop=st; }
   }
   document.getElementById('pv-gear').addEventListener('click',function(){ settings.classList.add('show'); });
   document.getElementById('set-back').addEventListener('click',function(){ settings.classList.remove('show'); });
-  document.getElementById('set-save-sw').addEventListener('click',function(){ setSaveOff(!STORAGEOFF); });
-  document.getElementById('sw-save').addEventListener('click',function(){ setSaveOff(!STORAGEOFF); });
+  document.getElementById('sw-save').addEventListener('click',function(){ setSaveOff(!STORAGEOFF); });  // demo harness only
 
   /* reset the whole demo back to the preview screens */
   document.getElementById('reset').addEventListener('click',function(){

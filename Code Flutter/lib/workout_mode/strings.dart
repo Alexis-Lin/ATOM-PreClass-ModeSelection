@@ -125,8 +125,8 @@ class L {
   // Smart modes must upload to the cloud for their report; local SD is the
   // ATOM's own decoupled setting, not surfaced here.
   String get cloudNoticeBody => _t(
-      'Your video syncs to the cloud for the recap report — review it anytime in the app.',
-      '视频将同步到云端用于生成课后报告——可随时在 App 里回看。');
+      'Video syncs to the cloud for your recap report.',
+      '视频会同步到云端，用于生成复盘报告。');
   String get privacyLink => _t('Privacy Policy', '隐私协议');
 
   // ---- framing tips (extra reading) ----
@@ -154,12 +154,14 @@ class L {
           'Backlit, too dark, or heavy shadows',
         ];
 
-  // ---- Settings (global video-storage / privacy toggle) ----
+  // ---- Settings (video storage — READ-ONLY this version; no user off-switch) ----
   String get settingsTitle => _t('Settings', '设置');
   String get setSaveTitle => _t('Video storage', '视频存储');
+  String get setStateOn => _t('On', '已开启');
+  String get setStateOff => _t('Off', '已关闭');
   String get setSaveBody => _t(
-      'On by default. The smart modes (Live Coach, Record & Recap) upload your video to the cloud to build your report. Turn this off and those modes become unavailable — Manual Log still works.',
-      '默认开启。智能模式（实时教练、录制复盘）会把视频上传云端以生成报告。关闭后这两个模式将不可用——手动记录仍可用。');
+      'The smart modes (Live Coach, Record & Recap) upload your video to the cloud to build your report — so it stays on. Manual Log uses no video.',
+      '智能模式（实时教练、录制复盘）会把视频上传云端以生成报告，因此保持开启。手动记录不涉及视频。');
 
   // ---- course preview (placeholders) ----
   String get pvKicker => _t('TODAY’S WORKOUT', '今日训练');

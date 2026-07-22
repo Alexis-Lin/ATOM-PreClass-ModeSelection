@@ -225,11 +225,9 @@ class SettingsPage extends StatelessWidget {
                     ]),
                   ),
                   const SizedBox(width: 14),
-                  Switch(
-                    value: controller.saveVideosOn,
-                    activeColor: Wm.brand,
-                    onChanged: controller.setSaveVideosOn,
-                  ),
+                  // Read-only status this version — no user off-switch (the flag +
+                  // storageOff gate stay in the controller for the future).
+                  _StatusPill(label: controller.saveVideosOn ? l.setStateOn : l.setStateOff),
                 ]),
               ),
             ],
@@ -238,4 +236,20 @@ class SettingsPage extends StatelessWidget {
       },
     );
   }
+}
+
+/// Read-only green status pill (video storage has no user switch this version).
+class _StatusPill extends StatelessWidget {
+  const _StatusPill({required this.label});
+  final String label;
+  @override
+  Widget build(BuildContext context) => Container(
+        padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 4),
+        decoration: ShapeDecoration(
+          color: Wm.brandTint,
+          shape: StadiumBorder(side: BorderSide(color: Wm.plusLine)),
+        ),
+        child: Text(label,
+            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: Wm.brandInk)),
+      );
 }

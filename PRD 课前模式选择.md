@@ -134,10 +134,12 @@
 - **只放正向、精简**：Live Coach = 一张 OK 图 + 4 条「做到」+「查看拍摄技巧」入口；**反例 / 易错移到二级「拍摄技巧」页**（4 条，详见下），不在课前堆负面信息。
 - **视频存储 = 只告知、不让选（改版 · 2026-07-22 会议）**：产品策略「尽到提示告知义务，但不让你改」。
   - **智能模式强制上云**：Live Coach 与 Record & Recap 的报告依赖云端分析，视频**默认且强制**上传云端。课前**不再提供「云端 / 仅存 ATOM」的存储位置选择**，也没有「更改」入口、没有二次弹窗。
-  - **课前只留一行小字告知**：「视频将同步到云端用于生成课后报告，可在 App 回看」+「隐私协议」链接。隐私提示仍「恰到好处」——不做强承诺、不暗示拿视频训练，只给政策入口。
+  - **课前只留一行小字告知（精简）**：「视频会同步到云端，用于生成复盘报告。」+「隐私协议」链接。隐私提示仍「恰到好处」——不做强承诺、不暗示拿视频训练，只给政策入口。
   - **本地 SD 与 App 解耦**：本地自动录制是 **ATOM 端自己的原生开关**（默认开、插卡才生效），App 不同步、不接管，课前不处理。存不存本地跟这一行无关（也因此不再有「无法确认 SD 卡」提示）。
   - **Record & Recap 不再有「需开启保存」分支**：云端强制开 ⇒ 它一定有视频与复盘报告，课前须知直接展示报告/留存说明，CTA 恒为「准备好了」。
-  - **全局「视频存储」隐私开关（后续）**：设置里保留一个全局「视频存储」开关（默认开）。**关闭后**两个智能模式在选择页**直接置灰锁定**；点击弹「{模式} 需要视频存储 · 智能模式会把视频上传云端生成报告，开启视频存储即可使用」+ CTA「开启视频存储」。手动记录不受影响。这把「要么给视频、要么用不了智能模式」落成一个硬门槛，**替代了旧的「每次引导保存」反向流程**。
+  - **全局「视频存储」隐私开关 = 保留接口、本版不给关**：本版**默认开启、不提供用户关闭入口**；设置里「视频存储」为**只读状态**（显示「已开启」+ 说明，无开关）。底层标志 + 门槛逻辑**保留**，等未来真要放开「禁用云端」时再挂上开关。
+  - **一旦（未来）真的关闭 → 智能模式置灰 + 引导重开**：两个智能模式在选择页**直接置灰锁定**；点击弹「{模式} 需要视频存储 · 智能模式会把视频上传云端生成报告，开启视频存储即可使用」+ CTA「开启视频存储」。手动记录不受影响。这把「要么给视频、要么用不了智能模式」落成一个硬门槛（原型/代码里已实现并可演示）。
+  - **「视频可手动删除」不放在课前告知**：删除是**事后管理**动作，放在课前「开始」时刻反而会**放大**存储/隐私顾虑、也拉长文案。删除能力应落在**视频/复盘库**（每条视频旁的删除入口）与**隐私协议**里；当前仅支持单条删除，批量删除后续迭代。
   - 相机权限是**另一层、更严格**的硬授权（首次训练弹窗，取消即退出），与此解耦、保持不变。
   - （后续迭代：本地 SD 视频异步上云分析；云端视频批量删除。）
 - **「下次不再提示」**：弹窗内勾选，紧贴按钮上方；勾了以后点开始直接进入训练（用记住的数据偏好）。
@@ -219,7 +221,7 @@ flowchart TD
 | — | Manual Log | 点「开始记录」 | 直接 ▶ 开始（不进须知） |
 | ⑨/⑩ | 课前须知 | AI 模式点 CTA | 上滑抽屉，正向引导（Coach 4 条做到 + 拍摄技巧入口；Recap 副标 + 报告/留存）；✕/背景/下拉取消，「准备好了」开始 |
 | ⑳ | 拍摄技巧 | 点「查看拍摄技巧」 | 二级页：教练心智 + OK 图 + 背景有人没关系 + 稳定摆放 + 会影响识别（4 条）；底部「知道了」返回 |
-| ⑪ | 云端告知 | —（只读一行小字）| 「视频将同步到云端用于生成课后报告，可在 App 回看」+ 隐私协议；无「更改」、无二次弹窗 |
+| ⑪ | 云端告知 | —（只读一行小字）| 「视频会同步到云端，用于生成复盘报告」+ 隐私协议；无「更改」、无二次弹窗 |
 | — | 须知 | I'm ready | ▶ 开始训练 |
 | ⑰ | 设置 · 视频存储 | 关掉「视频存储」 | 两个智能模式在选择页置灰 → 点击弹「需要视频存储 · 开启视频存储」门槛 |
 | ⑬→⑭→⑮/⑯ | ATOM 待机→模式→确认 | 逐步 Start | 与手机端同规则；仅两个 AI 模式；确认独立整屏，可「不再显示」→ ▶ 开始 |
@@ -321,8 +323,8 @@ flowchart TD
 ### ⑪ 视频存储 Video storage（只告知，无选择 · 改版 2026-07-22）
 | 键 | EN | 中文 |
 |---|---|---|
-| cloudNoticeBody / privacyLink（课前须知底部告知）| Your video syncs to the cloud for the recap report — review it anytime in the app. / Privacy Policy | 视频将同步到云端用于生成课后报告——可随时在 App 里回看。 / 隐私协议 |
-| 设置 · setSaveTitle / setSaveBody（全局「视频存储」开关）| Video storage / On by default. The smart modes (Live Coach, Record & Recap) upload your video to the cloud to build your report. Turn this off and those modes become unavailable — Manual Log still works. | 视频存储 / 默认开启。智能模式（实时教练、录制复盘）会把视频上传云端以生成报告。关闭后这两个模式将不可用——手动记录仍可用。 |
+| cloudNoticeBody / privacyLink（课前须知底部告知）| Video syncs to the cloud for your recap report. / Privacy Policy | 视频会同步到云端，用于生成复盘报告。 / 隐私协议 |
+| 设置 · setSaveTitle / setStateOn / setSaveBody（只读，无开关）| Video storage / On / The smart modes (Live Coach, Record & Recap) upload your video to the cloud to build your report — so it stays on. Manual Log uses no video. | 视频存储 / 已开启 / 智能模式（实时教练、录制复盘）会把视频上传云端以生成报告，因此保持开启。手动记录不涉及视频。 |
 | 存储关闭 gate | {mode} needs video storage / Smart modes upload your video to the cloud for the report. Turn on video storage to use them. / Turn on video storage | {模式} 需要视频存储 / 智能模式会把视频上传云端以生成报告。开启视频存储即可使用。 / 开启视频存储 |
 | 额度用尽 gate（升级 Pro）| {mode} — AI limit reached / This cycle's Plus AI sessions are used up. Upgrade to Pro for more — Manual Log still works. / Upgrade to Pro | {模式}：AI 额度已用尽 / 本期 Plus 的 AI 次数已用完。升级 Pro 可获得更多——手动记录仍可用。 / 升级 Pro |
 
